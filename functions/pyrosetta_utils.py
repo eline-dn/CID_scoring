@@ -47,6 +47,7 @@ def create_param(smiles="c1cc(oc1)CNc2cc(c(cc2C(=O)O)S(=O)(=O)N)Cl", pdb_file, l
     p.dump(f'{lig_name}.params')
     p.test().dump_pdb(f'parametrized_{lig_name}.pdb')
     print("Please ensure atoms names match between the param file and the pdb files you are going to analyse with Pyrosetta")
+	return(f'{lig_name}.params')
 
 
 # initialisation with a param file for ligand
