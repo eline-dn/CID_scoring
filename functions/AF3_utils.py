@@ -34,6 +34,7 @@ def prep_binder_input_json(template_path, outdir,id,seq_binder):
       json.dump(data, f, indent=2)
 
   print(f"json input file saved in {output_path}")
+  return(output_path)
 
 def prep_no_msa_target_input_json(gen_template_path, outdir, target_id, target_cif, target_chain_in_cif="A", smiles=None, ligand_id=None):
   with open(gen_template_path, "r") as f:
@@ -62,6 +63,7 @@ def prep_no_msa_target_input_json(gen_template_path, outdir, target_id, target_c
   with open(output_path, "w") as f:
       json.dump(data, f, indent=2)
   print(f"json input file template saved in {output_path}")
+  return(output_path)
 
 def extract_af3_confidence_metrics(confidence):
   # from confidence *_summary_confidences.json file
