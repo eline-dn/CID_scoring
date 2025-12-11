@@ -83,6 +83,6 @@ def run_prediction(model, template, binder_length, binder_sequence outdir, id):
   data={}
   for key in prediction_stats[1].keys():
     data[key]=(prediction_stats[1][key] + prediction_stats[2][key])/2
-  data["id"]=model_num
+  data["id"]=id
   return(data)
 
