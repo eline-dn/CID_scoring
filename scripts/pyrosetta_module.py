@@ -6,6 +6,7 @@ from pyrosetta_utils import *
 import os,  sys
 import numpy as np
 import argparse
+pandas as pd
 
 # one binder scoring function:
 def score_target_n_binder(pdb):
@@ -43,8 +44,19 @@ parser.add_argument("--pdb", nargs="+", type=str, help="List of Input PDBs") # l
 parser.add_argument("--mk_params", type=bool, help=" need to create a Params files in the pdb files'dir? Set to true if the pdbs are ternary complexes. in that case, add a smiles for the ligand")
 parser.add_argument("--smiles", required=False, type=str, help="smiles used for ligand parametrization, eg c1cc(oc1)CNc2cc(c(cc2C(=O)O)S(=O)(=O)N)Cl for the FUN ligand")
 parser.add_argument("--lig_name", required=False, type=str, help="name used for ligand parametrization, eg  FUN ligand")
+parser.add_argument("--outdir", required=False, type=str, help="output folder for csv file")
+parser.add_argument("--prefix", required=False, type=str, help="prefix for csv file")
 args = parser.parse_args()
 
+if args.outdir is not None:
+  outdir=args.outdir
+else: 
+  outdir="."
+
+if args.prefix is not None:
+  prefix=args.prefix
+else: 
+  prefix=""
 
 #  init pyrosetta and parametrize ligand (or not):
 if args.mk_params:
@@ -54,12 +66,13 @@ else:
   pyr_init() # initialise without the param file
 
 for pdb in args.pdb:
-  id=
-  df=
+  id=os.path.basename(pdb).replace(".pdb", "")
   if mk_params:
     data=score_ternary_complex(pdb)
   else: 
     data=score_target_n_binder(pdb)
   # write to csv
-
+  df=pd.df([data])
+  csv_path=f"{outdir}/{prefix}_pyrosetta_metrics.csv"
+  df.to_csv(csv_path, mode="a", index=False, header=not pd.io.common.file_exists(csv_path))
     
