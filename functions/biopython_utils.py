@@ -63,11 +63,21 @@ def chain2seq(structure,  chain_id:str, make_str=True):
     return("".join(residues))
     
 # extract chain length
-def chain2length(structure,  chain_id=str):
+def chain2length(structure, chain_id:str):
   chain=structure[0][chain_id]
   # count only standard residues
   residues = [res for res in chain.get_residues() if res.id[0] == " "] #res.id[0] == " " filters out HETATM residues.
   return(len(residues))
+
+# change a chain's id:
+def change_chain_id(structure, old_id, new_id, old_resname=None, new_resname=None):
+    chain=structure[0][old_id]
+    chain.id = new_id
+	if new_resname is not None and old_resname is not None:
+	    for res in structure.get_residues():
+	        if res.resname.strip().startswith(old_resname): 
+	            res.resname = new_resname
+	return(structure)
 
 # focus on aligning only one chain from the pdbs (e.g. a target chain) and then return this chain's rmsd or the full structure's rmsd
    
@@ -237,8 +247,12 @@ def copy_structure_with_only_chain(structure, chain_id):
                        atom.altloc, atom.fullname, element=atom.element)
   return sb.get_structure()
 
+#### some higher level wrapper functions to prepare the reference pdbs and ensure a coherent chain notation and numbering
+# chain names:
+# numbering
+# checl ligand notation
 
-#### some wrapper functions for analyzing the structure repredictions and comparing them to the references
+#### some higher level wrapper functions to analyse the structure repredictions and comparing them to the references
 ## in the case of a ternary complex:
 def ternary_RMSDs(ref, mov, mapping):
 	data={}
