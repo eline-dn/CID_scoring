@@ -80,7 +80,7 @@ python ./scripts/dockQ.py \
   --out-csv ./example_output/dockQ.csv 
 ```
 
-## Compute ipSAE and interface confidence metrics
+## Compute ipSAE and interface confidence metrics (https://github.com/DigBioLab/de_novo_binder_scoring/tree/main)
 ```
 python ./scripts/run_ipsae_batch.py \
   --run-csv ./example_output/run.csv \
