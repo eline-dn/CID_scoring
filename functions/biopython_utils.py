@@ -236,3 +236,27 @@ def copy_structure_with_only_chain(structure, chain_id):
           sb.init_atom(atom.name, atom.coord, atom.bfactor, atom.occupancy,
                        atom.altloc, atom.fullname, element=atom.element)
   return sb.get_structure()
+
+
+#### some wrapper functions for analyzing the structure repredictions and comparing them to the references
+## in the case of a ternary complex:
+def ternary_RMSDs(ref, mov, mapping):
+	data={}
+	data["target_RMSD"]=aligned_chain_rmsd(ref, mov, "A", "A")
+	data["binder_RMSD"]=aligned_chain_rmsd(ref, mov, "B", "B")
+	data["full_ RMSD"]=full_aligned_rmsd(ref, mov, mapping)
+	mov_aligned=align_to_chain(ref,mov,mapping)
+	data["d_binding_site"]=unaligned_rmsd(ref, mov_aligned, {"B":"B"})
+	ref_lig_chain_id=list(mapping.keys())[-1]
+	mov_lig_chain_id=mapping[ref_lig_chain_id]
+	data["ligand_rmsd"]=unaligned_ligand_rmsd(ref, mov_aligned, ref_lig_chain_id ,mov_lig_chain_id)
+	return(data)
+
+def binary_RMSDs(ref, mov, mapping):
+	data={}
+	data["target_RMSD"]=aligned_chain_rmsd(ref, mov, "A", "A")
+	data["binder_RMSD"]=aligned_chain_rmsd(ref, mov, "B", "B")
+	data["full_ RMSD"]=full_aligned_rmsd(ref, mov, mapping)
+	mov_aligned=align_to_chain(ref,mov,mapping)
+	data["d_binding_site"]=unaligned_rmsd(ref, mov_aligned, {"B":"B"})
+	return(data)
