@@ -70,6 +70,7 @@ if [ ! -z "$input_dir" ]; then
 fi
 OPTIONS="$OPTIONS --output_dir=$output_dir"
 OPTIONS="$OPTIONS --run_data_pipeline=$run_data_pipeline"
+OPTIONS="$OPTIONS --num_recycles $recycles"
 
 echo "Running AlphaFold with the following options:"
 echo $OPTIONS
@@ -85,5 +86,5 @@ export XLA_FLAGS XLA_PYTHON_CLIENT_PREALLOCATE XLA_CLIENT_MEM_FRACTION
 cd /work/lpdi/users/dobbelst/tools/alphafold3
 python run_alphafold.py \
 	--model_dir=/work/lpdi/users/dobbelst/tools/alphafold3 \
-	--db_dir=/work/lpdi/databases/alphafold3_dbs --num_recycles 100 \
+	--db_dir=/work/lpdi/databases/alphafold3_dbs \
 	$OPTIONS
