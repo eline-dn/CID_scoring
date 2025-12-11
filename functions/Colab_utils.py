@@ -48,7 +48,7 @@ def init_colab():
                                                use_initial_atom_pos=False) # Introduce atom position bias into the structure module for atom initilisation.
   return(model)
 
-def run_prediction(model, template, binder_length, binder_sequence outdir, id):
+def run_prediction(model, template, binder_length, binder_sequence, outdir, id):
   model.prep_inputs(pdb_filename=template,
                         chain="A",
                         #binder_chain="B",# do not specifiy if the template only contains the target
