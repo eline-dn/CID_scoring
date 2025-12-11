@@ -32,7 +32,7 @@ script_start_time = time.time()
 ######## 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--pdb", nargs="+", type=str, help="List of Input PDBs, used to extract sequences,  then as target template, and as references for RMSDs") # list of pdb files 
+parser.add_argument("--pdb", nargs="+", type=str, help="List of Input PDBs, used to extract sequences,  (then as target template, and as references for RMSDs)") # list of pdb files 
 parser.add_argument("--target_id", required=True, type=str, help="target id")
 parser.add_argument("--smiles", required=False, type=str, help="smiles used for ligand parametrization, eg c1cc(oc1)CNc2cc(c(cc2C(=O)O)S(=O)(=O)N)Cl for the FUN ligand")
 parser.add_argument("--lig_name", required=False, type=str, help="name used for ligand parametrization, eg  FUN ligand")
