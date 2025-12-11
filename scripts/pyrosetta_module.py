@@ -7,7 +7,9 @@ import os,  sys
 import numpy as np
 import argparse
 pandas as pd
+import time
 
+script_start_time = time.time()
 # one binder scoring function:
 def score_target_n_binder(pdb):
   data={}
@@ -76,3 +78,7 @@ for pdb in args.pdb:
   csv_path=f"{outdir}/{prefix}_pyrosetta_metrics.csv"
   df.to_csv(csv_path, mode="a", index=False, header=not pd.io.common.file_exists(csv_path))
     
+elapsed_time = time.time() - script_start_time
+elapsed_text = f"{'%d hours, %d minutes, %d seconds' % (int(elapsed_time // 3600), int((elapsed_time % 3600) // 60), int(elapsed_time % 60))}"
+n_binder=len(args.pdb)
+print(f"Finished Pyrosetta scoring for {n_binder} complexes. Script execution took: "+elapsed_text)
