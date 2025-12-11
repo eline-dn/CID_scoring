@@ -72,4 +72,12 @@ elapsed_text = f"{'%d hours, %d minutes, %d seconds' % (int(elapsed_time // 3600
 n_binder=len(args.pdb)
 print(f"Finished AF3 input preparation for {n_binder} complexes. Script execution took: "+elapsed_text)
 
+"""
+what to do next:
+sbatch ./run_alphafold.sh -i input2/1 -o output2 --no-msa
+sbatch ./run_alphafold.sh -i input2/2 -o output2 --no-msa
+sbatch ./run_alphafold.sh -i input2/3 -o output2 --no-msa
 
+
+sbatch run_alphafold.sh -i /work/lpdi/users/dobbelst/tools/alphafold3_examples/af_input/fold_input_singleseq.json -o <OUTPUT_DIR> --no-msa
+"""
