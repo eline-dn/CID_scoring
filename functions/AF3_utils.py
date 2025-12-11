@@ -79,6 +79,7 @@ def extract_af3_confidence_metrics(confidence):
   with open(conf,"r") as f:
       conf=json.load(f)
   data["atom_plddt"]=conf["atom_plddts"]
+  data["mean_plddt"]=sum(data["atom_plddt"]) / len(data["atom_plddt"])+0.00001
   data["atom_chain_ids"]=conf["atom_chain_ids"]
   data["chain_plddt"]={}
   chain_atom_len={}
