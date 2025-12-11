@@ -53,7 +53,7 @@ def load_CIF(cif_file):
   return(structure)
 
 # extract sequence from chain 
-def chain2seq(structure,  chain_id=str, make_str=True):
+def chain2seq(structure,  chain_id:str, make_str=True):
   chain=structure[0][chain_id]
   # count only standard residues
   residues = [res for res in chain.get_residues() if res.id[0] == " "] #res.id[0] == " " filters out HETATM residues.
