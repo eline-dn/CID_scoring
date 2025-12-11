@@ -15,25 +15,17 @@ import numpy as np
 import argparse
 pandas as pd
 import time
-
+import glob
 
 
 ######## 
 script_start_time = time.time()
 parser = argparse.ArgumentParser()
 parser.add_argument("--ref_pdb", nargs="+", type=str, help="List of ref PDBs, used to extract sequences, target template, and as references for RMSDs. Ensure the chain id's are correct.") 
-parser.add_argument("--outdir", required=False, type=str, help="output folder for csv file")
+parser.add_argument("--outdir", required=False, type=str, help="output folder for csv file and repredictions")
 parser.add_argument("--prefix", required=False, type=str, help="prefix for csv file")
 args = parser.parse_args()
 
-if (args.lig_name is not None):
-  lig_name=args.lig_name
-  ternary=True
-  print("reprediction of ternary complexes, ensure the given pdb look like: A target, B binder, ligand")
-  metrics_prefix="ter_"
-else:
-  ternary=False
-  metrics_prefix="bin_"
   
 if args.outdir is not None:
   outdir=args.outdir
@@ -46,33 +38,36 @@ else:
   prefix=""
 
 
-for dir in args.AF3_outs:
-  id=dir.split("/")[-1]
-  # extract confidence metrics:
-  confidence=dir + "/" +id+"_summary_confidences.json"
-  data=extract_af3_confidence_metrics(confidence)
-  # find reference:
-  for pdb in args.ref_pdb:
-    if id in pdb:
-      ref_pdb_file=pdb
-  # load the structures:
-  ref= load_PDB(ref_pdb_file)
-  mov= load_CIF(os.path.join(dir,f"{id}_model.cif"))
-  # chain structure
-  mapping={"A":"A", "B":"B", "L":args.lig_name}
+for pdb in args.ref_pdb:
+  id=os.path.basename(pdb).replace(".pdb", "")
+  # extract template for the target:
+  structure=load_PDB(pdb)
+  template_path=f"{outdir}/{id}_target_template.pdb")
+  extract_template_target(structure, template_path)
+  # binder sequence and length:
+  binder_length=chain2length(structure, "B")
+  binder_sequence=chain2seq(structure,  "B", True)
+  # run reprediction:
+  model=init_colab()
+  data=run_prediction(model, template, binder_length, binder_sequence, outdir, id)
+  
   # compute RMSDs
-  if ternary:
-    rmsds=ternary_RMSDs(ref, mov, mapping)
-  else:
-    rmsds=binary_RMSDs(ref, mov, mapping)
-  # add a prefix on the metrics names:
-  data = {f"{metrics_prefix}{k}": v for k, v in data.items()}
-  rmsds = {f"{metrics_prefix}{k}": v for k, v in rmsds.items()}
-  # add the id:
-  data["id"]=id
+  for i, model in enumerate(glob.glob(f"{outdir}/{id}_model*.pdb")):
+    ref= load_PDB(pdb)
+    mov=model
+    # chain structure
+    mapping={"A":"A", "B":"B"}
+    # compute RMSDs
+    rmsds[i]=binary_RMSDs(ref, mov, mapping)
+    
+  # mean of the two models:
+  rmsd={}
+  for key in rmsds[0].keys():
+    rmsd[key]=(rmsds[0][key] + rmsds[1][key])/2
+ 
   # save in csv
-  df=pd.df([{**data, **rmsds}])
-  csv_path=f"{outdir}/{prefix}_AF3_{metrics_prefix}reprediction_metrics.csv"
+  df=pd.df([{**data, **rmsd}])
+  csv_path=f"{outdir}/{prefix}_Colab_Design_reprediction_metrics.csv"
   df.to_csv(csv_path, mode="a", index=False, header=not pd.io.common.file_exists(csv_path))
     
   
@@ -80,5 +75,5 @@ for dir in args.AF3_outs:
 
 elapsed_time = time.time() - script_start_time
 elapsed_text = f"{'%d hours, %d minutes, %d seconds' % (int(elapsed_time // 3600), int((elapsed_time % 3600) // 60), int(elapsed_time % 60))}"
-n_binder=len(args.AF3_outs)
-print(f"Finished structure reprediction output scoring for {n_binder} complexes. Script execution took: "+elapsed_text)
+n_binder=len(args.ref_pdb)
+print(f"Finished  Colab Design structure reprediction output scoring for {n_binder} complexes. Script execution took: "+elapsed_text)
