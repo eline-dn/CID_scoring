@@ -35,7 +35,7 @@ def prep_binder_input_json(template_path, outdir,id,seq_binder):
 
   print(f"json input file saved in {output_path}")
 
-def prep_no_msa_target_input_json(gen_template_path, outdir, target_id, target_cif, target_chain_in_cif="A", smiles, ligand_id):
+def prep_no_msa_target_input_json(gen_template_path, outdir, target_id, target_cif, target_chain_in_cif="A", smiles=None, ligand_id=None):
   with open(gen_template_path, "r") as f:
     data = json.load(f)
   output_path = f"{outdir}/{target_id}.json" # target sequence specific json input, to be modified for each binder
@@ -54,10 +54,10 @@ def prep_no_msa_target_input_json(gen_template_path, outdir, target_id, target_c
                                     "templateIndices":Indices}
               
             entry["protein"]["templates"] = [target_template_dict]
+  if (ligand_id is not None) and (smiles is not None):
+    data["sequences"]["ligand"]={"id":ligand_id, 
+                                 "smiles"=smiles}
   
-      if "ligand" in entry:
-        entry["ligand"]["id"]=ligand_id
-        entry["ligand"]["smiles"]=smiles
   # write modified JSON to a new file
   with open(output_path, "w") as f:
       json.dump(data, f, indent=2)
