@@ -64,13 +64,9 @@ prefix: prefix for csv file
 
 ## PyRosetta Scoring (inspired from BindCraft)
 ```
-python ./scripts/pyrosetta_module.py \
---pdb repredicted_structure1_ternary_complex.pdb \
---mk_params \
---smiles c1cc(oc1)CNc2cc(c(cc2C(=O)O)S(=O)(=O)N)Cl \
---lig_name FUN \
---outdir . \
---prefix pre
+python ./scripts/pyrosetta_module.py --pdb /work/lpdi/users/eline/smol_binder_diffusion_
+pipeline/1Z9Yout/4_af3/output/t2_1_100_3_t0.1_ltp0.3_dcut8.0/t2_1_100_3_t0.1_ltp0.3_dcut8.0_model.cif --mk_params --smiles "c1cc(oc1)
+CNc2cc(c(cc2C(=O)O)S(=O)(=O)N)Cl" --lig_name FUN --outdir . --prefix pre
 ```
 pdb: List of Input PDBs
 
