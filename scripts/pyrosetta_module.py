@@ -45,8 +45,9 @@ def score_ternary_complex(pdb):
 parser = argparse.ArgumentParser()
 parser.add_argument("--pdb", nargs="+", type=str, help="List of Input structures. Default expectation is the pdb format. If the structures are stored in the mmcif format, set the --cif flag to convert them") # list of pdb files 
 parser.add_argument("--cif", action="store_true", help="to first convert the cif input in a pdb format.")
-parser.add_argument("--mk_params",action="store_true", help=" need to create a Params files in the pdb files'dir? Set to true if the pdbs are ternary complexes. in that case, add a smiles for the ligand")
-parser.add_argument("--smiles", required=False, type=str, help="smiles used for ligand parametrization, eg c1cc(oc1)CNc2cc(c(cc2C(=O)O)S(=O)(=O)N)Cl for the FUN ligand")
+parser.add_argument("--params", required=False, type=str, help="ligand param file for rosetta")
+#parser.add_argument("--mk_params",action="store_true", help=" need to create a Params files in the pdb files'dir? Set to true if the pdbs are ternary complexes. in that case, add a smiles for the ligand")
+#parser.add_argument("--smiles", required=False, type=str, help="smiles used for ligand parametrization, eg c1cc(oc1)CNc2cc(c(cc2C(=O)O)S(=O)(=O)N)Cl for the FUN ligand")
 parser.add_argument("--lig_name", required=False, type=str, help="name used for ligand parametrization, eg  FUN ligand")
 parser.add_argument("--outdir", required=False, type=str, help="output folder for csv file")
 parser.add_argument("--prefix", required=False, type=str, help="prefix for csv file")
@@ -75,12 +76,19 @@ else:
   pdb_list=args.pdb
 #  init pyrosetta and parametrize ligand (or not):
 print(pdb_list[0])
+"""
 if args.mk_params:
   params=create_param(pdb_file=pdb_list[0], smiles=str(args.smiles), lig_name=args.lig_name)
   pyr_init(params=params)
 else: 
   pyr_init() # initialise without the param file
-
+"""
+if args.params is not None:
+  #params=create_param(pdb_file=pdb_list[0], smiles=str(args.smiles), lig_name=args.lig_name)
+  pyr_init(params=args.params)
+else: 
+  pyr_init() # initialise without the param file
+  
 for pdb in pdb_list:
   id=os.path.basename(pdb).replace(".pdb", "")
     
