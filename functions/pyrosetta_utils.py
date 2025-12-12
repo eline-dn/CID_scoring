@@ -296,7 +296,7 @@ def score_nolig_interface(pdb_file, interface= "A_B", binder_chain="B"):
     interface_AA = {aa: 0 for aa in 'ACDEFGHIKLMNPQRSTVWY'}
 
     # Initialize list to store PDB residue IDs at the interface
-    interface_residues_set = hotspot_residues(pdb_file, binder_chain, target_plus_lig=False, lig_only=False, lig_chain="F")
+    interface_residues_set = hotspot_residues(pdb_file, binder_chain, target_plus_lig=False, lig_only=False, lig_chain="L")
     interface_residues_pdb_ids = []
     
     # Iterate over the interface residues
@@ -405,7 +405,7 @@ def score_nolig_interface(pdb_file, interface= "A_B", binder_chain="B"):
 
 # try to score the binder vs ligand + target interface:
 # Rosetta interface scores
-def score_lig_interface(pdb_file, interface= "AF_B", binder_chain="B"):
+def score_lig_interface(pdb_file, interface= "AL_B", binder_chain="B"):
     # load pose
     pose = pr.pose_from_pdb(pdb_file)
     # analyze interface statistics
@@ -425,9 +425,9 @@ def score_lig_interface(pdb_file, interface= "AF_B", binder_chain="B"):
     interface_AA = {aa: 0 for aa in 'ACDEFGHIKLMNPQRSTVWY'}
 
     # Initialize list to store PDB residue IDs at the interface
-    interface_residues_set = hotspot_residues(pdb_file, binder_chain, target_plus_lig=True, lig_only=False, lig_chain="F")
+    interface_residues_set = hotspot_residues(pdb_file, binder_chain, target_plus_lig=True, lig_only=False, lig_chain="L")
     interface_residues_pdb_ids = []
-    interface_residues_set_lig_only = hotspot_residues(pdb_file, binder_chain, target_plus_lig=False, lig_only=True, lig_chain="F")
+    interface_residues_set_lig_only = hotspot_residues(pdb_file, binder_chain, target_plus_lig=False, lig_only=True, lig_chain="L")
     
     # Iterate over the interface residues
     for pdb_res_num, aa_type in interface_residues_set.items():

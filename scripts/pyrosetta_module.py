@@ -29,13 +29,14 @@ def score_ternary_complex(pdb):
   # derive binary pose from the ternary complex: (i.e. ligand + binder)
   binder_start = pose.conformation().chain_begin(2)
   lb_pose = pyrosetta.rosetta.core.pose.Pose()
-  pyrosetta.rosetta.core.pose.append_subpose_to_pose(lb_pose, pose, binder_start, pose.size(), 1)
+  pyrosetta.rosetta.core.pose.append_subpose_to_pose(lb_pose, pose, binder_start, pose.size()-1, 1)
+  pyrosetta.rosetta.core.pose.append_subpose_to_pose(lb_pose, pose, pose.size(), pose.size(), lb_pose.size())
   
   # interchain contacts computations:
   #data["atom_contact_BL1"]=count_chain_atom_contacts(pose=pose, ch_id1=2, ch_id2=3, delta=0.2)
   data["atom_contact_BL2"]= get_atomic_contact_data(lb_pose) # this one is probably going to separate both and give zero, do not lend it to much confidence
   data["atom_contact_BL3"]= count_atomic_contacts(pdb=pdb, chain1="B", chain2="L", delta=0.2)
-  interface_scores, interface_AA, interface_residues_pdb_ids_str=score_lig_interface(pdb_file, interface= "AF_B", binder_chain="B")
+  interface_scores, interface_AA, interface_residues_pdb_ids_str=score_lig_interface(pdb_file=pdb, interface= "AL_B", binder_chain="B")
   data={**data, **interface_scores}
   return data  
 
@@ -77,7 +78,7 @@ else:
 #  init pyrosetta and parametrize ligand (or not):
 print(pdb_list[0])
 """
-if args.mk_params:
+#if args.mk_params:
   params=create_param(pdb_file=pdb_list[0], smiles=str(args.smiles), lig_name=args.lig_name)
   pyr_init(params=params)
 else: 
@@ -85,14 +86,14 @@ else:
 """
 if args.params is not None:
   #params=create_param(pdb_file=pdb_list[0], smiles=str(args.smiles), lig_name=args.lig_name)
-  pyr_init(params=args.params)
+  pyr_init(params=[args.params])
 else: 
   pyr_init() # initialise without the param file
   
 for pdb in pdb_list:
   id=os.path.basename(pdb).replace(".pdb", "")
     
-  if args.mk_params: # if a ligand is present and was parametrized:
+  if args.params: # if a ligand is present and was parametrized:
     data=score_ternary_complex(pdb)
   else: 
     data=score_target_n_binder(pdb)
