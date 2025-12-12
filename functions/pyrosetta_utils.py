@@ -11,6 +11,7 @@ BC scoring but with ligand
 from Bio.PDB import PDBParser, PDBIO
 from Bio.PDB.MMCIFParser import *
 import pyrosetta as pr
+from pyrosetta import rosetta
 from pyrosetta.rosetta.core.kinematics import MoveMap
 from pyrosetta.rosetta.core.select.residue_selector import ChainSelector
 from pyrosetta.rosetta.protocols.simple_moves import AlignChainMover
@@ -21,6 +22,7 @@ from pyrosetta.rosetta.core.select import get_residues_from_subset
 from pyrosetta.rosetta.core.io import pose_from_pose
 from pyrosetta.rosetta.protocols.rosetta_scripts import XmlObjects
 import pyrosetta.distributed.io
+from Bio.PDB import PDBParser, DSSP, Selection, Polypeptide, PDBIO, Select, Chain, Superimposer
 import pyrosetta.rosetta.core.select.residue_selector as residue_selector
 import os
 
@@ -128,7 +130,7 @@ lj_radius = atom_type.lj_radius()
 # one option:
 
 import math
-
+"""
 def count_chain_atom_contacts(pose, ch_id1, ch_id2, delta=0.2):
 
     # ensure neighbor graph is built
@@ -179,13 +181,14 @@ def count_chain_atom_contacts(pose, ch_id1, ch_id2, delta=0.2):
         edge_it.increment()
 
     return total_contacts
-    
+"""
+
 # another option
 def get_atomic_contact_data(pose):
     '''Get the atomic contact number for a pose.'''
     acf = rosetta.protocols.rosetta_scripts.XmlObjects.static_get_filter('<AtomicContactCount name="contact" />')
     acf.initialize_cross_chain()
-    return [(structure_name, acf.report_sm(pose))]
+    return acf.report_sm(pose)
 
 # third option:
 def count_atomic_contacts(pdb, chain1, chain2, delta=0.2):
@@ -215,7 +218,7 @@ def count_atomic_contacts(pdb, chain1, chain2, delta=0.2):
 # identify interacting residues at the binder interface
 # from bindcraft, modified in order to be able to add the ligand in the equation
 
-def hotspot_residues(trajectory_pdb, binder_chain="B", target_plus_lig=False, lig_only=False, lig_chain="F", atom_distance_cutoff=4.0):
+def hotspot_residues(trajectory_pdb, binder_chain="B", target_plus_lig=False, lig_only=False, lig_chain=None, atom_distance_cutoff=4.0):
     # Parse the PDB file
     parser = PDBParser(QUIET=True)
     structure = parser.get_structure("complex", trajectory_pdb)
@@ -227,13 +230,13 @@ def hotspot_residues(trajectory_pdb, binder_chain="B", target_plus_lig=False, li
     # Get the specified chain
     binder_atoms = Selection.unfold_entities(structure[0][binder_chain], 'A') # get all the child atoms from the residues in  binder  
     binder_coords = np.array([atom.coord for atom in binder_atoms])
-    target_atoms = Selection.unfold_entities(structure[0]['A'], 'A') # get all the child atoms from the residues in chain A
-    ligand_atoms=Selection.unfold_entities(structure[0][lig_chain], 'A') # get all the child atoms from the residues in chain A
-    
-    if target_plus_lig:       
+    target_atoms = Selection.unfold_entities(structure[0]['A'], 'A') # get all the child atoms from the residues in chain A    
+    if target_plus_lig:
+        ligand_atoms=Selection.unfold_entities(structure[0][lig_chain], 'A') # get all the child atoms from the residues in ligand
         target_atoms+=ligand_atoms
         target_coords = np.array([atom.coord for atom in target_atoms]) # atom coordinate for target protein + ligand
     elif lig_only:
+        ligand_atoms=Selection.unfold_entities(structure[0][lig_chain], 'A') # get all the child atoms from the residues in
         target_coords = np.array([atom.coord for atom in ligand_atoms]) # atom coordinate for ligand only
     else: # atom coordinate for target protein only
         target_coords = np.array([atom.coord for atom in target_atoms])

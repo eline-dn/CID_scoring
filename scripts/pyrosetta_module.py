@@ -13,27 +13,27 @@ script_start_time = time.time()
 # one binder scoring function:
 def score_target_n_binder(pdb):
   data={}
-  pose=load_pose(pdbfile, assert_lig=False)
+  pose=load_pose(pdb, assert_lig=False)
   # interchain contacts computations:
-  data["atom_contact_BT1"]=count_chain_atom_contacts(pose=pose, ch_id1=1, ch_id2=2, delta=0.2)
+  #data["atom_contact_BT1"]=count_chain_atom_contacts(pose=pose, ch_id1=1, ch_id2=2, delta=0.2)
   data["atom_contact_BT2"]= get_atomic_contact_data(pose)
-  data["atom_contact_BT3"]= count_atomic_contacts(pdb=pdb, chain1=1, chain2=2, delta=0.2)
+  data["atom_contact_BT3"]= count_atomic_contacts(pdb=pdb, chain1="A", chain2="B", delta=0.2)
   interface_scores, interface_AA, interface_residues_pdb_ids_str=score_nolig_interface(pdb_file=pdb, interface= "A_B", binder_chain="B")
   data={**data, **interface_scores}
   return data
 
 def score_ternary_complex(pdb):
   data={}
-  pose=load_pose(pdbfile, assert_lig=True) # load pose and check that the last residue in the pose is a ligand
+  pose=load_pose(pdb, assert_lig=True) # load pose and check that the last residue in the pose is a ligand
   # derive binary pose from the ternary complex: (i.e. ligand + binder)
   binder_start = pose.conformation().chain_begin(2)
   lb_pose = pyrosetta.rosetta.core.pose.Pose()
   pyrosetta.rosetta.core.pose.append_subpose_to_pose(lb_pose, pose, binder_start, pose.size(), 1)
   
   # interchain contacts computations:
-  data["atom_contact_BL1"]=count_chain_atom_contacts(pose=pose, ch_id1=2, ch_id2=3, delta=0.2)
+  #data["atom_contact_BL1"]=count_chain_atom_contacts(pose=pose, ch_id1=2, ch_id2=3, delta=0.2)
   data["atom_contact_BL2"]= get_atomic_contact_data(lb_pose) # this one is probably going to separate both and give zero, do not lend it to much confidence
-  data["atom_contact_BL3"]= count_atomic_contacts(pdb=pdb, chain1=2, chain2=3, delta=0.2)
+  data["atom_contact_BL3"]= count_atomic_contacts(pdb=pdb, chain1="B", chain2="L", delta=0.2)
   interface_scores, interface_AA, interface_residues_pdb_ids_str=score_lig_interface(pdb_file, interface= "AF_B", binder_chain="B")
   data={**data, **interface_scores}
   return data  
@@ -69,12 +69,13 @@ else:
 
 for pdb in args.pdb:
   id=os.path.basename(pdb).replace(".pdb", "")
-  if mk_params:
+  if args.mk_params:
     data=score_ternary_complex(pdb)
   else: 
     data=score_target_n_binder(pdb)
   # write to csv
-  df=pd.df([data])
+  data["id"]=id
+  df=pd.DataFrame(data=data, index=[data["id"]])
   csv_path=f"{outdir}/{prefix}_pyrosetta_metrics.csv"
   df.to_csv(csv_path, mode="a", index=False, header=not pd.io.common.file_exists(csv_path))
     
