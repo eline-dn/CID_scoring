@@ -79,8 +79,8 @@ def chain2length(structure, chain_id:str):
   return(len(residues))
 
 # change a chain's id:
-def change_chain_id(structure, old_id, new_id, old_resname=None, new_resname=None):
-  chain=structure[1][old_id]
+def change_chain_id(structure,model_id, old_id, new_id, old_resname=None, new_resname=None):
+  chain=structure[model_id][old_id]
   chain.id = new_id
   if new_resname is not None and old_resname is not None:
     for res in structure.get_residues():
