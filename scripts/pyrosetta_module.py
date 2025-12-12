@@ -65,34 +65,23 @@ else:
 # if cif, convert to pdb
 if args.cif:
   cif=True
-  structure=load_CIF(args.pdb[0])
-  structure=copy_structure_with_only_chain(structure,args.lig_name)
-  structure=change_chain_id(structure=structure, old_id=args.lig_name, new_id=args.lig_name[0], old_resname="LIG", new_resname=args.lig_name)
-  pdb_sample=args.pdb[0].replace(".cif", "_ligand.pdb")
-  write_pdb(structure, pdb_sample)
+  pdb_list=list()
+  for file in args.pdb:
+    pdb=af3_out_2_norm_pdb(file, lig=True, lig_name=args.lig_name)
+    pdb_list.append(pdb)
+
 else:
-  pdb_sample=args.pdb[0] # the ligand should be the same and be numbered in the same way in all the files
-  structure=load_PDB(pdb_sample)
-  structure=copy_structure_with_only_chain(structure,args.lig_name)
-  pdb_sample=args.pdb[0].replace(".pdb", "_ligand.pdb")
-  write_pdb(structure, pdb_sample)
   cif = False
+  pdb_list=args.pdb
 #  init pyrosetta and parametrize ligand (or not):
 if args.mk_params:
-  params=create_param(smiles=args.smiles, pdb_file=pdb_sample, lig_name=args.lig_name[0])
+  params=create_param(smiles=args.smiles, pdb_file=pdb_list[0], lig_name=args.lig_name)
   pyr_init(params=params)
 else: 
   pyr_init() # initialise without the param file
 
-for pdb in args.pdb:
-  if cif: # convert to pdb
-    id=os.path.basename(pdb).replace(".cif", "")
-    structure=load_CIF(pdb)
-    pdb=pdb.replace(".cif", ".pdb")
-    write_pdb(structure, pdb)
-
-  else:
-    id=os.path.basename(pdb).replace(".pdb", "")
+for pdb in pdb_list:
+  id=os.path.basename(pdb).replace(".pdb", "")
     
   if args.mk_params: # if a ligand is present and was parametrized:
     data=score_ternary_complex(pdb)
