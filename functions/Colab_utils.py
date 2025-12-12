@@ -32,7 +32,7 @@ from biopython_utils import *
 
 def extract_template_target(structure, output_pdb_path):
   target= copy_structure_with_only_chain(structure, "A")
-  write_pdb(structure, output_pdb_path)
+  write_pdb(target, output_pdb_path)
   print(f"target template saved in {output_pdb_path}")
 
 

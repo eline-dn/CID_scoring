@@ -24,7 +24,7 @@ from Bio.PDB.SASA import ShrakeRupley
 from Bio.SeqUtils.ProtParam import ProteinAnalysis
 from Bio.PDB.Selection import unfold_entities
 from Bio.PDB.Polypeptide import is_aa
-
+from Bio.PDB import StructureBuilder
 from Bio.PDB import PDBParser, Selection
 from Bio.PDB.SASA import ShrakeRupley
 from Bio.PDB.Polypeptide import is_aa
@@ -55,13 +55,22 @@ def load_CIF(cif_file):
 # extract sequence from chain 
 def chain2seq(structure,  chain_id:str, make_str=True):
   chain=structure[0][chain_id]
+  from Bio.PDB.Polypeptide import is_aa
   # count only standard residues
-  residues = [res for res in chain.get_residues() if res.id[0] == " "] #res.id[0] == " " filters out HETATM residues.
+  residues = [res for res in chain.get_residues() if is_aa(res, standard=True)]
+  # convert residues to one-letter sequence
+  res_letters = []
+  for res in residues:
+      try:
+          aa = three_to_one_map[res.resname]
+          res_letters.append(aa)
+      except KeyError:
+          raise ValueError(f"Unknown residue: {res.resname} at {res.id}")
   if make_str==False:
-    return residues
+    return res_letters
   else:
-    return("".join(residues))
-    
+    return("".join(res_letters))
+
 # extract chain length
 def chain2length(structure, chain_id:str):
   chain=structure[0][chain_id]
@@ -71,16 +80,16 @@ def chain2length(structure, chain_id:str):
 
 # change a chain's id:
 def change_chain_id(structure, old_id, new_id, old_resname=None, new_resname=None):
-    chain=structure[0][old_id]
-    chain.id = new_id
-	if new_resname is not None and old_resname is not None:
-	    for res in structure.get_residues():
-	        if res.resname.strip().startswith(old_resname): 
-	            res.resname = new_resname
-	return(structure)
+  chain=structure[0][old_id]
+  chain.id = new_id
+  if new_resname is not None and old_resname is not None:
+    for res in structure.get_residues():
+      if res.resname.strip().startswith(old_resname):
+        res.resname = new_resname
+  return(structure)
 
 # focus on aligning only one chain from the pdbs (e.g. a target chain) and then return this chain's rmsd or the full structure's rmsd
-   
+
 # Helper: get ordered CA coordinate lists based on sequence
 def get_ca_atoms(chain):
     atoms = []
@@ -95,7 +104,7 @@ def sup_rmsd(ref_ca, mov_ca): # compute aligned rmsd with superimposer from ca l
   L = min(len(ref_ca), len(mov_ca))
   ref_ca = ref_ca[:L]
   mov_ca = mov_ca[:L]
-  
+
   sup = Superimposer()
   sup.set_atoms(ref_ca, mov_ca)
   rot, tran = sup.rotran
@@ -138,15 +147,15 @@ def unaligned_rmsd(ref, mov, mapping): # compute unaligned rmsd for the chains i
             out[(resseq, icode)] = res["CA"]
     return out
   
-  ref_ca_list=list()
-  mov_ca_list=list()
+  ref_ca_list={}
+  mov_ca_list={}
   for ref_chain_id, mov_chain_id in mapping.items():
     ref_chain=ref[0][ref_chain_id]
     mov_chain=mov[0][mov_chain_id]
-    ref_ca = get_ca_atoms(ref_chain)
-    mov_ca = get_ca_atoms(mov_chain)
-    ref_ca_list+=ref_ca
-    mov_ca_list+=mov_ca
+    ref_ca = ca_map(ref_chain)
+    mov_ca = ca_map(mov_chain)
+    ref_ca_list={**ref_ca_list, **ref_ca}
+    mov_ca_list={**mov_ca_list, **mov_ca}
   
   # Common residue keys, ordered by residue number then insertion code
   common = sorted(set(ref_ca_list.keys()).intersection(mov_ca_list.keys()),

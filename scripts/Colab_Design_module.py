@@ -1,21 +1,19 @@
 """
 goal: from reference pdbs, repredict the complex without the ligand and retrive the reprediction metrics
 """
-
+# load dependancies
+import os, sys
+import numpy as np
+import argparse
+import pandas as pd
+import time
+import glob
 
 # import AF3_utils.py
 SCRIPT_PATH = os.path.dirname(__file__)
 sys.path.append(f"{SCRIPT_PATH}/../functions")
-from Colab_utils.py import *
+from Colab_utils import *
 from biopython_utils import *
-
-# load dependancies
-import os,  sys
-import numpy as np
-import argparse
-pandas as pd
-import time
-import glob
 
 
 ######## 
@@ -42,19 +40,20 @@ for pdb in args.ref_pdb:
   id=os.path.basename(pdb).replace(".pdb", "")
   # extract template for the target:
   structure=load_PDB(pdb)
-  template_path=f"{outdir}/{id}_target_template.pdb")
+  template_path=f"{outdir}/{id}_target_template.pdb"
   extract_template_target(structure, template_path)
   # binder sequence and length:
   binder_length=chain2length(structure, "B")
   binder_sequence=chain2seq(structure,  "B", True)
   # run reprediction:
   model=init_colab()
-  data=run_prediction(model, template, binder_length, binder_sequence, outdir, id)
+  data=run_prediction(model, template_path, binder_length, binder_sequence, outdir, id)
   
   # compute RMSDs
+  rmsds={}
   for i, model in enumerate(glob.glob(f"{outdir}/{id}_model*.pdb")):
     ref= load_PDB(pdb)
-    mov=model
+    mov=load_PDB(model)
     # chain structure
     mapping={"A":"A", "B":"B"}
     # compute RMSDs
@@ -63,10 +62,11 @@ for pdb in args.ref_pdb:
   # mean of the two models:
   rmsd={}
   for key in rmsds[0].keys():
-    rmsd[key]=(rmsds[0][key] + rmsds[1][key])/2
- 
+    rmsd[key]=round((rmsds[0][key] + rmsds[1][key])/2, 2)
+  print(data)
+  print(rmsd)
   # save in csv
-  df=pd.df([{**data, **rmsd}])
+  df=pd.DataFrame(data={**data, **rmsd}, index=[data["id"]])
   csv_path=f"{outdir}/{prefix}_Colab_Design_reprediction_metrics.csv"
   df.to_csv(csv_path, mode="a", index=False, header=not pd.io.common.file_exists(csv_path))
     
