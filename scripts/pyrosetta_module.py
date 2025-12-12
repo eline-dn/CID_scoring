@@ -1,4 +1,4 @@
-# load dependencies
+#load dependencies
 import os,  sys
 import numpy as np
 import argparse
@@ -74,8 +74,9 @@ else:
   cif = False
   pdb_list=args.pdb
 #  init pyrosetta and parametrize ligand (or not):
+print(pdb_list[0])
 if args.mk_params:
-  params=create_param(smiles=args.smiles, pdb_file=pdb_list[0], lig_name=args.lig_name)
+  params=create_param(pdb_file=pdb_list[0], smiles=str(args.smiles), lig_name=args.lig_name)
   pyr_init(params=params)
 else: 
   pyr_init() # initialise without the param file

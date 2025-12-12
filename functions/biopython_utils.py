@@ -287,10 +287,8 @@ def binary_RMSDs(ref, mov, mapping):
 def af3_out_2_norm_pdb(cif_path, lig=True, lig_name=None):
 	structure=load_CIF(cif_path)
 	pdb_path=cif_path.replace(".cif", ".pdb")
-	
 	first_model = next(structure.get_models())
-    first_model_id = first_model.id
-    
+	first_model_id = first_model.id
 	if lig: # if a ligand is present
 		if lig_name is None:
 			raise ValueError("Specify lig_name argument if the cif file contains a ligand")
