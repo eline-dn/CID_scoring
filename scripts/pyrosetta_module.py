@@ -8,6 +8,7 @@ import time
 SCRIPT_PATH = os.path.dirname(__file__)
 sys.path.append(f"{SCRIPT_PATH}/../functions")
 from pyrosetta_utils import *
+from biopython_utils import *
 
 script_start_time = time.time()
 # one binder scoring function:
@@ -43,7 +44,7 @@ def score_ternary_complex(pdb):
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--pdb", nargs="+", type=str, help="List of Input structures. Default expectation is the pdb format. If the structures are stored in the mmcif format, set the --cif flag to convert them") # list of pdb files 
-parser.add_argument("--cif",action="store_true", help="to first convert the cif input in a pdb format.")
+parser.add_argument("--cif", action="store_true", help="to first convert the cif input in a pdb format.")
 parser.add_argument("--mk_params",action="store_true", help=" need to create a Params files in the pdb files'dir? Set to true if the pdbs are ternary complexes. in that case, add a smiles for the ligand")
 parser.add_argument("--smiles", required=False, type=str, help="smiles used for ligand parametrization, eg c1cc(oc1)CNc2cc(c(cc2C(=O)O)S(=O)(=O)N)Cl for the FUN ligand")
 parser.add_argument("--lig_name", required=False, type=str, help="name used for ligand parametrization, eg  FUN ligand")
@@ -65,14 +66,20 @@ else:
 if args.cif:
   cif=True
   structure=load_CIF(args.pdb[0])
-  pdb_sample=args.pdb[0].replace(".cif", ".pdb")
+  structure=copy_structure_with_only_chain(structure,args.lig_name)
+  structure=change_chain_id(structure=structure, old_id=args.lig_name, new_id=args.lig_name[0], old_resname="LIG", new_resname=args.lig_name)
+  pdb_sample=args.pdb[0].replace(".cif", "_ligand.pdb")
   write_pdb(structure, pdb_sample)
 else:
   pdb_sample=args.pdb[0] # the ligand should be the same and be numbered in the same way in all the files
-
+  structure=load_PDB(pdb_sample)
+  structure=copy_structure_with_only_chain(structure,args.lig_name)
+  pdb_sample=args.pdb[0].replace(".pdb", "_ligand.pdb")
+  write_pdb(structure, pdb_sample)
+  cif = False
 #  init pyrosetta and parametrize ligand (or not):
 if args.mk_params:
-  params=create_param(smiles=args.smiles, pdb_file=pdb_sample, lig_name=args.lig_name)
+  params=create_param(smiles=args.smiles, pdb_file=pdb_sample, lig_name=args.lig_name[0])
   pyr_init(params=params)
 else: 
   pyr_init() # initialise without the param file

@@ -49,7 +49,7 @@ def load_PDB(pdb_file):
 
 def load_CIF(cif_file):
   parser = MMCIFParser(QUIET=True)
-  structure = parser.get_structure("x", pdb_file)
+  structure = parser.get_structure("x", cif_file)
   return(structure)
 
 # extract sequence from chain 
@@ -80,7 +80,7 @@ def chain2length(structure, chain_id:str):
 
 # change a chain's id:
 def change_chain_id(structure, old_id, new_id, old_resname=None, new_resname=None):
-  chain=structure[0][old_id]
+  chain=structure[1][old_id]
   chain.id = new_id
   if new_resname is not None and old_resname is not None:
     for res in structure.get_residues():
