@@ -70,8 +70,8 @@ def pyr_init(params=None):
     elif "OMP_NUM_THREADS" in os.environ:
         NPROC = os.environ["OMP_NUM_THREADS"]
     
-    
-    DAB = f"{SCRIPT_PATH}/../utils/DAlphaBall.gcc" # This binary was compiled on UW systems. It may or may not work correctly on yours
+    SCRIPT_PATH = os.path.dirname(__file__)
+    DAB = f"{SCRIPT_PATH}/DAlphaBall.gcc" # This binary was compiled on UW systems. It may or may not work correctly on yours
     assert os.path.exists(DAB), "Please compile DAlphaBall.gcc and manually provide a path to it in this script under the variable `DAB`\n"\
                             "For more info on DAlphaBall, visit: https://www.rosettacommons.org/docs/latest/scripting_documentation/RosettaScripts/Filters/HolesFilter"
     
