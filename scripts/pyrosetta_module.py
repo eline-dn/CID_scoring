@@ -42,7 +42,8 @@ def score_ternary_complex(pdb):
 ######## 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--pdb", nargs="+", type=str, help="List of Input PDBs") # list of pdb files 
+parser.add_argument("--pdb", nargs="+", type=str, help="List of Input structures. Default expectation is the pdb format. If the structures are stored in the mmcif format, set the --cif flag to convert them") # list of pdb files 
+parser.add_argument("--cif", type=bool, help="to first convert the cif input in a pdb format.")
 parser.add_argument("--mk_params", type=bool, help=" need to create a Params files in the pdb files'dir? Set to true if the pdbs are ternary complexes. in that case, add a smiles for the ligand")
 parser.add_argument("--smiles", required=False, type=str, help="smiles used for ligand parametrization, eg c1cc(oc1)CNc2cc(c(cc2C(=O)O)S(=O)(=O)N)Cl for the FUN ligand")
 parser.add_argument("--lig_name", required=False, type=str, help="name used for ligand parametrization, eg  FUN ligand")
@@ -60,16 +61,33 @@ if args.prefix is not None:
 else: 
   prefix=""
 
+# if cif, convert to pdb
+if args.cif:
+  cif=True
+  structure=load_CIF(args.pdb[0])
+  pdb_sample=args.pdb[0].replace(".cif", ".pdb")
+  write_pdb(structure, pdb_sample)
+else:
+  pdb_sample=args.pdb[0] # the ligand should be the same and be numbered in the same way in all the files
+
 #  init pyrosetta and parametrize ligand (or not):
 if args.mk_params:
-  params=create_param(smiles=args.smiles, pdb_file=args.pdb[0], lig_name=args.lig_name)
+  params=create_param(smiles=args.smiles, pdb_file=pdb_sample, lig_name=args.lig_name)
   pyr_init(params=params)
 else: 
   pyr_init() # initialise without the param file
 
 for pdb in args.pdb:
-  id=os.path.basename(pdb).replace(".pdb", "")
-  if args.mk_params:
+  if cif: # convert to pdb
+    id=os.path.basename(pdb).replace(".cif", "")
+    structure=load_CIF(pdb)
+    pdb=pdb.replace(".cif", ".pdb")
+    write_pdb(structure, pdb)
+
+  else:
+    id=os.path.basename(pdb).replace(".pdb", "")
+    
+  if args.mk_params: # if a ligand is present and was parametrized:
     data=score_ternary_complex(pdb)
   else: 
     data=score_target_n_binder(pdb)
