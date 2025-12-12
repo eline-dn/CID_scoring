@@ -1,13 +1,13 @@
+# load dependencies
+import os,  sys
+import numpy as np
+import argparse
+import pandas as pd
+import time
 # import pyrosetta_utils.py
 SCRIPT_PATH = os.path.dirname(__file__)
 sys.path.append(f"{SCRIPT_PATH}/../functions")
 from pyrosetta_utils import *
-# load dependancies
-import os,  sys
-import numpy as np
-import argparse
-pandas as pd
-import time
 
 script_start_time = time.time()
 # one binder scoring function:

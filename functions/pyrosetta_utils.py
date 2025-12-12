@@ -8,8 +8,8 @@ BC scoring (A-B)
 BC scoring but with ligand
 
 """
-from Bio.PDB import PDBParser, MMCIFparser, PDBIO
-
+from Bio.PDB import PDBParser, PDBIO
+from Bio.PDB.MMCIFParser import *
 import pyrosetta as pr
 from pyrosetta.rosetta.core.kinematics import MoveMap
 from pyrosetta.rosetta.core.select.residue_selector import ChainSelector
@@ -39,7 +39,7 @@ three_to_one_map = {
     "MSE":"M",  # Selenomethionine
 }
 # create ligand param file:
-def create_param(smiles="c1cc(oc1)CNc2cc(c(cc2C(=O)O)S(=O)(=O)N)Cl", pdb_file, lig_name='FUN'):
+def create_param(pdb_file, smiles="c1cc(oc1)CNc2cc(c(cc2C(=O)O)S(=O)(=O)N)Cl", lig_name='FUN'):
     pyrosetta.init(extra_options='-mute all') # required for test
     from rdkit_to_params import Params
     p = Params.from_smiles_w_pdbfile(pdb_file, smiles, name=lig_name) # the name has to match.
@@ -47,7 +47,7 @@ def create_param(smiles="c1cc(oc1)CNc2cc(c(cc2C(=O)O)S(=O)(=O)N)Cl", pdb_file, l
     p.dump(f'{lig_name}.params')
     p.test().dump_pdb(f'parametrized_{lig_name}.pdb')
     print("Please ensure atoms names match between the param file and the pdb files you are going to analyse with Pyrosetta")
-	return(f'{lig_name}.params')
+    return(f'{lig_name}.params')
 
 
 # initialisation with a param file for ligand
@@ -91,7 +91,7 @@ def load_pose(pdbfile, assert_lig):
 def load_pose_cif(cif_file, old_id="FUN", new_id="F", LIG_rename=None):
     from Bio.PDB import PDBIO
     import Bio.PDB
-    CIF_parser = Bio.PDB.MMCIFParser(QUIET=True)
+    CIF_parser = MMCIFParser(QUIET=True)
     structure = CIF_parser.get_structure("x", cif_file)
     chain=structure[0][old_id]
     chain.id = new_id
@@ -262,12 +262,13 @@ def hotspot_residues(trajectory_pdb, binder_chain="B", target_plus_lig=False, li
 
 # covert cif to pdb
 def cif2pdb(cif_path, pdb_path):
-	parser = MMCIFParser(QUIET=True)
- 	structure = parser.get_structure("x", cif_path)
-	io = PDBIO(use_model_flag=1)
-  	io.set_structure(structure)
-  	io.save(pdb_path)
-    
+  parser = MMCIFParser(QUIET=True)
+  structure = parser.get_structure("x", cif_path)
+  io = PDBIO(use_model_flag=1)
+  io.set_structure(structure)
+  io.save(pdb_path)
+
+
 # BindCraft's scoring function from pdb
 
 
