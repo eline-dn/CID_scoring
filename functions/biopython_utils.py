@@ -283,3 +283,19 @@ def binary_RMSDs(ref, mov, mapping):
 	mov_aligned=align_to_chain(ref,mov,mapping)
 	data["d_binding_site"]=unaligned_rmsd(ref, mov_aligned, {"B":"B"})
 	return(data)
+
+def af3_out_2_norm_pdb(cif_path, lig=True, lig_name=None):
+	structure=load_CIF(cif_path)
+	pdb_path=cif_path.replace(".cif", ".pdb")
+	
+	first_model = next(structure.get_models())
+    first_model_id = first_model.id
+    
+	if lig: # if a ligand is present
+		if lig_name is None:
+			raise ValueError("Specify lig_name argument if the cif file contains a ligand")
+		change_chain_id(structure,first_model_id, lig_name, "L", "LIG", lig_name) # replace chain id "FUN" with "L" and ligand's resname with its name and not e.g. LIG_FUN
+
+	write_pdb(structure, pdb_path)
+	return(pdb_path)
+
