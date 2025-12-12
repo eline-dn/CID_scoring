@@ -8,8 +8,8 @@ A set of metrics to score CID and MG complexes
 ```
 python ./scripts/Colab_Design_module.py \
 --ref_pdb structure1_binary_complex.pdb structure2_binary_complex.pdb \
---outdir ./directory \
---prefix prefix \
+--outdir . \
+--prefix prefix
 ```
 
 ref_pdb: List of ref PDBs, used to extract sequences, target template, and as references for RMSDs. Ensure the chain id's are correct.
@@ -20,11 +20,11 @@ prefix (optional, default is WD) : prefix for csv file
 1- Prepare the input json file
 ```
 python ./scripts/AF3_input_module.py \
---pdb structure1_ternary_complex.pdb
---target_id 1Z9Y
---smiles c1cc(oc1)CNc2cc(c(cc2C(=O)O)S(=O)(=O)N)Cl
---lig_name FUN
---outdir "./out"
+--pdb structure1_ternary_complex.pdb \
+--target_id 1Z9Y \
+--smiles c1cc(oc1)CNc2cc(c(cc2C(=O)O)S(=O)(=O)N)Cl \
+--lig_name FUN \
+--outdir ./out
 ```
 pdb: List of Input PDBs, used to extract sequences
 smiles: **(for ternary complexes only)** smiles used for ligand parametrization, eg c1cc(oc1)CNc2cc(c(cc2C(=O)O)S(=O)(=O)N)Cl for the FUN ligand
@@ -44,7 +44,7 @@ python ./scripts/AF3_output_module.py \
 --AF3_outs output_folder/* \
 --lig_name FUN \
 --outdir . \
---prefix pre\
+--prefix pre
 ```
 ref_pdb: List of ref PDBs, used to extract sequences, as target template, and as references for RMSDs. Ensure the id is the same as the folder with repredicted strucures and confidences. Also ensure the chain id's are matching.
 AF3_outs: List of AF3 output folders. Ensure the id is the same as the ref_pdb.
@@ -61,7 +61,7 @@ python ./scripts/pyrosetta_module.py \
 --smiles c1cc(oc1)CNc2cc(c(cc2C(=O)O)S(=O)(=O)N)Cl \
 --lig_name FUN \
 --outdir . \
---prefix pre\
+--prefix pre
 ```
 pdb: List of Input PDBs
 mk_params: need to create a Params files in the pdb files'dir? Set to true if the pdbs are ternary complexes. in that case, add a smiles for the ligand
