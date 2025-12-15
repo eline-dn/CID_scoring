@@ -33,11 +33,16 @@ lig_name: **(for ternary complexes only)** name used for ligand parametrization,
 
 outdir: output folder for json inputs, optional
 
+tips for the target template file: beware of DOS file format, not parsed by AF3. check eol with `file 1Z9Y_clean.cif` and remove CRLF line terminators with `sed -i 's/\r$//' 1Z9Y_clean.cif`
+
+
+
 2- run AF3
 ```
 sbatch ./scripts/run_alphafold.sh -i input_folder -o output_folder --no-msa --recycles 5
 ```
 input_folder: with json files
+
 
 3- Analyze the output structure (RMSD, confidences)
 ```
