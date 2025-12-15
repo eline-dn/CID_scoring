@@ -21,12 +21,7 @@ prefix (optional, default is WD) : prefix for csv file
 ## Running AF3 on binary or ternary complexes:
 1- Prepare the input json file
 ```
-python ./scripts/AF3_input_module.py \
---pdb structure1_ternary_complex.pdb \
---target_id 1Z9Y \
---smiles c1cc(oc1)CNc2cc(c(cc2C(=O)O)S(=O)(=O)N)Cl \
---lig_name FUN \
---outdir ./out
+python ./scripts/AF3_input_module.py --pdb structure1_ternary_complex.pdb --target_id 1Z9Y --smiles c1cc(oc1)CNc2cc(c(cc2C(=O)O)S(=O)(=O)N)Cl --lig_name FUN --outdir af3/input
 ```
 pdb: List of Input PDBs, used to extract sequences
 
