@@ -54,8 +54,11 @@ else:
 outdir=args.outdir
 
 # template must be in a cif format for AF3, converting if given as a pdb
+# also: template structure must be filtered to a single chain.
 if '.cif' in args.structure[0]:
   format="CIF"
+  struct=load_CIF(args.structure[0])
+  struct=copy_structure_with_only_chain(struct, "A")
   if not args.structure[0].startswith("/"): # if an absolute path is not provided:
     # template absolute path:
     target_template=os.getcwd()
@@ -63,9 +66,13 @@ if '.cif' in args.structure[0]:
     target_template=target_template.replace("//", "/")
   else:
     target_template=args.structure[0]
+  write_cif(struct,target_template)
+  
 elif '.pdb' in args.structure[0]:
   format="PDB"
   struct=load_PDB(args.structure[0])
+  struct=copy_structure_with_only_chain(struct, "A")
+  # path to save cif tempalte:
   if not outdir.startswith("/"): # if outdir is not an absolute path
     target_template=os.getcwd()
     target_template+=f"/{outdir}/template_{args.target_id}.cif"
@@ -73,6 +80,7 @@ elif '.pdb' in args.structure[0]:
   else:
     target_template=f"{outdir}/template_{args.target_id}.cif"
   write_cif(struct,target_template)
+  
 else: 
   raise ValueError("input structure format must be cif or pdb")
 
