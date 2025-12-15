@@ -64,7 +64,10 @@ for dir in args.AF3_outs:
       ref_pdb_file=pdb
   # load the structures:
   ref= load_PDB(ref_pdb_file)
-  mov= load_CIF(os.path.join(dir,f"{id}_model.cif"))
+  # TO DO: sanitize structure fiel with
+  cif=os.path.join(dir,f"{id}_model.cif")
+  movpdb=af3_out_2_norm_pdb(cif, lig=True, lig_name=None)
+  mov= load_CIF()
   # chain structure
   mapping={"A":"A", "B":"B", "L":args.lig_name}
   # compute RMSDs
