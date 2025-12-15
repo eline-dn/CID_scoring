@@ -34,7 +34,22 @@ lig_name: **(for ternary complexes only)** name used for ligand parametrization,
 outdir: output folder for json inputs, optional
 
 tips for the target template file: beware of DOS file format, not parsed by AF3. check eol with `file 1Z9Y_clean.cif` and remove CRLF line terminators with `sed -i 's/\r$//' 1Z9Y_clean.cif`
-
+if your template doesn't have a release date, add
+```
+#
+loop_
+_pdbx_audit_revision_history.ordinal 
+_pdbx_audit_revision_history.data_content_type 
+_pdbx_audit_revision_history.major_revision 
+_pdbx_audit_revision_history.minor_revision 
+_pdbx_audit_revision_history.revision_date 
+1 'Structure model' 1 0 2006-05-23 
+2 'Structure model' 1 1 2008-04-30 
+3 'Structure model' 1 2 2011-07-13 
+4 'Structure model' 1 3 2017-10-11 
+# 
+in the cif file's header
+```
 
 
 2- run AF3
@@ -46,12 +61,7 @@ input_folder: with json files
 
 3- Analyze the output structure (RMSD, confidences)
 ```
-python ./scripts/AF3_output_module.py \
---ref_pdb ref_structure1_ternary_complex.pdb \
---AF3_outs output_folder/* \
---lig_name FUN \
---outdir . \
---prefix pre
+python ./scripts/AF3_output_module.py --ref_pdb af3_ter_out.pdb --AF3_outs /work/lpdi/users/eline/CID_scoring/af3_out/* --lig_name FUN --outdir /work/lpdi/users/eline/CID_scoring/af3_out --prefix pre
 ```
 ref_pdb: List of ref PDBs, used to extract sequences, as target template, and as references for RMSDs. Ensure the id is the same as the folder with repredicted strucures and confidences. Also ensure the chain id's are matching.
 
