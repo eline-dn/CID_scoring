@@ -54,7 +54,7 @@ def load_CIF(cif_file):
 
 # extract sequence from chain 
 def chain2seq(structure,  chain_id:str, make_str=True):
-  chain=structure[0][chain_id]
+  chain=next(structure.get_models())[chain_id]
   from Bio.PDB.Polypeptide import is_aa
   # count only standard residues
   residues = [res for res in chain.get_residues() if is_aa(res, standard=True)]
@@ -73,7 +73,7 @@ def chain2seq(structure,  chain_id:str, make_str=True):
 
 # extract chain length
 def chain2length(structure, chain_id:str):
-  chain=structure[0][chain_id]
+  chain=next(structure.get_models())[chain_id]
   # count only standard residues
   residues = [res for res in chain.get_residues() if res.id[0] == " "] #res.id[0] == " " filters out HETATM residues.
   return(len(residues))
@@ -113,8 +113,12 @@ def sup_rmsd(ref_ca, mov_ca): # compute aligned rmsd with superimposer from ca l
   
 ## /!\ only for amino acid chains!   
 def aligned_chain_rmsd(ref, mov, ref_chain_id, mov_chain_id): # compute one aligned chain rmsd from structures
-  ref_chain=ref[0][ref_chain_id]
-  mov_chain=mov[0][mov_chain_id]
+  first_ref_model = next(ref.get_models())
+  first_ref_model_id = first_ref_model.id
+  first_mov_model = next(mov.get_models())
+  first_mov_model_id = first_mov_model.id
+  ref_chain=ref[first_ref_model_id][ref_chain_id]
+  mov_chain=mov[first_mov_model_id][mov_chain_id]
   ref_ca = get_ca_atoms(ref_chain)
   mov_ca = get_ca_atoms(mov_chain)
   rmsd=sup_rmsd(ref_ca, mov_ca)
@@ -126,9 +130,13 @@ def full_aligned_rmsd(ref, mov, mapping):
   # { ref_chain_id1: mov_chain_id1, ref_chain_id2: mov_chain_id2,...}
   ref_ca_list=list()
   mov_ca_list=list()
+  first_ref_model = next(ref.get_models())
+  first_ref_model_id = first_ref_model.id
+  first_mov_model = next(mov.get_models())
+  first_mov_model_id = first_mov_model.id
   for ref_chain_id, mov_chain_id in mapping.items():
-    ref_chain=ref[0][ref_chain_id]
-    mov_chain=mov[0][mov_chain_id]
+    ref_chain=ref[first_ref_model_id][ref_chain_id]
+    mov_chain=mov[first_mov_model_id][mov_chain_id]
     ref_ca = get_ca_atoms(ref_chain)
     mov_ca = get_ca_atoms(mov_chain)
     ref_ca_list+=ref_ca
@@ -146,12 +154,16 @@ def unaligned_rmsd(ref, mov, mapping): # compute unaligned rmsd for the chains i
             hetflag, resseq, icode = res.get_id()
             out[(resseq, icode)] = res["CA"]
     return out
-  
+
+  first_ref_model = next(ref.get_models())
+  first_ref_model_id = first_ref_model.id
+  first_mov_model = next(mov.get_models())
+  first_mov_model_id = first_mov_model.id
   ref_ca_list={}
   mov_ca_list={}
   for ref_chain_id, mov_chain_id in mapping.items():
-    ref_chain=ref[0][ref_chain_id]
-    mov_chain=mov[0][mov_chain_id]
+    ref_chain=ref[first_ref_model_id][ref_chain_id]
+    mov_chain=mov[first_mov_model_id][mov_chain_id]
     ref_ca = ca_map(ref_chain)
     mov_ca = ca_map(mov_chain)
     ref_ca_list={**ref_ca_list, **ref_ca}
@@ -178,8 +190,12 @@ def unaligned_rmsd(ref, mov, mapping): # compute unaligned rmsd for the chains i
 
 def unaligned_ligand_rmsd(ref, mov,ref_lig_chain_id,mov_lig_chain_id):
   # ligand atoms: compute RMSD over all heavy atoms
-  ref_ligand=ref[0][ref_lig_chain_id]
-  mov_ligand=ref[0][mov_lig_chain_id]
+  first_ref_model = next(ref.get_models())
+  first_ref_model_id = first_ref_model.id
+  first_mov_model = next(mov.get_models())
+  first_mov_model_id = first_mov_model.id
+  ref_ligand=ref[first_ref_model_id][ref_lig_chain_id]
+  mov_ligand=ref[first_mov_model_id][mov_lig_chain_id]
   ref_lig_atoms = np.array([a.get_coord() for a in ref_ligand.get_atoms()])
   mov_lig_atoms = np.array([a.get_coord() for a in mov_ligand.get_atoms()])
   L = min(len(ref_lig_atoms), len(mov_lig_atoms))
@@ -194,9 +210,13 @@ def align_to_chain(ref,mov,mapping): # align a structure to a reference structur
   # !!! the targeted chains should be the same lentgh!!
   ref_ca_list=list()
   mov_ca_list=list()
+  first_ref_model = next(ref.get_models())
+  first_ref_model_id = first_ref_model.id
+  first_mov_model = next(mov.get_models())
+  first_mov_model_id = first_mov_model.id
   for ref_chain_id, mov_chain_id in mapping.items():
-    ref_chain=ref[0][ref_chain_id]
-    mov_chain=mov[0][mov_chain_id]
+    ref_chain=ref[first_ref_model_id][ref_chain_id]
+    mov_chain=mov[first_mov_model_id][mov_chain_id]
     ref_ca = get_ca_atoms(ref_chain)
     mov_ca = get_ca_atoms(mov_chain)
     ref_ca_list+=ref_ca
@@ -238,8 +258,8 @@ def copy_structure_with_only_chain(structure, chain_id):
   sb.init_model(1)
   sb.init_chain(chain_id)
   # Set segment ID, padded to 4 characters
-  sb.init_seg(chain_id.ljust(4))    
-  model0 = structure[0]
+  sb.init_seg(chain_id.ljust(4))  
+  model0 = next(structure.get_models())
   if chain_id not in [c.id for c in model0.get_chains()]:
       raise ValueError(f"Chain '{chain_id}' not found.")
   chain = model0[chain_id]
