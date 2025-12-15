@@ -32,7 +32,7 @@ script_start_time = time.time()
 ######## 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--pdb", nargs="+", type=str, help="List of Input PDBs, used to extract sequences,  (then as target template, and as references for RMSDs)") # list of pdb files 
+parser.add_argument("--structure", nargs="+", type=str, help="List of Input CIF or pdb, used to extract sequences and target template. Target must be chain A and the first residues in the structure") # list of pdb files 
 parser.add_argument("--target_id", required=True, type=str, help="target id")
 parser.add_argument("--smiles", required=False, type=str, help="smiles used for ligand parametrization, eg c1cc(oc1)CNc2cc(c(cc2C(=O)O)S(=O)(=O)N)Cl for the FUN ligand")
 parser.add_argument("--lig_name", required=False, type=str, help="name used for ligand parametrization, eg  FUN ligand")
@@ -53,16 +53,33 @@ else:
   
 outdir=args.outdir
 
+# template must be in a cif format for AF3, converting if given as a pdb
+if '.cif' in args.structure[0]:
+  format="CIF"
+  target_template=args.structure[0]
+elif '.pdb' in args.structure[0]:
+  format='PDB"
+  struct=load_PDB(args.structure[0])
+  template_path=f"{outdir}/template_{args.target_id}.cif"
+  target_template=write_cif(template_path)
+else: 
+  raise ValueError("input structure format must be cif or pdb")
+
+
 # prepare target specific json input file
 if ternary:
-  target_json=prep_no_msa_target_input_json(gen_template_path=template_json_path, outdir=outdir, target_id=args.target_id, target_cif=args.pdb[0], target_chain_in_cif="A", smiles=smiles, ligand_id=lig_name)
+  target_json=prep_no_msa_target_input_json(gen_template_path=template_json_path, outdir=outdir, target_id=args.target_id, target_cif=target_template, target_chain_in_cif="A", smiles=smiles, ligand_id=lig_name)
 else:
-  target_json=prep_no_msa_target_input_json(gen_template_path=template_json_path, outdir=outdir, target_id=args.target_id, target_cif=args.pdb[0], target_chain_in_cif="A", smiles=None, ligand_id=None)
+  target_json=prep_no_msa_target_input_json(gen_template_path=template_json_path, outdir=outdir, target_id=args.target_id, target_cif=target_template, target_chain_in_cif="A", smiles=None, ligand_id=None)
   
 ##### prepare inputs in the same folder, everything repredicted in one aF3 command
-for pdb in args.pdb:
-  id=os.path.basename(pdb).replace(".pdb", "")
-  structure=load_PDB(pdb)
+for struct in args.structure:
+  if format=='CIF':
+    id=os.path.basename(struct).replace(".cif", "")
+    structure=load_CIF(struct)
+  else:
+    id=os.path.basename(struct).replace(".pdb", "")
+    structure=load_PDB(struct)
   seq_binder=chain2seq(structure, "B", make_str=True)
   json=prep_binder_input_json(template_path=target_json, outdir=outdir ,id=id ,seq_binder=seq_binder)
 
