@@ -18,8 +18,6 @@ sys.path.append(f"{SCRIPT_PATH}/../functions")
 from AF3_utils import *
 from biopython_utils import *
 
-###### a few helper functions
-
 
 ######## 
 script_start_time = time.time()
@@ -66,14 +64,16 @@ for dir in args.AF3_outs:
   ref= load_PDB(ref_pdb_file)
   # TO DO: sanitize structure fiel with
   cif=os.path.join(dir,f"{id}_model.cif")
-  movpdb=af3_out_2_norm_pdb(cif, lig=True, lig_name=None)
-  mov= load_CIF()
   # chain structure
   mapping={"A":"A", "B":"B", "L":args.lig_name}
   # compute RMSDs
   if ternary:
+    movpdb=af3_out_2_norm_pdb(cif, lig=True, lig_name=args.lig_name)
+    mov= load_PDB(movpdb)
     rmsds=ternary_RMSDs(ref, mov, mapping)
   else:
+    movpdb=af3_out_2_norm_pdb(cif, lig=False, lig_name=None)
+    mov= load_PDB(movpdb)
     rmsds=binary_RMSDs(ref, mov, mapping)
   # add a prefix on the metrics names:
   data = {f"{metrics_prefix}{k}": v for k, v in data.items()}
