@@ -21,9 +21,11 @@ prefix (optional, default is WD) : prefix for csv file
 ## Running AF3 on binary or ternary complexes:
 1- Prepare the input json file
 ```
-python ./scripts/AF3_input_module.py --pdb structure1_ternary_complex.pdb --target_id 1Z9Y --smiles c1cc(oc1)CNc2cc(c(cc2C(=O)O)S(=O)(=O)N)Cl --lig_name FUN --outdir af3/input
+ python ./scripts/AF3_input_module.py --structure af3_ter_out.pdb --target_id 1Z9Y --target_template /work/lpdi/users/eline/CID_scoring/af3/input/1Z9Y_clean.cif --smiles "c1cc(oc1)CNc2cc(c(cc2C(=O)O)S(=O)(=O)N)Cl" --lig_name FUN --outdir af3/input
 ```
 pdb: List of Input PDBs, used to extract sequences
+
+target_template: target template to input to af3, must be in a CIF format with a release date before the train/test cutoff of AF3. Give an absolute path
 
 smiles: **(for ternary complexes only)** smiles used for ligand parametrization, eg c1cc(oc1)CNc2cc(c(cc2C(=O)O)S(=O)(=O)N)Cl for the FUN ligand
 
