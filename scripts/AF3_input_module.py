@@ -34,6 +34,7 @@ script_start_time = time.time()
 parser = argparse.ArgumentParser()
 parser.add_argument("--structure", nargs="+", type=str, help="List of Input CIF or pdb, used to extract sequences and target template. Target must be chain A and the first residues in the structure") # list of pdb files 
 parser.add_argument("--target_id", required=True, type=str, help="target id")
+parser.add_argument("--target_template", required=True, type=str, help="target template to input to af3, must be in a CIF format with a release date before the train/test cutoff of AF3. Give an absolute path")
 parser.add_argument("--smiles", required=False, type=str, help="smiles used for ligand parametrization, eg c1cc(oc1)CNc2cc(c(cc2C(=O)O)S(=O)(=O)N)Cl for the FUN ligand")
 parser.add_argument("--lig_name", required=False, type=str, help="name used for ligand parametrization, eg  FUN ligand")
 parser.add_argument("--outdir", required=False, type=str, help="output folder for csv file")
@@ -53,6 +54,7 @@ else:
   
 outdir=args.outdir
 
+""" to write a custom target template structure:
 # template must be in a cif format for AF3, converting if given as a pdb
 # also: template structure must be filtered to a single chain.
 if '.cif' in args.structure[0]:
@@ -83,8 +85,8 @@ elif '.pdb' in args.structure[0]:
   
 else: 
   raise ValueError("input structure format must be cif or pdb")
-
-
+"""
+target_template=args.target_template
 # prepare target specific json input file
 if ternary:
   target_json=prep_no_msa_target_input_json(gen_template_path=template_json_path, outdir=outdir, target_id=args.target_id, target_cif=target_template, target_chain_in_cif="A", smiles=smiles, ligand_id=lig_name)
