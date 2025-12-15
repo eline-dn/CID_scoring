@@ -58,10 +58,10 @@ if '.cif' in args.structure[0]:
   format="CIF"
   target_template=args.structure[0]
 elif '.pdb' in args.structure[0]:
-  format='PDB"
+  format="PDB"
   struct=load_PDB(args.structure[0])
-  template_path=f"{outdir}/template_{args.target_id}.cif"
-  target_template=write_cif(template_path)
+  target_template=f"{outdir}/template_{args.target_id}.cif"
+  write_cif(struct,target_template)
 else: 
   raise ValueError("input structure format must be cif or pdb")
 
@@ -86,7 +86,7 @@ for struct in args.structure:
 
 elapsed_time = time.time() - script_start_time
 elapsed_text = f"{'%d hours, %d minutes, %d seconds' % (int(elapsed_time // 3600), int((elapsed_time % 3600) // 60), int(elapsed_time % 60))}"
-n_binder=len(args.pdb)
+n_binder=len(args.structure)
 print(f"Finished AF3 input preparation for {n_binder} complexes. Script execution took: "+elapsed_text)
 
 """

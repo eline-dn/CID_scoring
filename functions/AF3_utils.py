@@ -56,8 +56,9 @@ def prep_no_msa_target_input_json(gen_template_path, outdir, target_id, target_c
               
             entry["protein"]["templates"] = [target_template_dict]
   if (ligand_id is not None) and (smiles is not None):
-    data["sequences"]["ligand"]={"id":ligand_id, 
-                                 "smiles":smiles}
+    dict={"ligand":{"id":ligand_id,
+                                 "smiles":smiles}}
+    data["sequences"].append(dict)
   
   # write modified JSON to a new file
   with open(output_path, "w") as f:

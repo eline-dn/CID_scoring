@@ -13,6 +13,7 @@ json_path=""
 input_dir=""
 output_dir=""
 run_data_pipeline="true"
+num_recycles=3
 
 # Parse input flags
 while [[ $# -gt 0 ]]; do
@@ -35,6 +36,11 @@ while [[ $# -gt 0 ]]; do
     -o|--output)
       output_dir="$2"
       output_dir=$(realpath $output_dir)
+      shift # past argument
+      shift # past value
+      ;;
+    --num_recycles)
+      num_recycles="$2"
       shift # past argument
       shift # past value
       ;;
@@ -70,7 +76,7 @@ if [ ! -z "$input_dir" ]; then
 fi
 OPTIONS="$OPTIONS --output_dir=$output_dir"
 OPTIONS="$OPTIONS --run_data_pipeline=$run_data_pipeline"
-OPTIONS="$OPTIONS --num_recycles $recycles"
+OPTIONS="$OPTIONS --num_recycles $num_recycles"
 
 echo "Running AlphaFold with the following options:"
 echo $OPTIONS
