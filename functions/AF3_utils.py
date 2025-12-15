@@ -45,11 +45,11 @@ def prep_no_msa_target_input_json(gen_template_path, outdir, target_id, target_c
       if "protein" in entry:
           if entry["protein"]["id"] == ["A"]:
             struct=load_CIF(target_cif)
-            target_seq=chain2seq(struct, chain_id=target_chain_in_cif, make_str=True):
+            target_seq=chain2seq(struct, chain_id=target_chain_in_cif, make_str=True)
             entry["protein"]["sequence"] = target_seq
             target_len=chain2length(struct,  chain_id=target_chain_in_cif)
             # we assume every template has target in chain A, correctly numbered and same length as known seq
-            Indices=(list(range(target_len))
+            Indices=list(range(target_len))
             target_template_dict={"mmcifPath":target_cif,
                                     "queryIndices":Indices ,
                                     "templateIndices":Indices}
@@ -57,7 +57,7 @@ def prep_no_msa_target_input_json(gen_template_path, outdir, target_id, target_c
             entry["protein"]["templates"] = [target_template_dict]
   if (ligand_id is not None) and (smiles is not None):
     data["sequences"]["ligand"]={"id":ligand_id, 
-                                 "smiles"=smiles}
+                                 "smiles":smiles}
   
   # write modified JSON to a new file
   with open(output_path, "w") as f:

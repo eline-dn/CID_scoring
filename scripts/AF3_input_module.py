@@ -5,6 +5,12 @@ extract confidence metrics
 compute rmsds) in part 2
 """
 
+# load dependencies
+import os,  sys
+import numpy as np
+import argparse
+import pandas as pd
+import time
 
 # import AF3_utils.py
 SCRIPT_PATH = os.path.dirname(__file__)
@@ -12,12 +18,6 @@ sys.path.append(f"{SCRIPT_PATH}/../functions")
 from AF3_utils import *
 from biopython_utils import *
 
-# load dependancies
-import os,  sys
-import numpy as np
-import argparse
-pandas as pd
-import time
 
 # general template json file:
 template_json_path=f"{SCRIPT_PATH}/no_msa_template.json"
