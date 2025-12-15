@@ -80,6 +80,8 @@ outdir: output folder for csv file"
 
 prefix: prefix for csv file
 
+NB: run with different csv paths/prefix for binary vs ternary complex bc of column name mismatch!
+
 
 ## Compute DockQ (https://github.com/DigBioLab/de_novo_binder_scoring/tree/main)
 ```
