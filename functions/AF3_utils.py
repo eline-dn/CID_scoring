@@ -79,15 +79,15 @@ def extract_af3_confidence_metrics(confidence):
   conf=confidence.replace("_summary", "")
   with open(conf,"r") as f:
       conf=json.load(f)
-  data["atom_plddt"]=conf["atom_plddts"]
-  data["mean_plddt"]=sum(data["atom_plddt"]) / len(data["atom_plddt"])+0.00001
-  data["atom_chain_ids"]=conf["atom_chain_ids"]
+  #data["atom_plddt"]=conf["atom_plddts"]
+  data["mean_plddt"]=sum(conf["atom_plddts"]) / len(conf["atom_plddts"])+0.00001
+  #data["atom_chain_ids"]=conf["atom_chain_ids"]
   data["chain_plddt"]={}
   chain_atom_len={}
-  for i,chain_id in enumerate(data["atom_chain_ids"]):
+  for i,chain_id in enumerate(conf["atom_chain_ids"]):
       if chain_id not in data["chain_plddt"].keys():
           data["chain_plddt"][chain_id]=0
-      data["chain_plddt"][chain_id]+=data["atom_plddt"][i]
+      data["chain_plddt"][chain_id]+=conf["atom_plddts"][i]
       if chain_id not in chain_atom_len.keys():
           chain_atom_len[chain_id]=0
       chain_atom_len[chain_id]+=1
