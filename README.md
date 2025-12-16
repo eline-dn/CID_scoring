@@ -104,6 +104,17 @@ input-pdbs: Path to REQUIRED reference/input PDBs (binder_id.pdb).
 
 folder: Repeatable. Format "name:path". Example: --folder af3:/path/to/AF3/pdbs
 
+Test 2:
+```
+python ./scripts/pDockQ.py --native-pdbs ./refpdbs/* --model-pdbs ./af3_out/n9_l106_s297124_mpnn1_model1_model0/* --out-csv ./pdockQ2.csv
+```
+
+with a ternary complex:
+```
+python ./scripts/pDockQ.py --native-pdbs ./af3_ter_out.pdb --model-pdbs ./af3_out/af3_ter_out/af3_ter_out_model.pdb --out-csv ./pdockQ2ter.csv
+```
+
+
 
 ## Compute ipSAE and interface confidence metrics (https://github.com/DigBioLab/de_novo_binder_scoring/tree/main)
 ```
