@@ -43,8 +43,8 @@ def parse_args():
     p = argparse.ArgumentParser(
         description="Read a run CSV (binder_id column), compute ipSAE metrics, and append columns in-place"
     )
-    p.add_argument("--run-csv", required=True, help="CSV with a 'binder_id' column; will be overwritten with appended metrics")
-
+    p.add_argument("--run-csv", required=False, default=None, help="CSV with a 'binder_id' column; will be overwritten with appended metrics")
+    p.add_argument("--id_list", nargs="+", type=str, help="list of binder id's, replacing the run-csv arg")
     # Any subset is allowed; if none given, error
     p.add_argument("--boltz-dir", help="Path to BOLTZ1 outputs directory (expects .../predictions)")
     p.add_argument("--af3-dir", help="Path to AF3 outputs directory")
@@ -488,13 +488,14 @@ def process_binder(bid: str, index, pae_cutoff: float, dist_cutoff: float, ipsae
 def main():
     global args
     args = parse_args()
-
-    run_csv_path = Path(args.run_csv)
-    run_df = pd.read_csv(run_csv_path, dtype=str)
-    if 'binder_id' not in run_df.columns:
-        raise SystemExit("--run-csv must contain a 'binder_id' column")
-    binder_ids = [str(x).strip() for x in run_df['binder_id'].tolist() if str(x).strip()]
-
+    if args.run_csv is not None:
+      run_csv_path = Path(args.run_csv)
+      run_df = pd.read_csv(run_csv_path, dtype=str)
+      if 'binder_id' not in run_df.columns:
+          raise SystemExit("--run-csv must contain a 'binder_id' column")
+      binder_ids = [str(x).strip() for x in run_df['binder_id'].tolist() if str(x).strip()]
+    else:
+      binder_ids = [str(x).strip() for x in args.id_list if str(x).strip()]
     # Determine sources: explicit or inferred from provided dirs
     sources: List[str] = args.sources if args.sources else []
     
