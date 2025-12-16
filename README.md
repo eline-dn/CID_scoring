@@ -113,17 +113,16 @@ with a ternary complex:
 ```
 python ./scripts/pDockQ.py --native-pdbs ./af3_ter_out.pdb --model-pdbs ./af3_out/af3_ter_out/af3_ter_out_model.pdb --out-csv ./pdockQ2ter.csv --ternary
 ```
-# see https://github.com/wallnerlab/DockQ/issues/33 and https://github.com/wallnerlab/DockQ/blob/master/src/DockQ/DockQ.py
+see https://github.com/wallnerlab/DockQ/issues/33 and https://github.com/wallnerlab/DockQ/blob/master/src/DockQ/DockQ.py
 
 
 
 ## Compute ipSAE and interface confidence metrics (https://github.com/DigBioLab/de_novo_binder_scoring/tree/main)
 ```
-python ./scripts/run_ipsae_batch.py \
-  --run-csv ./example_output/run.csv \
-  --out-csv ./example_output/ipsae_and_ipae.csv \
-  --af3-dir ./example_output/AF3 \
-  --ipsae-script-path ./functions/ipsae_w_ipae.py
+python ./scripts/run_ipsae_batch.py --id_list af3_ter_out --out-csv ./ipsae_and_ipae3.csv --af3-dir ./af3_out/af3_ter_out/ --ipsae-script-path ./functions/ipsae_w_ipae.py --specific-chainpair-ipsae "A:B,B:A"  --pae-cutoff 2 --overwrite-ipsae
+
+python ./scripts/run_ipsae_batch.py --id_list n9_l106_s297124_mpnn1_model1_model0 --out-csv ./ipsae_and_ipae2.csv --af3-dir ./af3_out/n9_l106_s297124_mpnn1_model1_model0/ --ipsae-script-path ./functions/ipsae_w_ipae.py --specific-chainpair-ipsae "A:B,B:A"
+
 
 ```
 There is a possibility to extract specific chain pair ipSAE values: use the argument
