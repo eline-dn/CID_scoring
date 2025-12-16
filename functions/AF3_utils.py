@@ -95,6 +95,7 @@ def extract_af3_confidence_metrics(confidence, lig_name=None):
   for chain, plddt in data["chain_plddt"].items():
       data["chain_plddt"][chain]=plddt/chain_atom_len[chain] # = mean atom plddt per chain
   ## split col chain_plddt into binder_plddt, ligand_plddt; target_plddt
+  """
   data["chain_plddt"] = data["chain_plddt"].apply(
     lambda x: ast.literal_eval(x) if isinstance(x, str) else x
   )
@@ -102,6 +103,11 @@ def extract_af3_confidence_metrics(confidence, lig_name=None):
   if lig_name is not None:
     data["ligand_plddt"] = data["chain_plddt"].apply(lambda d: d.get(lig_name))
   data["target_plddt"] = data["chain_plddt"].apply(lambda d: d.get("A"))
+  """
+  data["binder_plddt"] = data["chain_plddt"].get("B"))
+  if lig_name is not None:
+    data["ligand_plddt"] = data["chain_plddt"].get(lig_name))
+  data["target_plddt"] = data["chain_plddt"].get("A"))
   del data["chain_plddt"]
   # same for chain_iptm and chain_ptm
   #for 
