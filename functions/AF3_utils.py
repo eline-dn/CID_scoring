@@ -109,7 +109,38 @@ def extract_af3_confidence_metrics(confidence, lig_name=None):
     data["ligand_plddt"] = data["chain_plddt"].get(lig_name)
   data["target_plddt"] = data["chain_plddt"].get("A")
   del data["chain_plddt"]
-  # same for chain_iptm and chain_ptm
-  #for 
+  
+  # same for chain_iptm 
+  data["target_iptm"] = data["chain_iptm"][0]
+  if lig_name is not None:
+    data["ligand_iptm"] = data["chain_iptm"][-1]
+  data["binder_iptm"] = data["chain_iptm"][1]
+  del data["chain_iptm"]
+  
+  #and chain_ptm:
+  data["target_ptm"] = data["chain_ptm"][0]
+  if lig_name is not None:
+    data["ligand_ptm"] = data["chain_ptm"][-1]
+  data["binder_ptm"] = data["chain_ptm"][1]
+  del data["chain_ptm"]
+  # deal with the chain_pair_iptm matrix (symetrical so we only need 6 components)
+  data["AA_pair_iptm"]=data["chain_pair_iptm"][0][0]
+  data["AB_pair_iptm"]=data["chain_pair_iptm"][0][1]
+  data["BB_pair_iptm"]=data["chain_pair_iptm"][1][1]
+  if lig_name is not None: # if we are dealing with a ternary complex
+    data["AL_pair_iptm"]=data["chain_pair_iptm"][0][-1]
+    data["BL_pair_iptm"]=data["chain_pair_iptm"][1][-1]
+    data["LL_pair_iptm"]=data["chain_pair_iptm"][-1][-1]  
+  del data["chain_pair_iptm"]
+  # deal with chain_pair_pae_min, not symetrical but we don't really care about the diagonal components
+  data["AB_pair_pae_min"]=data["chain_pair_pae_min"][0][1]
+  data["BA_pair_pae_min"]=data["chain_pair_pae_min"][1][0]
+  if lig_name is not None:
+    data["AL_pair_pae_min"]=data["chain_pair_pae_min"][0][-1]
+    data["LA_pair_pae_min"]=data["chain_pair_pae_min"][-1][0]
+    data["BL_pair_pae_min"]=data["chain_pair_pae_min"][1][-1]
+    data["LB_pair_pae_min"]=data["chain_pair_pae_min"][-1][1]
+  del data["chain_pair_pae_min"]
+    
   return(data)
 
