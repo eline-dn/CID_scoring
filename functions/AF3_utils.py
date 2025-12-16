@@ -9,6 +9,7 @@ import time
 import importlib
 from shutil import copy2
 import json
+import ast
 # add utils to path
 from biopython_utils import *
 
@@ -66,7 +67,7 @@ def prep_no_msa_target_input_json(gen_template_path, outdir, target_id, target_c
   print(f"json input file template saved in {output_path}")
   return(output_path)
 
-def extract_af3_confidence_metrics(confidence):
+def extract_af3_confidence_metrics(confidence, lig_name=None):
   # from confidence *_summary_confidences.json file
   #load JSON
   with open(confidence, "r") as f:
@@ -93,5 +94,16 @@ def extract_af3_confidence_metrics(confidence):
       chain_atom_len[chain_id]+=1
   for chain, plddt in data["chain_plddt"].items():
       data["chain_plddt"][chain]=plddt/chain_atom_len[chain] # = mean atom plddt per chain
+  ## split col chain_plddt into binder_plddt, ligand_plddt; target_plddt
+  data["chain_plddt"] = data["chain_plddt"].apply(
+    lambda x: ast.literal_eval(x) if isinstance(x, str) else x
+  )
+  data["binder_plddt"] = data["chain_plddt"].apply(lambda d: d.get("B"))
+  if lig_name is not None:
+    data["ligand_plddt"] = data["chain_plddt"].apply(lambda d: d.get(lig_name))
+  data["target_plddt"] = data["chain_plddt"].apply(lambda d: d.get("A"))
+  del data["chain_plddt"]
+  # same for chain_iptm and chain_ptm
+  #for 
   return(data)
 
