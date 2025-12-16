@@ -111,8 +111,9 @@ python ./scripts/pDockQ.py --native-pdbs ./refpdbs/* --model-pdbs ./af3_out/n9_l
 
 with a ternary complex:
 ```
-python ./scripts/pDockQ.py --native-pdbs ./af3_ter_out.pdb --model-pdbs ./af3_out/af3_ter_out/af3_ter_out_model.pdb --out-csv ./pdockQ2ter.csv
+python ./scripts/pDockQ.py --native-pdbs ./af3_ter_out.pdb --model-pdbs ./af3_out/af3_ter_out/af3_ter_out_model.pdb --out-csv ./pdockQ2ter.csv --ternary
 ```
+# see https://github.com/wallnerlab/DockQ/issues/33 and https://github.com/wallnerlab/DockQ/blob/master/src/DockQ/DockQ.py
 
 
 
