@@ -57,12 +57,12 @@ def score_ternary(native_pdb, model_pdb):
     scores = {}
 
     # A–L
-    scores["ter_dockq_A_L"] = run_dockq(
+    #scores["ter_dockq_A_L"] = run_dockq(
         model, native, {"A": "A", "L": "L"}
     )
 
     # B–L
-    scores["ter_dockq_B_L"] = run_dockq(
+    #scores["ter_dockq_B_L"] = run_dockq(
         model, native, {"B": "B", "L": "L"}
     )
     # A-B
