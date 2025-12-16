@@ -64,7 +64,7 @@ for dir in args.AF3_outs:
   ref= load_PDB(ref_pdb_file) 
   cif=os.path.join(dir,f"{id}_model.cif")
   # chain structure
-  mapping={"A":"A", "B":"B", "L":args.lig_name}
+  mapping={"A":"A", "B":"B", "L":"L"}
   # compute RMSDs
   if ternary:
     movpdb=af3_out_2_norm_pdb(cif, lig=True, lig_name=args.lig_name) #sanitize structure file 
