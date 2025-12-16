@@ -61,18 +61,17 @@ for dir in args.AF3_outs:
     if id in pdb:
       ref_pdb_file=pdb
   # load the structures:
-  ref= load_PDB(ref_pdb_file)
-  # TO DO: sanitize structure fiel with
+  ref= load_PDB(ref_pdb_file) 
   cif=os.path.join(dir,f"{id}_model.cif")
   # chain structure
   mapping={"A":"A", "B":"B", "L":args.lig_name}
   # compute RMSDs
   if ternary:
-    movpdb=af3_out_2_norm_pdb(cif, lig=True, lig_name=args.lig_name)
+    movpdb=af3_out_2_norm_pdb(cif, lig=True, lig_name=args.lig_name) #sanitize structure file 
     mov= load_PDB(movpdb)
     rmsds=ternary_RMSDs(ref, mov, mapping)
   else:
-    movpdb=af3_out_2_norm_pdb(cif, lig=False, lig_name=None)
+    movpdb=af3_out_2_norm_pdb(cif, lig=False, lig_name=None) #sanitize structure file 
     mov= load_PDB(movpdb)
     rmsds=binary_RMSDs(ref, mov, mapping)
   # add a prefix on the metrics names:
