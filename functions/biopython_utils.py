@@ -311,7 +311,7 @@ def af3_out_2_norm_pdb(cif_path, lig=True, lig_name=None):
 	first_model_id = first_model.id
 	if lig: # if a ligand is present
 		if lig_name is None:
-			raise ValueError("Specify lig_name argument if the cif file contains a ligand")
+			raise ValueError("Specify lig_name argument if the cif file contains a ligand; E.g. give ligand chain name in af3 output. Sanitization function will replace lig_name chain with 'L' chain, and 'LIG_lig_name' resname with lig_name ")
 		change_chain_id(structure,first_model_id, lig_name, "L", "LIG", lig_name) # replace chain id "FUN" with "L" and ligand's resname with its name and not e.g. LIG_FUN
 
 	write_pdb(structure, pdb_path)
