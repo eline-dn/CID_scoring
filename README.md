@@ -97,12 +97,13 @@ NB: run with different csv paths/prefix for binary vs ternary complex bc of colu
 
 ## Compute DockQ (https://github.com/DigBioLab/de_novo_binder_scoring/tree/main)
 ```
-python ./scripts/dockQ.py \
-  --run-csv ./example_output/run.csv \
-  --input-pdbs ./example_output/input_pdbs/ \
-  --folder af3:./example_output/AF3/pdbs/ \
-  --out-csv ./example_output/dockQ.csv 
+python ./scripts/dockQ.py --input-pdbs ./refpdbs/ --folder af3:./af3_out/n9_l106_s297124_mpnn1_model1_model0/ --out-csv ./dockQ.csv --verbose
 ```
+
+input-pdbs: Path to REQUIRED reference/input PDBs (binder_id.pdb).
+
+folder: Repeatable. Format "name:path". Example: --folder af3:/path/to/AF3/pdbs
+
 
 ## Compute ipSAE and interface confidence metrics (https://github.com/DigBioLab/de_novo_binder_scoring/tree/main)
 ```
