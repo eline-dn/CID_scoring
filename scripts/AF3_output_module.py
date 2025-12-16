@@ -55,7 +55,6 @@ for dir in args.AF3_outs:
   id=dir.split("/")[-1]
   # extract confidence metrics:
   confidence=dir + "/" +id+"_summary_confidences.json"
-  data=extract_af3_confidence_metrics(confidence)
   # find reference:
   for pdb in args.ref_pdb:
     if id in pdb:
@@ -67,10 +66,12 @@ for dir in args.AF3_outs:
   mapping={"A":"A", "B":"B", "L":"L"}
   # compute RMSDs
   if ternary:
+    data=extract_af3_confidence_metrics(confidence, lig_name=lig_name)
     movpdb=af3_out_2_norm_pdb(cif, lig=True, lig_name=args.lig_name) #sanitize structure file 
     mov= load_PDB(movpdb)
     rmsds=ternary_RMSDs(ref, mov, mapping)
   else:
+    data=extract_af3_confidence_metrics(confidence)
     movpdb=af3_out_2_norm_pdb(cif, lig=False, lig_name=None) #sanitize structure file 
     mov= load_PDB(movpdb)
     rmsds=binary_RMSDs(ref, mov, mapping)
