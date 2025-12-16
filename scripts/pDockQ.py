@@ -32,10 +32,13 @@ run_on_all_native_interfaces(model, native, chain_map=chain_map)
 """
 
 
-def run_dockq(model, native, chain_map):
-    res, total = run_on_all_native_interfaces(
-        model, native, chain_map=chain_map
-    )
+def run_dockq(model, native, chain_map, small_molecule=False):
+    if small_molecule:
+        res, total = run_on_all_native_interfaces(
+        model, native, chain_map=chain_map,small_molecule=True )
+    else:
+        res, total = run_on_all_native_interfaces(
+        model, native, chain_map=chain_map)
     return total
 
 
@@ -57,12 +60,12 @@ def score_ternary(native_pdb, model_pdb):
 
     # A–L
     scores["ter_dockq_A_L"] = run_dockq(
-        model, native, {"A": "A", "L": "L"}
+        model, native, {"A": "A", "L": "L"}, small_molecule=True
     )
 
     # B–L
     scores["ter_dockq_B_L"] = run_dockq(
-        model, native, {"B": "B", "L": "L"}
+        model, native, {"B": "B", "L": "L"}, small_molecule=True
     )
     # A-B
     scores["ter_dockq_A_B"] = run_dockq(
