@@ -79,8 +79,10 @@ for dir in args.AF3_outs:
   rmsds = {f"{metrics_prefix}{k}": v for k, v in rmsds.items()}
   # add the id:
   data["id"]=id
+  data={**data, **rmsds}
+  print(data)
   # save To csv
-  df=pd.DataFrame(data={**data, **rmsds}, index=[data["id"]])
+  df=pd.DataFrame(data=data, index=[data["id"]])
   csv_path=f"{outdir}/{prefix}_AF3_{metrics_prefix}reprediction_metrics.csv"
   df.to_csv(csv_path, mode="a", index=False, header=not pd.io.common.file_exists(csv_path))
     
