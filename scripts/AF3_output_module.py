@@ -83,11 +83,10 @@ for dir in args.AF3_outs:
   data={**data, **rmsds}
   print(data)
   # save To csv
-  df=pd.DataFrame(data=data, index=[data["id"]])
+  # df=pd.DataFrame(data=data, index=[data["id"]])
+  df= pd.DataFrame([data])
   csv_path=f"{outdir}/{prefix}_AF3_{metrics_prefix}reprediction_metrics.csv"
   df.to_csv(csv_path, mode="a", index=False, header=not pd.io.common.file_exists(csv_path))
-    
-  
 
 
 elapsed_time = time.time() - script_start_time

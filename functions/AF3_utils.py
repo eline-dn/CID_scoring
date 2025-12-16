@@ -104,10 +104,10 @@ def extract_af3_confidence_metrics(confidence, lig_name=None):
     data["ligand_plddt"] = data["chain_plddt"].apply(lambda d: d.get(lig_name))
   data["target_plddt"] = data["chain_plddt"].apply(lambda d: d.get("A"))
   """
-  data["binder_plddt"] = data["chain_plddt"].get("B"))
+  data["binder_plddt"] = data["chain_plddt"].get("B")
   if lig_name is not None:
-    data["ligand_plddt"] = data["chain_plddt"].get(lig_name))
-  data["target_plddt"] = data["chain_plddt"].get("A"))
+    data["ligand_plddt"] = data["chain_plddt"].get(lig_name)
+  data["target_plddt"] = data["chain_plddt"].get("A")
   del data["chain_plddt"]
   # same for chain_iptm and chain_ptm
   #for 
