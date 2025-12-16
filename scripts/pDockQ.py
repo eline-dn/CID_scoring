@@ -56,21 +56,24 @@ def score_ternary(native_pdb, model_pdb):
     scores = {}
 
     # A–L
-    scores["dockq_A_L"] = run_dockq(
+    scores["ter_dockq_A_L"] = run_dockq(
         model, native, {"A": "A", "L": "L"}
     )
 
     # B–L
-    scores["dockq_B_L"] = run_dockq(
+    scores["ter_dockq_B_L"] = run_dockq(
         model, native, {"B": "B", "L": "L"}
     )
-
+    # A-B
+    scores["ter_dockq_A_B"] = run_dockq(
+        model, native, {"A": "A","B": "B"}
+    )
     # (A+L)–B
-    native_AL = merge_chains_to_single(native, ["A", "L"], "X")
-    model_AL  = merge_chains_to_single(model,  ["A", "L"], "X")
+    native_AL = merge_chains_to_single(native, ["A", "L"])
+    model_AL  = merge_chains_to_single(model,  ["A", "L"])
 
-    scores["dockq_AL_B"] = run_dockq(
-        model_AL, native_AL, {"X": "X", "B": "B"}
+    scores["ter_dockq_AL_B"] = run_dockq(
+        model_AL, native_AL, {"AL": "AL", "B": "B"}
     )
 
     return scores
@@ -135,7 +138,7 @@ def main():
             scores = score_ternary(native_pdb, model_pdb)
             row.update(scores)
         else:
-            row["dockq_A_B"] = score_binary(native_pdb, model_pdb)
+            row["bin_dockq_A_B"] = score_binary(native_pdb, model_pdb)
 
         rows.append(row)
 
