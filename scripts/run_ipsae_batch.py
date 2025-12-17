@@ -1,3 +1,4 @@
+from __future__ import annotations
 """ from this repo: https://github.com/DigBioLab/de_novo_binder_scoring/blob/main/scripts/run_ipsae_batch.py """
 #!/usr/bin/env python3
 """
@@ -22,7 +23,7 @@ Example:
     --pae-cutoff 10 --dist-cutoff 10
 
 """
-from __future__ import annotations
+#from __future__ import annotations
 
 import os
 import argparse
