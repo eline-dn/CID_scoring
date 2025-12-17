@@ -73,14 +73,15 @@ for dir in args.AF3_outs:
   ref= load_PDB(ref_pdb_file) 
   cif=os.path.join(dir,f"{id}_model.cif")
   # chain structure
-  mapping={"A":"A", "B":"B", "L":"L"}
   # compute RMSDs
   if ternary:
+    mapping={"A":"A", "B":"B", "L":"L"}
     data=extract_af3_confidence_metrics(confidence, lig_name=lig_name)
     movpdb=af3_out_2_norm_pdb(cif, lig=True, lig_name=args.lig_name) #sanitize structure file 
     mov= load_PDB(movpdb)
     rmsds=ternary_RMSDs(ref, mov, mapping)
   else:
+    mapping={"A":"A", "B":"B"}
     data=extract_af3_confidence_metrics(confidence)
     movpdb=af3_out_2_norm_pdb(cif, lig=False, lig_name=None) #sanitize structure file 
     mov= load_PDB(movpdb)
