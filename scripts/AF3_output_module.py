@@ -11,6 +11,7 @@ import numpy as np
 import argparse
 import pandas as pd
 import time
+import glob
 
 # import AF3_utils.py
 SCRIPT_PATH = os.path.dirname(__file__)
@@ -53,12 +54,21 @@ else:
 
 for dir in args.AF3_outs:
   id=dir.split("/")[-1]
+  print("id from dir:",id)
   # extract confidence metrics:
   confidence=dir + "/" +id+"_summary_confidences.json"
   # find reference:
-  for pdb in args.ref_pdb:
+  ref_pdb_file= next((p for p in args.ref_pdb if id in p), None)
+  if ref_pdb_file is None:
+    print(f"no reference file for id {id}, continuing")
+    continue # if no match is found between af3 outputs and reference files, skip
+  """for pdb in args.ref_pdb:
+    print("ref pdb:",pdb)
     if id in pdb:
       ref_pdb_file=pdb
+    else:
+      print(f"no reference file for id {id}, continuing")
+      continue # if no match is found between af3 outputs and reference files, skip"""
   # load the structures:
   ref= load_PDB(ref_pdb_file) 
   cif=os.path.join(dir,f"{id}_model.cif")
