@@ -3,45 +3,112 @@ import pandas as pd
 import xml.etree.ElementTree as ET
 import glob
 import os
-df=pd.read_csv("selected_scores.csv")
-for xml_file in glob.glob(f"*_report.xml"):
-  id=xml_file.replace("_report.xml", "")
+
+#helper function:
+def get_n_hbonds(xml_file, ternary=False): # between binder and target if no ligand and between binder and ligand if ligand is in complex file
   tree = ET.parse(xml_file)
   root = tree.getroot()
   countB=0
   for hb in root.iter('hydrogen_bond'):
-    print(hb.attrib, hb.tag)
-    ch=hb.find('reschain').text
-    #print(ch)
-    if ch=="B":
-      countB+=1
-  #df=pd.df({"design":design, "hb_count"=countB})
-  id_index=df['id']==id
-  df.loc[id_index, "hb_count"] = countB
-  #df.at[id_index, "hb_count"]=countB
-  #header=os.path.exists("hbonds_counts.csv")
-df_clean=df.drop_duplicates(subset="binder_sequence", keep="first")
-df_clean.to_csv("selected_scores.csv", index=False)
+    #print(hb.attrib, hb.tag)
+    if ternary==False: # scoring a binary complex
+      ch1=hb.find('reschain').text
+      ch2=hb.find('reschain_lig').text
+      #print(ch)
+      if ch1=="A" and ch2=="B":
+        countB+=1
+    else: # if ternary
+      ch1=hb.find('reschain').text
+      if ch1=="B":
+        countB+=1
+  return(countB)
+    
+def get_n_salt_bridges(xml_file, ternary=False):
+  tree = ET.parse(xml_file)
+  root = tree.getroot()
+  countB=0
+  for hb in root.iter('salt_bridge'):
+    #print(hb.attrib, hb.tag)
+    if ternary==False: # scoring a binary complex
+      ch1=hb.find('reschain').text
+      ch2=hb.find('reschain_lig').text
+      #print(ch)
+      if ch1=="A" and ch2=="B":
+        countB+=1
+    else: # if ternary
+      """ch1=hb.find('reschain').text
+      if ch1=="B":
+        countB+=1"""
+  return(countB) 
 
-subset = df_clean[df_clean["hb_count"] >= 1].sort_values(by="sc", ascending=False)
-subset.to_csv("top_hb_scores.csv")
+def get_n_pi_stacks(xml_file, ternary=False):
+  tree = ET.parse(xml_file)
+  root = tree.getroot()
+  countB=0
+  for hb in root.iter('pi_stack'):
+    #print(hb.attrib, hb.tag)
+    if ternary==False: # scoring a binary complex
+      ch1=hb.find('reschain').text
+      ch2=hb.find('reschain_lig').text
+      #print(ch)
+      if ch1=="A" and ch2=="B":
+        countB+=1
+    else: # if ternary
+      """ch1=hb.find('reschain').text
+      if ch1=="B":
+        countB+=1"""
+  return(countB) 
 
-import shutil
+def get_n_hydrophobic_interactions(xml_file, ternary=False):
+  tree = ET.parse(xml_file)
+  root = tree.getroot()
+  countB=0
+  for hb in root.iter('hydrophobic_interaction'):
+    #print(hb.attrib, hb.tag)
+    if ternary==False: # scoring a binary complex
+      ch1=hb.find('reschain').text
+      ch2=hb.find('reschain_lig').text
+      #print(ch)
+      if ch1=="A" and ch2=="B":
+        countB+=1
+    else: # if ternary
+      """ch1=hb.find('reschain').text
+      if ch1=="B":
+        countB+=1"""
+  return(countB)
 
-df_clean=pd.read_csv("selected_scores.csv")
-os.makedirs("sc_cutoff", exist_ok=True)
-subset = df_clean[df_clean["sc"] >= 0.6].sort_values(by="sc", ascending=False)
-for id in subset["id"]:
-  cif=id + ".cif"
-  shutil.copy(cif, os.path.join("sc_cutoff",cif))
-subset.to_csv("sc_cutoff/scores.csv")
-
-
-os.makedirs("hb_cutoff", exist_ok=True)
-subset = df_clean[(df_clean["hb_count"] >= 1) & (df_clean["sc"] >= 0.6)].sort_values(by="sc", ascending=False)
-for id in subset["id"]:
-  cif=id + ".cif"
-  shutil.copy(cif, os.path.join("hb_cutoff",cif))
-subset.to_csv("hb_cutoff/scores.csv")
-
+script_start_time = time.time()
+###----
+# parser
+parser = argparse.ArgumentParser()
+parser.add_argument("--xml_files", nargs="+", type=str, help="List of plip xml output files ") # list of pdb files 
+parser.add_argument("--ternary", action="store_true", help="set to true if plip was exectuted on ternary complexes")
+parser.add_argument("--outdir", required=False, type=str, help="output folder for csv file")
+parser.add_argument("--prefix", required=False, type=str, help="prefix for csv file")
+args = parser.parse_args()
+outdir=args.outdir
+prefix=args.prefix
+ternary=args.ternary
+# find interactions
+for xml_file in args.xml_files:
+  id=xml_file.replace("_model_report.xml", "")
   
+  data={}
+  if ternary:
+    prefix="BL_"
+  else:
+    prefix="AB_"
+  data[f"{prefix}hbonds"]=get_n_hbonds(xml_file, ternary)
+  data[f"{prefix}salt_bridges"]=get_n_salt_bridges(xml_file, ternary)
+  data[f"{prefix}pi_stacks"]=get_n_pi_stacks(xml_file, ternary)
+  data[f"{prefix}hydrophobic_interactions"]=get_n_hydrophobic_interactions(xml_file, ternary)
+  data["id"]=id
+  df=pd.DataFrame(data=data, index=[data["id"]])
+  csv_path=f"{outdir}/{prefix}_plip_interactions.csv"
+  df.to_csv(csv_path, mode="a", index=False, header=not pd.io.common.file_exists(csv_path))
+
+
+elapsed_time = time.time() - script_start_time
+elapsed_text = f"{'%d hours, %d minutes, %d seconds' % (int(elapsed_time // 3600), int((elapsed_time % 3600) // 60), int(elapsed_time % 60))}"
+n_binder=len(args.xml_files)
+print(f"Finished Plip profiling scoring for {n_binder} complexes. Script execution took: "+elapsed_text)
