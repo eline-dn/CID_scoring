@@ -91,7 +91,8 @@ prefix=args.prefix
 ternary=args.ternary
 # find interactions
 for xml_file in args.xml_files:
-  id=xml_file.replace("_model_report.xml", "")
+  xml_name=os.path.basename(xml_file)
+  id=xml_name.replace("_model_report.xml", "")
   
   data={}
   if ternary:
