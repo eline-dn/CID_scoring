@@ -2,7 +2,7 @@
 import pandas as pd
 import xml.etree.ElementTree as ET
 import glob
-import os
+import os, time
 
 #helper function:
 def get_n_hbonds(xml_file, ternary=False): # between binder and target if no ligand and between binder and ligand if ligand is in complex file
