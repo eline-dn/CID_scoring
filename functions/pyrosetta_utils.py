@@ -192,7 +192,7 @@ def get_atomic_contact_data(pose):
 
 # third option:
 def count_atomic_contacts(pdb, chain1, chain2, delta=0.2):
-    VdWradii={"N":1.55, "C":1.70, "O":1.52, "H":1.20,"S":1.80, "CL": 1.75}
+    #VdWradii={"N":1.55, "C":1.70, "O":1.52, "H":1.20,"S":1.80, "CL": 1.75}
     # Parse the PDB file
     parser = PDBParser(QUIET=True)
     structure = parser.get_structure("complex", pdb)
@@ -212,7 +212,8 @@ def count_atomic_contacts(pdb, chain1, chain2, delta=0.2):
     atom_distance_cutoff=1.6 *2 + delta #appreoxiamtion to reproduce neosurf distance
     # Query the tree for pairs of atoms within the distance cutoff
     pairs = binder_tree.query_ball_tree(target_tree, atom_distance_cutoff)
-    return(len(pairs))
+    n_contacts = sum(len(lst) for lst in pairs)
+    return(n_contacts)
 
 # find hotspot residues:
 # identify interacting residues at the binder interface
