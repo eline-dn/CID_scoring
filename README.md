@@ -119,9 +119,8 @@ see https://github.com/wallnerlab/DockQ/issues/33 and https://github.com/wallner
 
 ## Compute ipSAE and interface confidence metrics (https://github.com/DigBioLab/de_novo_binder_scoring/tree/main)
 ```
-python ./scripts/run_ipsae_batch.py --id_list af3_ter_out --out-csv ./ipsae_and_ipae3.csv --af3-dir ./af3_out/af3_ter_out/ --ipsae-script-path ./functions/ipsae_w_ipae.py --specific-chainpair-ipsae "A:B,B:A"  --pae-cutoff 2 --overwrite-ipsae
+python ./scripts/run_ipsae_batch.py --id_list af3_ter_out --out-csv ./ipsae_and_ipae3.csv --af3-dir ./af3_out/af3_ter_out/ --ipsae-script-path ./functions/ipsae_w_ipae.py --specific-chainpair-ipsae "A:B,B:A"  --pae-cutoff 10 --overwrite-ipsae --dist-cutoff 12 
 
-python ./scripts/run_ipsae_batch.py --id_list n9_l106_s297124_mpnn1_model1_model0 --out-csv ./ipsae_and_ipae2.csv --af3-dir ./af3_out/n9_l106_s297124_mpnn1_model1_model0/ --ipsae-script-path ./functions/ipsae_w_ipae.py --specific-chainpair-ipsae "A:B,B:A"
 
 
 ```
