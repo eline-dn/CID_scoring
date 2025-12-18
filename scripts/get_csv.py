@@ -12,9 +12,15 @@ from pathlib import Path
 import pandas as pd
 import re
 
+import argparse
+parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+parser.add_argument('--base_folder', type=str, required=True, help=' Target+ ligand complex output folder')
+args = parser.parse_args()
+
+
 # --- CONFIG ---
 # Path to the top-level output folder containing subfolders
-base_folder = Path("path_to_pipeline_output")
+base_folder = Path(args.base_folder)
 # Name of the final merged CSV
 output_file = base_folder / "metrics.csv"
 
