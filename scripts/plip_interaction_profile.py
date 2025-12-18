@@ -37,9 +37,9 @@ def get_n_salt_bridges(xml_file, ternary=False):
       if ch1=="A" and ch2=="B":
         countB+=1
     else: # if ternary
-      """ch1=hb.find('reschain').text
+      ch1=hb.find('reschain').text
       if ch1=="B":
-        countB+=1"""
+        countB+=1
   return(countB) 
 
 def get_n_pi_stacks(xml_file, ternary=False):
@@ -55,9 +55,9 @@ def get_n_pi_stacks(xml_file, ternary=False):
       if ch1=="A" and ch2=="B":
         countB+=1
     else: # if ternary
-      """ch1=hb.find('reschain').text
+      ch1=hb.find('reschain').text
       if ch1=="B":
-        countB+=1"""
+        countB+=1
   return(countB) 
 
 def get_n_hydrophobic_interactions(xml_file, ternary=False):
@@ -73,9 +73,9 @@ def get_n_hydrophobic_interactions(xml_file, ternary=False):
       if ch1=="A" and ch2=="B":
         countB+=1
     else: # if ternary
-      """ch1=hb.find('reschain').text
+      ch1=hb.find('reschain').text
       if ch1=="B":
-        countB+=1"""
+        countB+=1
   return(countB)
 
 script_start_time = time.time()
