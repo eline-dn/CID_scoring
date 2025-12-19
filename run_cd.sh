@@ -11,14 +11,14 @@
 
 # setup working directory
 SDIR="/work/lpdi/users/eline/CID_scoring/"
-WDIR="/work/lpdi/users/eline/CID/1Z9Y_FUN_p2/"
+WDIR="/work/lpdi/users/eline/CID/1Z9Y_FUN_p2/" # change project dir here
 
 cd "$WDIR"
 
 mkdir output/colabdesign
 
 #-------------- colab design reprediction:----------------------
-BC_env
+BC_env # bc env + module load cuda, etc...
 python "$SDIR/scripts/Colab_Design_module.py" \
   --ref_pdb input/binder_refs/*.pdb \
   --outdir output/colabdesign \
