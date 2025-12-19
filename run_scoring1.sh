@@ -1,7 +1,7 @@
 # setup working directory
 SDIR="/work/lpdi/users/eline/CID_scoring/"
 WDIR="/work/lpdi/users/eline/CID/1Z9Y_FUN" # folder to run the analyses, with an input/binder_refs/ subfolder containing the reference complex to score and a input/target_template.pdb with the target's structure
-
+# see notes on the target template for af3 here: https://github.com/eline-dn/CID_scoring/blob/main/README.md#running-af3-on-binary-or-ternary-complexes
 cd "$WDIR"
 # conda env:
 CONDAPATH="/work/lpdi/users/eline/miniconda3"  # edit this depending on where your Conda environments live
