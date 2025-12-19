@@ -1,16 +1,16 @@
 # setup working directory
 SDIR="/work/lpdi/users/eline/CID_scoring/"
-WDIR="/work/lpdi/users/eline/CID/1Z9Y_FUN"
+WDIR="/work/lpdi/users/eline/CID/1Z9Y_FUN" # folder to run the analyses, with an input/binder_refs/ subfolder containing the reference complex to score and a input/target_template.pdb with the target's structure
 
 cd "$WDIR"
 # conda env:
 CONDAPATH="/work/lpdi/users/eline/miniconda3"  # edit this depending on where your Conda environments live
 # "$CONDAPATH/envs/rosetta_scoring/bin/python"
-/work/lpdi/users/eline/miniconda3/envs/rosetta_scoring/bin/python
+#/work/lpdi/users/eline/miniconda3/envs/rosetta_scoring/bin/python
 
-mkdir input
+#mkdir input
 mkdir output
-mkdir input/binder_refs
+#mkdir input/binder_refs
 mkdir output/colabdesign
 mkdir output/af3binary
 mkdir output/af3binary/json
