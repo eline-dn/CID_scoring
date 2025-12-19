@@ -8,8 +8,11 @@ Change the working directory and conda path in the script then:
 ```
 sbatch run_scoring1.sh
 ```
-then create a ligand params file for pyrosetta and run 
+then create a ligand params file for pyrosetta in the input folder and run 
 ```
+# pyrosetta scoring
+CONDAPATH="/work/lpdi/users/eline/miniconda3"
+"$CONDAPATH/envs/rosetta_scoring/bin/python" "$SDIR/scripts/pyrosetta_module.py" --pdb ./output/af3ternary/*/*_model.pdb --params "$WDIR/input/FUN.params" --lig_name FUN --outdir ./output/af3ternary --prefix af3_ter_pyr
 
 ```
 
