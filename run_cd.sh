@@ -11,14 +11,15 @@
 
 # setup working directory
 SDIR="/work/lpdi/users/eline/CID_scoring/"
-WDIR="/work/lpdi/users/eline/CID/1Z9Y_FUN_p2/" # change project dir here
+WDIR="/work/lpdi/users/eline/CID/1Z9Y_FUN_p1/" # change project dir here
 
 cd "$WDIR"
 
 mkdir output/colabdesign
 
 #-------------- colab design reprediction:----------------------
-BC_env # bc env + module load cuda, etc...
+#BC_env # bc env + module load cuda, etc...
+source /work/lpdi/users/mpacesa/Pipelines/miniforge3/bin/activate /work/lpdi/users/mpacesa/Pipelines/miniforge3/envs/BindCraft_kuma ; module load gcc/13.2 ; module load cuda/12.4.1 ; module load cudnn/8.9.7.29-12
 python "$SDIR/scripts/Colab_Design_module.py" \
   --ref_pdb input/binder_refs/*.pdb \
   --outdir output/colabdesign \
