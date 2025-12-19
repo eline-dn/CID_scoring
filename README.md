@@ -1,8 +1,35 @@
 # CID_scoring
 A set of metrics to score CID and MG complexes
 
+# Step by step execution:
+```
+# setup working directory
+SDIR="/work/lpdi/users/eline/CID_scoring/"
+WDIR="/work/lpdi/users/eline/CID/1Z9Y_FUN_p2"
 
-# to run the whole pipeline:
+cd "$WDIR"
+```
+
+## 1- Colab Design reprediction
+adapt (change WDIR) and run the run_cd.sh script. Will repredict binary structures with colabdesign and score them with pyrosetta (BindCraft style).
+
+## 2- AF3 input prep (binary and ternary)
+
+## 3- AF3 reprediction (bianry and ternary)
+```
+sbatch "$SDIR/scripts/run_alphafold.sh" -i "$WDIR/output/af3binary/json/" -o "$WDIR/output/af3binary/" --no-msa --num_recycles 3
+
+sbatch "$SDIR/scripts/run_alphafold.sh" -i "$WDIR/output/af3ternary/json/" -o "$WDIR/output/af3ternary/" --no-msa --num_recycles 3
+```
+## 4 - AF3 output scoring
+
+## 5 -  Metrics collection 
+```
+python "$SDIR/scripts/get_csv.py" --base_folder "$WDIR"
+```
+
+
+# to run the whole pipeline: (W.I.P.)
 
 Change the working directory and conda path in the script then:
 ```
