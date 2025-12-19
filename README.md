@@ -11,11 +11,13 @@ cd "$WDIR"
 ```
 
 ## 1- Colab Design reprediction
-adapt (change WDIR) and run the run_cd.sh script. Will repredict binary structures with colabdesign and score them with pyrosetta (BindCraft style).
+adapt (change WDIR) and run the `run_cd.sh script`. Will repredict binary structures with colabdesign and score them with pyrosetta (BindCraft style).
 
 ## 2- AF3 input prep (binary and ternary)
 
-## 3- AF3 reprediction (bianry and ternary)
+adapt (change WDIR, ligand infos, target template) and run the `run_af3_input.sh`
+
+## 3- AF3 reprediction (binary and ternary)
 ```
 sbatch "$SDIR/scripts/run_alphafold.sh" -i "$WDIR/output/af3binary/json/" -o "$WDIR/output/af3binary/" --no-msa --num_recycles 3
 
