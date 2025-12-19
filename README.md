@@ -2,6 +2,18 @@
 A set of metrics to score CID and MG complexes
 
 
+# to run the whole pipeline:
+
+Change the working directory and conda path in the script then:
+```
+sbatch run_scoring1.sh
+```
+then create a ligand params file for pyrosetta and run 
+```
+
+```
+
+
 # Usage of each module:
 
 ## Reprediction of binary complex with Colab Design:
