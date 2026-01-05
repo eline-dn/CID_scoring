@@ -17,9 +17,10 @@ df_meta = df[non_numeric_cols] #should include: ID,
 X = df.select_dtypes(include=[np.number])
 # look up the "weird" cols: ...pDockQ_min, _pDockQ_max, pDockQ2_min, pDockQ2_max, everything with ipSAE
 import seaborn as sns
-_ = sns.pairplot(X.loc[:, ~df.columns.str.contains("pDockQ_|pDockQ2|ipSAE|LIS",  case=False)])
-plt.savefig("./output/analyses/weird_cols.png")
-plt.close()
+#_ = sns.pairplot(X.loc[:, ~X.columns.str.contains("pDockQ_|pDockQ2|ipSAE|LIS",  case=False)])
+#_ = sns.pairplot(X.loc[:, ~X.columns.str.contains("ipSAE",  case=False)])
+#plt.savefig("./ipSAE_cols.png")
+#plt.close()
 
 # remove those cols for now:
 # af3binary_bin_has_clash, for now : ...pDockQ_min, _pDockQ_max, pDockQ2_min, pDockQ2_max, everything with ipSAE
