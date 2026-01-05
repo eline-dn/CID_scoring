@@ -173,10 +173,18 @@ see https://github.com/wallnerlab/DockQ/issues/33 and https://github.com/wallner
 python ./scripts/run_ipsae_batch.py --id_list af3_ter_out --out-csv ./ipsae_and_ipae3.csv --af3-dir ./af3_out/af3_ter_out/ --ipsae-script-path ./functions/ipsae_w_ipae.py --specific-chainpair-ipsae "A:B,B:A"  --pae-cutoff 10 --overwrite-ipsae --dist-cutoff 12 
 ```
 
-## PLIP
-```
+
 There is a possibility to extract specific chain pair ipSAE values: use the argument
 ```
 --specific-chainpair-ipsae "A:D,A:B,A:C" which takes a string formated like the above.
 ```
 It is also possible to specify several thressholds for the AF3 contact prob metrics ``` --confidence-threshold "0.5,0.6,0.7,0.8,0.9" \ ```
+
+
+## PLIP 
+
+```
+plip -f *.pdb -x 
+
+```
+add --intra A for interchain interactions
