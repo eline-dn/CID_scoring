@@ -10,8 +10,8 @@
 #SBATCH --job-name cd2
 
 # setup working directory
-SDIR="/work/lpdi/users/eline/CID_scoring/"
-WDIR="/work/lpdi/users/eline/CID/1Z9Y_FUN_p2/" # change project dir here
+SDIR="/work/lpdi/users/eline/CID_scoring"
+WDIR="/work/lpdi/users/eline/CID/1Z9Y_FUN_p2" # change project dir here
 
 cd "$WDIR"
 
@@ -57,6 +57,6 @@ python "$SDIR/scripts/pDockQ.py" --native-pdbs input/binder_refs/*.pdb --model-p
 # plip:
 mkdir output/af3binary/plip
 
-plip -f output/af3binary/*/*_model.pdb --inter B  -tx --out output/af3binary/plip
+plip -f "$WDIR/output/af3binary/*/*_model.pdb" --inter B  -tx --out "$WDIR/output/af3binary/plip"
 python "$SDIR/scripts/plip_interaction_profile.py" --xml_files output/af3binary/plip/*.xml --outdir output/af3binary/plip --prefix af3bin
 
