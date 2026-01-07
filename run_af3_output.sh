@@ -7,24 +7,27 @@
 #SBATCH --partition h100
 #SBATCH --time 70:00:00
 #SBATCH --account lpdi
-#SBATCH --job-name cd2
+#SBATCH --job-name af3output
 
 # setup working directory
 SDIR="/work/lpdi/users/eline/CID_scoring"
-WDIR="/work/lpdi/users/eline/CID/1Z9Y_FUN_p2" # change project dir here
+# WDIR="/work/lpdi/users/eline/CID/1Z9Y_FUN_p2" # change project dir here
+WDIR="$1"
+params="$2" # path to the ligand param file
+lig_name="$3"
 
 cd "$WDIR"
 
 #------------ af3 ternary reprediction:-----------------
 #output analysis
-python "$SDIR/scripts/AF3_output_module.py" --ref_pdb ./input/binder_refs/*.pdb --AF3_outs ./output/af3ternary/* --lig_name FUN --outdir ./output/af3ternary --prefix af3ter
+python "$SDIR/scripts/AF3_output_module.py" --ref_pdb ./input/binder_refs/*.pdb --AF3_outs ./output/af3ternary/* --lig_name "$lig_name" --outdir ./output/af3ternary --prefix af3ter
 
 # pyrosetta scoring
 CONDAPATH="/work/lpdi/users/eline/miniconda3"
-"$CONDAPATH/envs/rosetta_scoring/bin/python" "$SDIR/scripts/pyrosetta_module.py" --pdb ./output/af3ternary/*/*_model.pdb --params "$WDIR/input/FUN.params" --lig_name FUN --outdir ./output/af3ternary --prefix af3_ter_pyr
+"$CONDAPATH/envs/rosetta_scoring/bin/python" "$SDIR/scripts/pyrosetta_module.py" --pdb ./output/af3ternary/*/*_model.pdb --params "$params" --lig_name "$lig_name" --outdir ./output/af3ternary --prefix af3_ter_pyr
 
 # ipSAE and dockq
-ids=$(printf '%s\n' ./output/af3ternary/t2*/ | sed 's:/$::; s:.*/::')
+ids=$(printf '%s\n' ./output/af3ternary/*/ | sed 's:/$::; s:.*/::')
 
 python "$SDIR/scripts/run_ipsae_batch.py" --id_list $ids --out-csv ./output/af3ternary/ipsae_and_ipae.csv --af3-dir ./output/af3ternary/ --ipsae-script-path "$SDIR/functions/ipsae_w_ipae.py" --specific-chainpair-ipsae "A:B,B:A"  --pae-cutoff 10 --overwrite-ipsae --dist-cutoff 10 
 
@@ -43,11 +46,11 @@ python "$SDIR/scripts/plip_interaction_profile.py" --xml_files ./output/af3terna
 python "$SDIR/scripts/AF3_output_module.py" --ref_pdb ./input/binder_refs/*.pdb --AF3_outs ./output/af3binary/* --outdir ./output/af3binary --prefix af3bin
 
 # pyrosetta scoring
-CONDAPATH="/work/lpdi/users/eline/miniconda3"
+#CONDAPATH="/work/lpdi/users/eline/miniconda3"
 "$CONDAPATH/envs/rosetta_scoring/bin/python" "$SDIR/scripts/pyrosetta_module.py" --pdb ./output/af3binary/*/*_model.pdb --outdir ./output/af3binary --prefix af3_bin_pyr
 
 # ipSAE and dockq
-ids=$(printf '%s\n' ./output/af3binary/t2*/ | sed 's:/$::; s:.*/::')
+ids=$(printf '%s\n' ./output/af3binary/*/ | sed 's:/$::; s:.*/::')
 
 python "$SDIR/scripts/run_ipsae_batch.py" --id_list $ids --out-csv ./output/af3binary/ipsae_and_ipae.csv --af3-dir ./output/af3binary/ --ipsae-script-path "$SDIR/functions/ipsae_w_ipae.py" --specific-chainpair-ipsae "A:B,B:A"  --pae-cutoff 10 --overwrite-ipsae --dist-cutoff 10 
 
