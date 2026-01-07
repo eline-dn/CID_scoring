@@ -13,6 +13,7 @@ cd "$WDIR"
 Choose an existing working directory with the following structure:
 WDIR
 |_ input/
+
   |_binder_refs/ # contains a reference structure pdb file for each binder, with target in chain A, binder in B and ligand in L. Might be cleaned with the clean_refs2.py script. 
   |_target_template.cif # the ligand + enzyme original structure (?)
   |_ligand.params # can be added after the af3 ternary run
