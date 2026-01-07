@@ -15,11 +15,11 @@ WDIR
 
 |_ input/ 
 
-  |_binder_refs/ # contains a reference structure pdb file for each binder, with target in chain A, binder in B and ligand in L. Might be cleaned with the clean_refs2.py script. 
+    |_binder_refs/ # contains a reference structure pdb file for each binder, with target in chain A, binder in B and ligand in L. Might be cleaned with the clean_refs2.py script. 
   
-  |_target_template.cif # the  target enzyme's original structure 
+    |_target_template.cif # the  target enzyme's original structure 
   
-  |_ligand.params # can be added after the af3 ternary run and created from one of the output pdbs to ensure a matching atom numbering. 
+    |_ligand.params # can be added after the af3 ternary run and created from one of the output pdbs to ensure a matching atom numbering. 
   
 |_output/ 
 
