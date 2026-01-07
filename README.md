@@ -14,13 +14,33 @@ Choose an existing working directory with the following structure:
 WDIR
 
 |_ input/ \n
-  |_binder_refs/ # contains a reference structure pdb file for each binder, with target in chain A, binder in B and ligand in L. Might be cleaned with the clean_refs2.py script. \n
-  |_target_template.cif # the ligand + enzyme original structure (?) \n
-  |_ligand.params # can be added after the af3 ternary run \n
-|_output/ \n
+  |_binder_refs/ # contains a reference structure pdb file for each binder, with target in chain A, binder in B and ligand in L. Might be cleaned with the clean_refs2.py script. 
+  |_target_template.cif # the  target enzyme's original structure 
+  |_ligand.params # can be added after the af3 ternary run and created from one of the output pdbs to ensure a matching atom numbering. 
+|_output/ 
 
 Change SDIR in the scripts with the path to this cloned github repo.
 
+Tips for the target template:
+beware of DOS file format, not parsed by AF3. check eol with `file 1Z9Y_clean.cif` and remove CRLF line terminators with `sed -i 's/\r$//' 1Z9Y_clean.cif`
+if your template doesn't have a release date, add
+```
+#
+loop_
+_pdbx_audit_revision_history.ordinal 
+_pdbx_audit_revision_history.data_content_type 
+_pdbx_audit_revision_history.major_revision 
+_pdbx_audit_revision_history.minor_revision 
+_pdbx_audit_revision_history.revision_date 
+1 'Structure model' 1 0 2006-05-23 
+2 'Structure model' 1 1 2008-04-30 
+3 'Structure model' 1 2 2011-07-13 
+4 'Structure model' 1 3 2017-10-11 
+# 
+in the cif file's header
+```
+
+(date before the af3  training cutoff)
 
 ## 1- Colab Design reprediction
 Run `1run_cd.sh script` with the previous working directory as a first argument. Will repredict binary structures with colabdesign and score them with pyrosetta (BindCraft style).
@@ -30,6 +50,7 @@ Run `1run_cd.sh script` with the previous working directory as a first argument.
 Run the `run_af3_input.sh` with the following positionnal arguments: working directory, target_id, target_template file path, ligand smiles (as a quoted string), ligand name
 
 ## 3- AF3 reprediction (binary and ternary)
+Edit the CIF target template 
 
 ```
 sbatch "$SDIR/scripts/run_alphafold.sh" -i "$WDIR/output/af3binary/json/" -o "$WDIR/output/af3binary/" --no-msa --num_recycles 3
