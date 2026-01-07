@@ -11,8 +11,8 @@
 
 # setup working directory
 SDIR="/work/lpdi/users/eline/CID_scoring/"
-WDIR="/work/lpdi/users/eline/CID/1Z9Y_FUN_p1/" # change project dir here
-
+#WDIR="/work/lpdi/users/eline/CID/1Z9Y_FUN_p1/" # change project dir here
+WDIR= "$1"
 cd "$WDIR"
 
 mkdir output/colabdesign
