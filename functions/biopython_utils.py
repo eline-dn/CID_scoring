@@ -198,6 +198,10 @@ def unaligned_ligand_rmsd(ref, mov,ref_lig_chain_id,mov_lig_chain_id):
   mov_ligand=ref[first_mov_model_id][mov_lig_chain_id]
   ref_lig_atoms = np.array([a.get_coord() for a in ref_ligand.get_atoms()])
   mov_lig_atoms = np.array([a.get_coord() for a in mov_ligand.get_atoms()])
+  """
+  ref_lig_atoms = ref_lig_atoms.astype(np.float64)
+  mov_lig_atoms = mov_lig_atoms.astype(np.float64)
+  """
   L = min(len(ref_lig_atoms), len(mov_lig_atoms))
   diffs=ref_lig_atoms[:L]-mov_lig_atoms[:L]
   lig_rmsd = float(np.sqrt((diffs * diffs).sum(axis=1).mean()))
