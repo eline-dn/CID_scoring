@@ -188,7 +188,115 @@ def unaligned_rmsd(ref, mov, mapping): # compute unaligned rmsd for the chains i
   print(round(rmsd, 2))
   return(rmsd)
 
-def unaligned_ligand_rmsd(ref, mov,ref_lig_chain_id,mov_lig_chain_id):
+def unaligned_ligand_rmsd(ref, mov, ref_lig_chain_id, mov_lig_chain_id):
+    """
+    Compute unaligned ligand RMSD after RDKit-based atom renumbering.
+    Inputs:
+      ref, mov: Biopython Structure objects
+      ref_lig_chain_id, mov_lig_chain_id: ligand chain IDs
+    Output:
+      float RMSD
+    """
+	import pyrosetta
+	pyrosetta.init(extra_options='-mute all') # required for test
+	from rdkit_to_params import Params
+	from rdkit import Chem
+	def replace_last_CL_in_pdb(pdb_path):
+		with open(pdb_path, "r") as f:
+			text = f.read()
+	
+		idx = text.rfind(" CL")
+		if idx == -1:
+			raise ValueError("No ' CL' occurrence found in file")
+	
+		text = text[:idx] + "Cl" + text[idx + 3:]
+	
+		with open(pdb_path, "w") as f:
+			f.write(text)
+	
+	def copy_structure_with_only_chain1(structure, chain_id):
+	  """
+	  From BindCraft's Biopyhton_utils : _copy_structure_with_only_chain (https://github.com/martinpacesa/BindCraft) 
+	  Return a new Structure containing only model 0 and a deep copy of chain `chain_id`."""
+	  # Build a tiny structure hierarchy: Structure -> Model(0) -> Chain(chain_id) -> Residues/Atoms
+	
+	  sb = StructureBuilder.StructureBuilder()
+	  sb.init_structure("single")
+	  sb.init_model(1)
+	  sb.init_chain(chain_id)
+	  # Set segment ID, padded to 4 characters
+	  sb.init_seg(chain_id.ljust(4))  
+	  model0 = next(structure.get_models())
+	  if chain_id not in [c.id for c in model0.get_chains()]:
+	      raise ValueError(f"Chain '{chain_id}' not found.")
+	  chain = model0[chain_id]
+	  for res in chain:
+	      hetflag, resseq, icode = res.id
+	      sb.init_residue(res.resname, hetflag, resseq, icode)
+	
+	      for atom in res:
+	        if atom.name.startswith("CL") or atom.fullname.startswith("CL"):
+	          sb.init_atom(atom.name, atom.coord, atom.bfactor, atom.occupancy,
+	                       atom.altloc, atom.fullname, element="CL")
+	        else:
+	          sb.init_atom(atom.name, atom.coord, atom.bfactor, atom.occupancy,
+	                       atom.altloc, atom.fullname, element=atom.element)
+	  return sb.get_structure()
+    # --- 1. Extract ligand-only structures (Biopython) ---
+    ref_lig_struct = copy_structure_with_only_chain1(ref, ref_lig_chain_id)
+    mov_lig_struct = copy_structure_with_only_chain1(mov, mov_lig_chain_id)
+
+    # --- 2. Write intermediate ligand PDBs ---
+    io = PDBIO()
+    io.set_structure(ref_lig_struct)
+    io.save("ref_ligand_tmp.pdb")
+
+    io.set_structure(mov_lig_struct)
+    io.save("mov_ligand_tmp.pdb")
+    replace_last_CL_in_pdb("ref_ligand_tmp.pdb")
+    replace_last_CL_in_pdb("mov_ligand_tmp.pdb")
+    # --- 3. Load ligands with RDKit ---
+    ref_mol = Chem.MolFromPDBFile("ref_ligand_tmp.pdb", removeHs=False)
+    mov_mol = Chem.MolFromPDBFile("mov_ligand_tmp.pdb", removeHs=False)
+    if ref_mol is None or mov_mol is None:
+        raise ValueError("RDKit failed to read ligand PDB files")
+
+    # --- 4. Substructure match for renumbering ---
+    match = mov_mol.GetSubstructMatch(ref_mol)
+    if not match:
+        raise ValueError("Substructure match failed between reference and moving ligand")
+
+    renumbered_mov = Chem.RenumberAtoms(mov_mol, list(match))
+
+    # --- 5. Extract coordinates from RDKit conformers ---
+    ref_conf = ref_mol.GetConformer()
+    mov_conf = renumbered_mov.GetConformer()
+    ref_lig_atoms = np.array(
+    [[ref_conf.GetAtomPosition(i).x,
+      ref_conf.GetAtomPosition(i).y,
+      ref_conf.GetAtomPosition(i).z]
+      for i in range(ref_mol.GetNumAtoms())],
+    dtype=np.float64
+    )
+    mov_lig_atoms = np.array(
+        [[mov_conf.GetAtomPosition(i).x,
+          mov_conf.GetAtomPosition(i).y,
+          mov_conf.GetAtomPosition(i).z]
+          for i in range(renumbered_mov.GetNumAtoms())],
+        dtype=np.float64
+    )
+
+    # --- 6. RMSD (unaligned) ---
+    if ref_lig_atoms.shape != mov_lig_atoms.shape:
+        raise ValueError("Atom count mismatch after renumbering")
+
+    diffs = ref_lig_atoms - mov_lig_atoms
+    lig_rmsd = float(np.sqrt((diffs * diffs).sum(axis=1).mean()))
+
+    return lig_rmsd
+
+
+def unaligned_ligand_rmsd_0(ref, mov,ref_lig_chain_id,mov_lig_chain_id):
   # ligand atoms: compute RMSD over all heavy atoms
   first_ref_model = next(ref.get_models())
   first_ref_model_id = first_ref_model.id
