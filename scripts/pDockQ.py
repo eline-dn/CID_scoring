@@ -119,7 +119,7 @@ def parse_args():
 def main():
     args = parse_args()
 
-    native_map = {Path(p).stem: p for p in args.native_pdbs}
+    native_map = {Path(p).stem.lower(): p for p in args.native_pdbs}
     #model_map  = {Path(p).stem: p for p in args.model_pdbs}
     model_map = {}
     for p in args.model_pdbs:
@@ -127,7 +127,7 @@ def main():
         """if not stem.endswith("_model"):
             raise ValueError(f"Model filename does not end with '_model': {p}")"""
         binder_id = stem.replace("_model","")  # remove "_model"
-        model_map[binder_id] = p
+        model_map[binder_id.lower()] = p
 
     common_ids = sorted(native_map.keys() & model_map.keys())
     if not common_ids:

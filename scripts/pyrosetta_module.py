@@ -14,18 +14,24 @@ script_start_time = time.time()
 # one binder scoring function:
 def score_target_n_binder(pdb):
   data={}
-  pose=load_pose(pdb, assert_lig=False)
+  # run relaxation:
+  pdb_relaxed=pdb.replace(".pdb", "_relaxed.pdb")
+  pr_relax(pdb, pdb_relaxed)
+  pose=load_pose(pdb_relaxed, assert_lig=False)
   # interchain contacts computations:
   #data["atom_contact_BT1"]=count_chain_atom_contacts(pose=pose, ch_id1=1, ch_id2=2, delta=0.2)
   data["atom_contact_BT"]= get_atomic_contact_data(pose)
-  data["atom_contact_BT_proxy"]= count_atomic_contacts(pdb=pdb, chain1="A", chain2="B", delta=0.2)
-  interface_scores, interface_AA, interface_residues_pdb_ids_str=score_nolig_interface(pdb_file=pdb, interface= "A_B", binder_chain="B")
+  data["atom_contact_BT_proxy"]= count_atomic_contacts(pdb=pdb_relaxed, chain1="A", chain2="B", delta=0.2)
+  interface_scores, interface_AA, interface_residues_pdb_ids_str=score_nolig_interface(pdb_file=pdb_relaxed, interface= "A_B", binder_chain="B")
   data={**data, **interface_scores}
   return data
 
 def score_ternary_complex(pdb):
   data={}
-  pose=load_pose(pdb, assert_lig=True) # load pose and check that the last residue in the pose is a ligand
+  # run relaxation:
+  pdb_relaxed=pdb.replace(".pdb", "_relaxed.pdb")
+  pr_relax(pdb, pdb_relaxed)
+  pose=load_pose(pdb_relaxed, assert_lig=True) # load pose and check that the last residue in the pose is a ligand
   # derive binary pose from the ternary complex: (i.e. ligand + binder)
   binder_start = pose.conformation().chain_begin(2)
   lb_pose = pyrosetta.rosetta.core.pose.Pose()
@@ -35,8 +41,8 @@ def score_ternary_complex(pdb):
   # interchain contacts computations:
   #data["atom_contact_BL1"]=count_chain_atom_contacts(pose=pose, ch_id1=2, ch_id2=3, delta=0.2)
   data["atom_contact_BL"]= get_atomic_contact_data(lb_pose) # this one is probably going to separate both and give zero, do not lend it to much confidence
-  data["atom_contact_BL_proxy"]= count_atomic_contacts(pdb=pdb, chain1="B", chain2="L", delta=0.2)
-  interface_scores, interface_AA, interface_residues_pdb_ids_str=score_lig_interface(pdb_file=pdb, interface= "AL_B", binder_chain="B")
+  data["atom_contact_BL_proxy"]= count_atomic_contacts(pdb=pdb_relaxed, chain1="B", chain2="L", delta=0.2)
+  interface_scores, interface_AA, interface_residues_pdb_ids_str=score_lig_interface(pdb_file=pdb_relaxed, interface= "AL_B", binder_chain="B")
   data={**data, **interface_scores}
   return data  
 

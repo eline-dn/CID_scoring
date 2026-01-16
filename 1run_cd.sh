@@ -7,7 +7,8 @@
 #SBATCH --partition h100
 #SBATCH --time 70:00:00
 #SBATCH --account lpdi
-#SBATCH --job-name cd2
+#SBATCH --job-name colab_design
+#SBATCH --output=logs/colab_design_%j.out
 
 # setup working directory
 SDIR="/work/lpdi/users/eline/CID_scoring/"

@@ -58,7 +58,7 @@ for dir in args.AF3_outs:
   # extract confidence metrics:
   confidence=dir + "/" +id+"_summary_confidences.json"
   # find reference:
-  ref_pdb_file= next((p for p in args.ref_pdb if id in p), None)
+  ref_pdb_file= next((p for p in args.ref_pdb if id.lower() in p.lower()), None)
   if ref_pdb_file is None:
     print(f"no reference file for id {id}, continuing")
     continue # if no match is found between af3 outputs and reference files, skip

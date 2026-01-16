@@ -31,7 +31,7 @@ def clean_id(id_str):
     Example:
         t2_2_7_3_t0.1_ltp0.2_dcut15.0_model0 -> t2_2_7_3_t0.1_ltp0.2_dcut15.0
     """
-    return re.sub(r'_model\d*$', '', id_str)
+    return re.sub(r'_model\d*$', '', id_str).lower()
 
 def clean_dataframe(df, folder_prefix):
     """

@@ -8,6 +8,7 @@
 #SBATCH --time 70:00:00
 #SBATCH --account lpdi
 #SBATCH --job-name alphafold3
+#SBATCH --output=logs/af3_%j.out
 
 json_path=""
 input_dir=""

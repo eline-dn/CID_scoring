@@ -5,9 +5,10 @@
 #SBATCH --mem 45G
 #SBATCH --gres gpu:1
 #SBATCH --partition h100
-#SBATCH --time 10:00:00
+#SBATCH --time 20:00:00
 #SBATCH --account lpdi
 #SBATCH --job-name af3input
+#SBATCH --output=logs/af3input_%j.out
 
 # setup working directory
 SDIR="/work/lpdi/users/eline/CID_scoring"
