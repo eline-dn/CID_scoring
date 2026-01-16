@@ -62,6 +62,7 @@ def pyr_init(params=None):
     """
     extra_res_fa = ""
     if params is not None:
+        print("Loading extra params:", params)
         extra_res_fa = "-extra_res_fa"
         for p in params:
             extra_res_fa += f" {p}"
@@ -275,6 +276,59 @@ def cif2pdb(cif_path, pdb_path):
 
 # BindCraft's scoring function from pdb
 
+# first, relaxation:
+# relaxation
+# clean unnecessary rosetta information from PDB
+def clean_pdb(pdb_file):
+    # Read the pdb file and filter relevant lines
+    with open(pdb_file, 'r') as f_in:
+        relevant_lines = [line for line in f_in if line.startswith(('ATOM', 'HETATM', 'MODEL', 'TER', 'END', 'LINK'))]
+
+    # Write the cleaned lines back to the original pdb file
+    with open(pdb_file, 'w') as f_out:
+        f_out.writelines(relevant_lines)
+# Relax designed structure
+def pr_relax(pdb_file, relaxed_pdb_path):
+    if not os.path.exists(relaxed_pdb_path):
+        # Generate pose
+        pose = pr.pose_from_pdb(pdb_file)
+        start_pose = pose.clone()
+
+        ### Generate movemaps
+        mmf = MoveMap()
+        mmf.set_chi(True) # enable sidechain movement
+        mmf.set_bb(True) # enable backbone movement, can be disabled to increase speed by 30% but makes metrics look worse on average
+        mmf.set_jump(False) # disable whole chain movement
+
+        # Run FastRelax
+        fastrelax = FastRelax()
+        scorefxn = pr.get_fa_scorefxn()
+        fastrelax.set_scorefxn(scorefxn)
+        fastrelax.set_movemap(mmf) # set MoveMap
+        fastrelax.max_iter(200) # default iterations is 2500
+        fastrelax.min_type("lbfgs_armijo_nonmonotone")
+        fastrelax.constrain_relax_to_start_coords(True)
+        fastrelax.apply(pose)
+
+        # Align relaxed structure to original trajectory
+        align = AlignChainMover()
+        align.source_chain(0)
+        align.target_chain(0)
+        align.pose(start_pose)
+        align.apply(pose)
+
+        # Copy B factors from start_pose to pose
+        for resid in range(1, pose.total_residue() + 1):
+            if pose.residue(resid).is_protein():
+                # Get the B factor of the first heavy atom in the residue
+                bfactor = start_pose.pdb_info().bfactor(resid, 1)
+                for atom_id in range(1, pose.residue(resid).natoms() + 1):
+                    pose.pdb_info().bfactor(resid, atom_id, bfactor)
+
+        # output relaxed and aligned PDB
+        pose.dump_pdb(relaxed_pdb_path)
+        clean_pdb(relaxed_pdb_path)
+        print(f"Relaxed structure saved to {relaxed_pdb_path}")
 
 # Rosetta interface scores
 def score_nolig_interface(pdb_file, interface= "A_B", binder_chain="B"):
