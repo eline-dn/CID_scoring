@@ -93,11 +93,11 @@ for dir in args.AF3_outs:
   if ternary:
     binder_contacts = hotspot_residues(movpdb, binder_chain="B", atom_distance_cutoff=4.0)
     binder_contacts_n = len(binder_contacts.items())
-    data[f"{metrics_prefix}ter_n_contacts_target_binder"]=n_contacts
+    data[f"{metrics_prefix}_ter_n_contacts_target_binder"]=n_contacts
   else: # if binary
     binder_contacts = hotspot_residues(movpdb, binder_chain="B", atom_distance_cutoff=4.0)
     binder_contacts_n = len(binder_contacts.items())
-    data[f"{metrics_prefix}bin_n_contacts_target_binder"]=n_contacts
+    data[f"{metrics_prefix}_bin_n_contacts_target_binder"]=n_contacts
   # add the id:
   data["id"]=id
   data={**data, **rmsds}

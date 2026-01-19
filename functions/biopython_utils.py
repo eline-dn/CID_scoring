@@ -400,7 +400,7 @@ def ternary_RMSDs(ref, mov, mapping):
 	data={}
 	data["target_RMSD"]=aligned_chain_rmsd(ref, mov, "A", "A")
 	data["binder_RMSD"]=aligned_chain_rmsd(ref, mov, "B", "B")
-	data["full_ RMSD"]=full_aligned_rmsd(ref, mov, mapping)
+	data["full_RMSD"]=full_aligned_rmsd(ref, mov, mapping)
 	mov_aligned=align_to_chain(ref,mov,mapping)
 	data["d_binding_site"]=unaligned_rmsd(ref, mov_aligned, {"B":"B"})
 	ref_lig_chain_id=list(mapping.keys())[-1]
@@ -412,7 +412,7 @@ def binary_RMSDs(ref, mov, mapping):
 	data={}
 	data["target_RMSD"]=aligned_chain_rmsd(ref, mov, "A", "A")
 	data["binder_RMSD"]=aligned_chain_rmsd(ref, mov, "B", "B")
-	data["full_ RMSD"]=full_aligned_rmsd(ref, mov, mapping)
+	data["full_RMSD"]=full_aligned_rmsd(ref, mov, mapping)
 	mov_aligned=align_to_chain(ref,mov,mapping)
 	data["d_binding_site"]=unaligned_rmsd(ref, mov_aligned, {"B":"B"})
 	return(data)
