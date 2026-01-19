@@ -80,7 +80,7 @@ for dir in args.AF3_outs:
     movpdb=af3_out_2_norm_pdb(cif, lig=True, lig_name=args.lig_name) #sanitize structure file 
     mov= load_PDB(movpdb)
     rmsds=ternary_RMSDs(ref, mov, mapping)
-  else:
+  else: 
     mapping={"A":"A", "B":"B"}
     data=extract_af3_confidence_metrics(confidence)
     movpdb=af3_out_2_norm_pdb(cif, lig=False, lig_name=None) #sanitize structure file 
@@ -89,6 +89,15 @@ for dir in args.AF3_outs:
   # add a prefix on the metrics names:
   data = {f"{metrics_prefix}{k}": v for k, v in data.items()}
   rmsds = {f"{metrics_prefix}{k}": v for k, v in rmsds.items()}
+  # compute the number of contacts btw the target and the binder:
+  if ternary:
+    binder_contacts = hotspot_residues(movpdb, binder_chain="B", atom_distance_cutoff=4.0)
+    binder_contacts_n = len(binder_contacts.items())
+    data[f"{metrics_prefix}ter_n_contacts_target_binder"]=n_contacts
+  else: # if binary
+    binder_contacts = hotspot_residues(movpdb, binder_chain="B", atom_distance_cutoff=4.0)
+    binder_contacts_n = len(binder_contacts.items())
+    data[f"{metrics_prefix}bin_n_contacts_target_binder"]=n_contacts
   # add the id:
   data["id"]=id
   data={**data, **rmsds}

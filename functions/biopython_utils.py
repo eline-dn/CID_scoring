@@ -430,3 +430,41 @@ def af3_out_2_norm_pdb(cif_path, lig=True, lig_name=None):
 	write_pdb(structure, pdb_path)
 	return(pdb_path)
 
+# function to compute the numbrer of contacts between target and binder form the af3 output pdb
+def hotspot_residues(trajectory_pdb, binder_chain="B", atom_distance_cutoff=4.0):
+    """Identify interacting residues at the binder interface"""
+    # Parse the PDB file
+    parser = PDBParser(QUIET=True)
+    structure = parser.get_structure("complex", trajectory_pdb)
+
+    # Get the specified chain
+    binder_atoms = Selection.unfold_entities(structure[0][binder_chain], 'A')
+    binder_coords = np.array([atom.coord for atom in binder_atoms])
+
+    # Get atoms and coords for the target chain
+    target_atoms = Selection.unfold_entities(structure[0]['A'], 'A')
+    target_coords = np.array([atom.coord for atom in target_atoms])
+
+    # Build KD trees for both chains
+    binder_tree = cKDTree(binder_coords)
+    target_tree = cKDTree(target_coords)
+
+    # Prepare to collect interacting residues
+    interacting_residues = {}
+
+    # Query the tree for pairs of atoms within the distance cutoff
+    pairs = binder_tree.query_ball_tree(target_tree, atom_distance_cutoff)
+
+    # Process each binder atom's interactions
+    for binder_idx, close_indices in enumerate(pairs):
+        binder_residue = binder_atoms[binder_idx].get_parent()
+        binder_resname = binder_residue.get_resname()
+
+        # Convert three-letter code to single-letter code using the manual dictionary
+        if binder_resname in three_to_one_map:
+            aa_single_letter = three_to_one_map[binder_resname]
+            for close_idx in close_indices:
+                target_residue = target_atoms[close_idx].get_parent()
+                interacting_residues[binder_residue.id[1]] = aa_single_letter
+
+    return interacting_residues
