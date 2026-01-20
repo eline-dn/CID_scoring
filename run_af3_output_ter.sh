@@ -44,4 +44,12 @@ python "$SDIR/scripts/merge_af3_ter_csvs.py" --confidence_csv ./output/af3ternar
 #plip -f output/af3ternary/*/*_model.pdb -tx --out output/af3ternary/plip
 #python "$SDIR/scripts/plip_interaction_profile.py" --xml_files ./output/af3ternary/plip/*.xml --outdir ./output/af3ternary --prefix af3ter --ternary
 
+# running the pyrosetta relaxation and scoring on the succesful binders:
+# pyrosetta scoring
+conda activate rosetta_scoring
+CONDAPATH="/work/lpdi/users/eline/miniconda3"
+"$CONDAPATH/envs/rosetta_scoring/bin/python" "$SDIR/scripts/pyrosetta_module.py" --pdb ./output/af3ternary/accepted/*/*_model.pdb --params "$params" --lig_name "$lig_name" --outdir ./output/af3ternary --prefix af3_ter_pyr
+echo "done pyrosetta af3 ternary"
+conda deactivate
+
 echo "done af3 output in  $(($(date +%s) - START_TIME)) seconds"

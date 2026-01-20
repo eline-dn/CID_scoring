@@ -19,6 +19,7 @@ import os,  sys
 import numpy as np
 import time
 import glob
+import re
 
 # --- HELPER FUNCTIONS ---
 def clean_id(id_str):
@@ -39,7 +40,7 @@ def clean(df: pd.DataFrame, folder_prefix) -> pd.DataFrame:
     """
     df = df.copy()
     # Identify the ID column: common possibilities
-    id_col_candidates = [c for c in df.columns if c.lower() in ["id", "binder_id", "ID"]]
+    id_col_candidates = [c for c in df.columns if c.lower() in ["id", "binder_id","ter_id", "ID"]]
     if not id_col_candidates:
         raise ValueError("No ID column found in dataframe")
     id_col = id_col_candidates[0]
@@ -87,8 +88,7 @@ ipsae_df = pd.read_csv(args.ipsae_csv)
 
 # ---------- Merge ---
 merged_df = None
-for csv_file in [conf_df, pdockq_df, ipsae_df]:
-    df = pd.read_csv(csv_file)
+for df in [conf_df, pdockq_df, ipsae_df]:
     #df = clean_dataframe(df, folder_prefix)
     df = clean(df, folder_prefix="af3_ter")
     folder_dfs.append(df)
@@ -128,9 +128,9 @@ for index, row in merged_df.iterrows():
             is_good = False
             print(f"Filtering out {model_id} due to {metric}={row[metric]} >= {threshold}")
             break
-        elif condition=="greater" and metric in row and row[metric] =< threshold:
+        elif condition=="greater" and metric in row and row[metric] <= threshold:
             is_good = False
-            print(f"Filtering out {model_id} due to {metric}={row[metric]} =< {threshold}")
+            print(f"Filtering out {model_id} due to {metric}={row[metric]} <= {threshold}")
             break
         else:
             print(f"Warning: Unknown condition '{condition}' for metric '{metric}' or metric not found in row.")
