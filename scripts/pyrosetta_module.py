@@ -31,6 +31,7 @@ def score_ternary_complex(pdb):
   # run relaxation:
   pdb_relaxed=pdb.replace(".pdb", "_relaxed.pdb")
   pr_relax(pdb, pdb_relaxed)
+  print("Relaxed pdb saved to: "+pdb_relaxed)
   pose=load_pose(pdb_relaxed, assert_lig=True) # load pose and check that the last residue in the pose is a ligand
   # derive binary pose from the ternary complex: (i.e. ligand + binder)
   binder_start = pose.conformation().chain_begin(2)

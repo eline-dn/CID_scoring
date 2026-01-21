@@ -87,10 +87,11 @@ ipsae_df = pd.read_csv(args.ipsae_csv)
 
 
 # ---------- Merge ---
+folder_dfs = []
 merged_df = None
 for df in [conf_df, pdockq_df, ipsae_df]:
     #df = clean_dataframe(df, folder_prefix)
-    df = clean(df, folder_prefix="af3_ter")
+    df = clean(df, folder_prefix="")
     folder_dfs.append(df)
 # Merge CSVs within the folder on "ID"
 if folder_dfs:
@@ -124,17 +125,25 @@ for index, row in merged_df.iterrows():
     for metric, thres_cond in filters.items():
         threshold = thres_cond['threshold']
         condition = thres_cond['condition']
-        if condition=="less" and metric in row and row[metric] >= threshold:
-            is_good = False
-            print(f"Filtering out {model_id} due to {metric}={row[metric]} >= {threshold}")
-            break
-        elif condition=="greater" and metric in row and row[metric] <= threshold:
-            is_good = False
-            print(f"Filtering out {model_id} due to {metric}={row[metric]} <= {threshold}")
-            break
+        # check if the metric exists in the row
+        metrics_in_cols= [ col for col in merged_df.columns if col.endswith(f"{metric}")]
+        if len(metrics_in_cols)==0:
+            #raise ValueError(f"Warning: Metric '{metric}' not found in merged dataframe columns.")
+            print(f"Warning: Metric '{metric}' not found in merged dataframe columns.")
+            continue
+        elif len(metrics_in_cols)>1:
+            raise ValueError(f"Multiple columns found for metric '{metric}': {metrics_in_cols}. Please ensure unique metric to col mapping.")
         else:
-            print(f"Warning: Unknown condition '{condition}' for metric '{metric}' or metric not found in row.")
-
+            metric_col=metrics_in_cols[0]
+        
+        if condition=="less" and row[metric_col] >= threshold:
+            is_good = False
+            print(f"Filtering out {model_id} due to {metric}={row[metric_col]} >= {threshold}")
+            break
+        elif condition=="greater" and row[metric_col] <= threshold:
+            is_good = False
+            print(f"Filtering out {model_id} due to {metric}={row[metric_col]} <= {threshold}")
+            break
     # move files and data based on filtering results
     src_folder = os.path.join(out_dir, model_id)
     if is_good:
