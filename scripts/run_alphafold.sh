@@ -4,8 +4,8 @@
 #SBATCH --cpus-per-task 8
 #SBATCH --mem 45G
 #SBATCH --gres gpu:1
-#SBATCH --partition l40s
-#SBATCH --time 70:00:00
+#SBATCH --partition h100
+#SBATCH --time 72:00:00
 #SBATCH --account lpdi
 #SBATCH --job-name alphafold3
 #SBATCH --output=logs/af3_%j.out

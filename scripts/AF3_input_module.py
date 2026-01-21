@@ -115,8 +115,7 @@ elapsed_time = time.time() - script_start_time
 elapsed_text = f"{'%d hours, %d minutes, %d seconds' % (int(elapsed_time // 3600), int((elapsed_time % 3600) // 60), int(elapsed_time % 60))}"
 n_binder=len(args.structure)
 n_unique_binder=len(binder_seq_list)
-print(f"Finished AF3 input preparation for {n_unique_binder} complexes. {n_binder - n_unique_binder} binders were skipped because identical to other binders.
- Script execution took: "+elapsed_text)
+print(f"Finished AF3 input preparation for {n_unique_binder} complexes. {n_binder - n_unique_binder} binders were skipped because identical to other binders. Script execution took: "+elapsed_text)
 
 """
 what to do next:

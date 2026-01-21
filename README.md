@@ -5,8 +5,8 @@ A set of metrics to score CID and MG complexes
 # Step by step execution v2: filter out binders progressively (less time consumming, WIP)
 ```
 # setup working directory
-SDIR="/work/lpdi/users/eline/CID_scoring/"
-WDIR="/work/lpdi/users/eline/CID/1Z9Y_FUN_p2"
+SDIR="/work/lpdi/users/eline/CID_scoring"
+WDIR="/work/lpdi/users/eline/CID/FUN_1Z97"
 
 cd "$WDIR"
 ```
@@ -50,6 +50,12 @@ in the cif file's header
 ## 2- AF3 input prep (ternary only)
 
 Run the `run_af3_input_ter.sh` with the following positionnal arguments: working directory, target_id, target_template file path, ligand smiles (as a quoted string), ligand name
+e.g.:
+
+``` 
+sbatch /work/lpdi/users/eline/CID_scoring/run_af3_input_ter.sh "/work/lpdi/users/eline/CID/FUN_1Z97" "1Z9Y" "/work/lpdi/users/eline/CID/FUN_1Z97/input/1Z9Y_target_template.cif" "c1cc(oc1)CNc2cc(c(cc2C(=O)O)S(=O)(=O)N)Cl" "FUN"
+``` 
+It takes around 5 minutes for ~5000 binders.
 
 ## 3- AF3 reprediction (ternary only)
 Edit the CIF target template 
