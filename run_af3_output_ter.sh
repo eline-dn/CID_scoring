@@ -53,7 +53,7 @@ echo "done pyrosetta af3 ternary"
 conda deactivate
 
 # merging the pyrosetta scoring with the previous scoring metrics and filtering again
-python "$SDIR/scripts/merge_pyr_ter.py" --pyr_csv ./output/af3ternary/*pyrosetta_metrics.csv --accepted1_csv ./output/af3ternary/accepted1/accepted1.csv --out_dir ./output/af3ternary --filters "./input/filters.json"
+python "$SDIR/scripts/merge_pyr_ter.py" --pyr_csv ./output/af3ternary/*pyrosetta_metrics.csv --accepted1_csv ./output/af3ternary/accepted1/accepted_metrics1.csv --out_dir ./output/af3ternary --filters "./input/filters.json"
 
 echo "Number of binders remaining in accepted2 folder:"
 ls ./output/af3ternary/accepted2/ | wc -l
