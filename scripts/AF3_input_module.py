@@ -94,6 +94,7 @@ else:
   target_json=prep_no_msa_target_input_json(gen_template_path=template_json_path, outdir=outdir, target_id=args.target_id, target_cif=target_template, target_chain_in_cif="A", smiles=None, ligand_id=None)
   
 ##### prepare inputs in the same folder, everything repredicted in one aF3 command
+binder_seq_list=[]
 for struct in args.structure:
   if format=='CIF':
     id=os.path.basename(struct).replace(".cif", "")
@@ -102,13 +103,20 @@ for struct in args.structure:
     id=os.path.basename(struct).replace(".pdb", "")
     structure=load_PDB(struct)
   seq_binder=chain2seq(structure, "B", make_str=True)
+  # skip identical sequences:
+  if seq_binder in binder_seq_list:
+    print(f"Skipping {id}, sequence identical to previous binder(s)")
+    continue
+  binder_seq_list.append(seq_binder) 
   json=prep_binder_input_json(template_path=target_json, outdir=outdir ,id=id ,seq_binder=seq_binder)
 
 
 elapsed_time = time.time() - script_start_time
 elapsed_text = f"{'%d hours, %d minutes, %d seconds' % (int(elapsed_time // 3600), int((elapsed_time % 3600) // 60), int(elapsed_time % 60))}"
 n_binder=len(args.structure)
-print(f"Finished AF3 input preparation for {n_binder} complexes. Script execution took: "+elapsed_text)
+n_unique_binder=len(binder_seq_list)
+print(f"Finished AF3 input preparation for {n_unique_binder} complexes. {n_binder - n_unique_binder} binders were skipped because identical to other binders.
+ Script execution took: "+elapsed_text)
 
 """
 what to do next:

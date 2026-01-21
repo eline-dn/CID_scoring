@@ -79,6 +79,7 @@ After preparing the filters.json file like this:
 
 Binder has to be "condition" than "threshold" to be accepted.
 
+------------------------------------------------
 
 # Step by step execution v1: compute every score on every binder (extensive, expensive)
 ```
