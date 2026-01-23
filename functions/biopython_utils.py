@@ -12,6 +12,7 @@ extract chain from struct -> struct
 """
 
 ### Import dependencies
+import warnings
 import os
 import math
 import numpy as np
@@ -196,6 +197,8 @@ def unaligned_ligand_rmsd(ref, mov, ref_lig_chain_id, mov_lig_chain_id):
       ref_lig_chain_id, mov_lig_chain_id: ligand chain IDs
     Output:
       float RMSD
+
+    If the repredicted liagnd is bad and RDKIt cannot read it or match it, return "failed"
     """
     import pyrosetta
     pyrosetta.init(extra_options='-mute all') # required for test
@@ -259,13 +262,18 @@ def unaligned_ligand_rmsd(ref, mov, ref_lig_chain_id, mov_lig_chain_id):
     ref_mol = Chem.MolFromPDBFile("./output/ref_ligand_tmp.pdb", removeHs=True)
     mov_mol = Chem.MolFromPDBFile("./output/mov_ligand_tmp.pdb", removeHs=True)
     if ref_mol is None or mov_mol is None:
-        raise ValueError("RDKit failed to read ligand PDB files")
+        warnings.warn("Warning: RDKit failed to read ligand PDB files, skipping this binder")
+        #raise ValueError("RDKit failed to read ligand PDB files")
+        return "failed"
+
 
     # --- 4. Substructure match for renumbering ---
     match = mov_mol.GetSubstructMatch(ref_mol)
     print("ligand match:", match)
     if not match:
-        raise ValueError("Substructure match failed between reference and moving ligand")
+        warnings.warn("Warning: Substructure match failed between reference and moving ligand, skipping this binder")
+        #raise ValueError("Substructure match failed between reference and moving ligand")
+        return "failed"
 
     renumbered_mov = Chem.RenumberAtoms(mov_mol, list(match))
 
@@ -289,7 +297,9 @@ def unaligned_ligand_rmsd(ref, mov, ref_lig_chain_id, mov_lig_chain_id):
 
     # --- 6. RMSD (unaligned) ---
     if ref_lig_atoms.shape != mov_lig_atoms.shape:
-        raise ValueError("Atom count mismatch after renumbering")
+        warnings.warn("Warning: Atom count mismatch after renumbering, skipping this binder")
+        return "failed"
+        #raise ValueError("Atom count mismatch after renumbering")
 
     diffs = ref_lig_atoms - mov_lig_atoms
     lig_rmsd = float(np.sqrt((diffs * diffs).sum(axis=1).mean()))
@@ -397,16 +407,16 @@ def copy_structure_with_only_chain(structure, chain_id):
 #### some higher level wrapper functions to analyse the structure repredictions and comparing them to the references
 ## in the case of a ternary complex:
 def ternary_RMSDs(ref, mov, mapping):
-	data={}
-	data["target_RMSD"]=aligned_chain_rmsd(ref, mov, "A", "A")
-	data["binder_RMSD"]=aligned_chain_rmsd(ref, mov, "B", "B")
-	data["full_RMSD"]=full_aligned_rmsd(ref, mov, mapping)
-	mov_aligned=align_to_chain(ref,mov,mapping)
-	data["d_binding_site"]=unaligned_rmsd(ref, mov_aligned, {"B":"B"})
-	ref_lig_chain_id=list(mapping.keys())[-1]
-	mov_lig_chain_id=mapping[ref_lig_chain_id]
-	data["ligand_rmsd"]=unaligned_ligand_rmsd(ref, mov_aligned, ref_lig_chain_id ,mov_lig_chain_id)
-	return(data)
+  data={}
+  data["target_RMSD"]=aligned_chain_rmsd(ref, mov, "A", "A")
+  data["binder_RMSD"]=aligned_chain_rmsd(ref, mov, "B", "B")
+  data["full_RMSD"]=full_aligned_rmsd(ref, mov, mapping)
+  mov_aligned=align_to_chain(ref,mov,mapping)
+  data["d_binding_site"]=unaligned_rmsd(ref, mov_aligned, {"B":"B"})
+  ref_lig_chain_id=list(mapping.keys())[-1]
+  mov_lig_chain_id=mapping[ref_lig_chain_id]
+  data["ligand_rmsd"]=unaligned_ligand_rmsd(ref, mov_aligned, ref_lig_chain_id ,mov_lig_chain_id)
+  return data
 
 def binary_RMSDs(ref, mov, mapping):
 	data={}

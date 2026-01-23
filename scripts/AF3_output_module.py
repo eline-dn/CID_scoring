@@ -80,6 +80,10 @@ for dir in args.AF3_outs:
     movpdb=af3_out_2_norm_pdb(cif, lig=True, lig_name=args.lig_name) #sanitize structure file 
     mov= load_PDB(movpdb)
     rmsds=ternary_RMSDs(ref, mov, mapping)
+    if rmsds["ligand_rmsd"]=="failed":
+    # badly repredicted ligand, skipping this binder
+      print(f"skipping binder {id} due to bad ligand reprediction")
+      continue
   else: 
     mapping={"A":"A", "B":"B"}
     data=extract_af3_confidence_metrics(confidence)
@@ -93,11 +97,11 @@ for dir in args.AF3_outs:
   if ternary:
     binder_contacts = hotspot_residues(movpdb, binder_chain="B", atom_distance_cutoff=4.0)
     binder_contacts_n = len(binder_contacts.items())
-    data[f"{metrics_prefix}_ter_n_contacts_target_binder"]=n_contacts
+    data[f"{metrics_prefix}_ter_n_contacts_target_binder"]=binder_contacts_n
   else: # if binary
     binder_contacts = hotspot_residues(movpdb, binder_chain="B", atom_distance_cutoff=4.0)
     binder_contacts_n = len(binder_contacts.items())
-    data[f"{metrics_prefix}_bin_n_contacts_target_binder"]=n_contacts
+    data[f"{metrics_prefix}_bin_n_contacts_target_binder"]=binder_contacts_n
   # add the id:
   data["id"]=id
   data={**data, **rmsds}

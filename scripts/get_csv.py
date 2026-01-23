@@ -33,23 +33,7 @@ def clean_id(id_str):
     """
     return re.sub(r'_model\d*$', '', id_str).lower()
 
-def clean_dataframe(df, folder_prefix):
-    """
-    Ensure 'ID' column exists and clean it.
-    Prefix other columns with folder name to avoid collisions.
-    """
-    # Identify the ID column: common possibilities
-    id_col_candidates = [c for c in df.columns if c.lower() in ["id", "binder_id", "ID"]]
-    if not id_col_candidates:
-        raise ValueError("No ID column found in dataframe")
-    id_col = id_col_candidates[0]
-    # Standardize the ID column
-    df = df.rename(columns={id_col: "ID"})
-    df["ID"] = df["ID"].astype(str).apply(clean_id)
-    # Prefix other columns
-    other_cols = [c for c in df.columns if c != "ID"]
-    df = df.rename(columns={c: f"{folder_prefix}_{c}" for c in other_cols})
-    return df
+
 def clean(df: pd.DataFrame, folder_prefix) -> pd.DataFrame:
     """
     Collapse rows whose ID ends with '_modelX' (X = single digit)

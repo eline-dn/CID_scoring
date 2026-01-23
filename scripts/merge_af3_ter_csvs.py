@@ -97,18 +97,18 @@ for df in [conf_df, pdockq_df, ipsae_df]:
 if folder_dfs:
     folder_merged = folder_dfs[0]
     for df in folder_dfs[1:]:
-        folder_merged = folder_merged.merge(df, on="ID", how="outer")
+        folder_merged = folder_merged.merge(df, on="ID", how="inner")
     # Merge with global dataframe
     if merged_df is None:
         merged_df = folder_merged
     else:
-        merged_df = merged_df.merge(folder_merged, on="ID", how="outer")
+        merged_df = merged_df.merge(folder_merged, on="ID", how="inner")
 
 # ---------filters-----
 # load filtering criteria from json
 with open(args.filters, 'r') as f:
     filters = json.load(f)
-
+  
 # create output folders for good and bad models
 good_dir = os.path.join(out_dir, "accepted1")
 bad_dir = os.path.join(out_dir, "failed1")
@@ -145,7 +145,8 @@ for index, row in merged_df.iterrows():
             print(f"Filtering out {model_id} due to {metric}={row[metric_col]} <= {threshold}")
             break
     # move files and data based on filtering results
-    src_folder = os.path.join(out_dir, model_id)
+    #src_folder = os.path.join(out_dir, model_id)
+    src_folder = os.path.join("/work/lpdi/users/eline/CID/FUN_1Z97/output/af3ternary/failed1bis", model_id)
     if is_good:
         dest_folder = os.path.join(good_dir, model_id)
         good_metrics = merged_df.iloc[[index]]
@@ -156,7 +157,8 @@ for index, row in merged_df.iterrows():
         bad_metrics.to_csv(failed_metrics_file, mode='a', header=not os.path.exists(accepted_metrics_file), index=False)
 
     if os.path.exists(src_folder):
-        os.rename(src_folder, dest_folder)
+        os.rename(src_folder, dest_folder) # ignore if the file is not here, allows for re-filtering
+        print(f"moved {src_folder} to {dest_folder}")
 
 # --- SAVE ---
 if merged_df is not None:
