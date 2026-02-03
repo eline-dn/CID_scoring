@@ -93,7 +93,7 @@ Pyrosetta scoring and relaxation for 65 complexes: Script execution took: 5 hour
 
 - run the ```run_af3_input_bin.sh``` with the following positional arguments: $WDIR, target_id, path to target_template
 
-- ```sbatch "$SDIR/scripts/run_alphafold.sh" -i "$WDIR/output/af3binary/json/" -o "$WDIR/output/af3binary/" --no-msa --num_recycles 3```
+- ```sbatch "$SDIR/scripts/run_alphafold.sh" -i "$WDIR/output/af3binary_bis/json/" -o "$WDIR/output/af3binary_bis/" --no-msa --num_recycles 3```
 
 - run ```run_af3_output_bin.sh``` with the following positional argument: $WDIR
 

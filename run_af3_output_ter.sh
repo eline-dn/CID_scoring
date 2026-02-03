@@ -42,7 +42,7 @@ source ~/.bashrc
 # plip:
 #mkdir output/af3ternary/plip
 
-#plip -f output/af3ternary/*/*_model.pdb -tx --out output/af3ternary/plip
+#plip -f output/af3ternary/accepted3/*/*_model.pdb -tx --out output/af3ternary/plip
 #python "$SDIR/scripts/plip_interaction_profile.py" --xml_files ./output/af3ternary/plip/*.xml --outdir ./output/af3ternary --prefix af3ter --ternary
 
 # running the pyrosetta relaxation and scoring on the succesful binders:

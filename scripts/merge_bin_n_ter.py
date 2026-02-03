@@ -88,7 +88,7 @@ folder_dfs = []
 merged_df = None
 ter_merged_df = clean(ter_merged_df, folder_prefix="ter_")
 folder_dfs.append(ter_merged_df)
-for df in [conf_df, pdockq_df, ipsae_df, pyr_df]:
+for df in [conf_df, ter_plip, ipsae_df, pyr_df]:
     #df = clean_dataframe(df, folder_prefix)
     df = clean(df, folder_prefix="bin_")
     folder_dfs.append(df)
