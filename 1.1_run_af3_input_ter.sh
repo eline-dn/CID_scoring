@@ -5,7 +5,7 @@
 #SBATCH --mem 45G
 #SBATCH --gres gpu:1
 #SBATCH --partition h100
-#SBATCH --time 20:00:00
+#SBATCH --time 01:00:00
 #SBATCH --account lpdi
 #SBATCH --job-name af3input
 #SBATCH --output=logs/af3input_ter_%j.out
@@ -20,8 +20,6 @@ smiles="$4"
 lig_name="$5"
 
 cd "$WDIR"
-mkdir "$WDIR/output/af3binary/"
-mkdir "$WDIR/output/af3binary/json"
 echo "Working directory: $WDIR"
 
 #------------ af3 ternary reprediction:-----------------

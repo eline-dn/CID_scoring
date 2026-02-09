@@ -85,10 +85,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--xml_files", nargs="+", type=str, help="List of plip xml output files ") # list of pdb files 
 parser.add_argument("--ternary", action="store_true", help="set to true if plip was exectuted on ternary complexes")
 parser.add_argument("--outdir", required=False, type=str, help="output folder for csv file")
-parser.add_argument("--prefix", required=False, type=str, help="prefix for csv file")
 args = parser.parse_args()
 outdir=args.outdir
-prefix=args.prefix
 ternary=args.ternary
 # find interactions
 for xml_file in args.xml_files:
@@ -97,16 +95,16 @@ for xml_file in args.xml_files:
   
   data={}
   if ternary:
-    prefix="BL_"
+    metrics_prefix="BL_"
   else:
-    prefix="AB_"
-  data[f"{prefix}hbonds"]=get_n_hbonds(xml_file, ternary)
-  data[f"{prefix}salt_bridges"]=get_n_salt_bridges(xml_file, ternary)
-  data[f"{prefix}pi_stacks"]=get_n_pi_stacks(xml_file, ternary)
-  data[f"{prefix}hydrophobic_interactions"]=get_n_hydrophobic_interactions(xml_file, ternary)
+    metrics_prefix="AB_"
+  data[f"{metrics_prefix}hbonds"]=get_n_hbonds(xml_file, ternary)
+  data[f"{metrics_prefix}salt_bridges"]=get_n_salt_bridges(xml_file, ternary)
+  data[f"{metrics_prefix}pi_stacks"]=get_n_pi_stacks(xml_file, ternary)
+  data[f"{metrics_prefix}hydrophobic_interactions"]=get_n_hydrophobic_interactions(xml_file, ternary)
   data["id"]=id
   df=pd.DataFrame(data=data, index=[data["id"]])
-  csv_path=f"{outdir}/{prefix}_plip_interactions.csv"
+  csv_path=f"{outdir}/{metrics_prefix}_plip_interactions.csv"
   df.to_csv(csv_path, mode="a", index=False, header=not pd.io.common.file_exists(csv_path))
 
 

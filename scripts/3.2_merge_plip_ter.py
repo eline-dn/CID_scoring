@@ -4,10 +4,11 @@ python "$SDIR/scripts/merge_af3_ter_csvs.py" --confidence_csv ./output/af3ternar
 goal: merge the different csv files with scoring metrics for ternary complexes and filter out bad models based on given criteria
 put the scoring thresholds in a json file
 
-merge csvs
-filter out : plddt > 0.90, iptM, ipSAE, full rmsd and rmsd to binding site, also if no contacts (min 3) <<<<
-mv unsuccessful binders (whole af3 folder) to failed folder in af3ter/failed/id2/_model.cif
-write metrics to failed1.csv or accepted1.csv
+merge accepted1.csv and pyr_ter.csv
+>>>>filter out sc < 0.6, positive binder scores or dG, low (negative) dG/dSASA, no contacts and if clashes<<<<<<
+mv unsuccessful binders (whole af3 folder) to failed folder in af3ter/failed2/id2/_model.cif
+write metrics to failed2.csv or accepted2.csv
+
 
 """
 
@@ -15,7 +16,7 @@ import pandas as pd
 import argparse
 import json 
 # load dependencies
-import os,  sys
+import os, sys, shutil
 import numpy as np
 import time
 import glob
@@ -70,26 +71,23 @@ def clean(df: pd.DataFrame, folder_prefix) -> pd.DataFrame:
 
 #----------------parse arguments----------------
 parser = argparse.ArgumentParser()
-parser.add_argument("--confidence_csv", required=True, type=str, help="csv file with af3 confidence metrics")
-parser.add_argument("--pdockq_csv", required=True, type=str, help="csv file with pdockQ2 scoring metrics")
-parser.add_argument("--ipsae_csv", required=True, type=str, help="csv file with ipsae and ipae scoring metrics")
+parser.add_argument("--plip_csv", required=True, type=str, help="csv file with af3 reprediction pyrosetta scoring metrics")
+parser.add_argument("--accepted1_csv", required=True, type=str, help="csv file with all the previous scoring metrics for the accepted 1 binders")
 parser.add_argument("--out_dir", required=True, type=str, help="output file for merged csv and good/bad models subfolders")
-parser.add_argument("--filters", required=True, type=str, help="json file with filtering criteria")
 args = parser.parse_args()
 
 # merge the csvs on the id column after loading and cleaning them
 script_start_time = time.time()
 out_dir = args.out_dir
 
-conf_df = pd.read_csv(args.confidence_csv)
-pdockq_df = pd.read_csv(args.pdockq_csv)
-ipsae_df = pd.read_csv(args.ipsae_csv)
+plip_df = pd.read_csv(args.plip_csv)
+acc1_df = pd.read_csv(args.accepted1_csv)
 
 
 # ---------- Merge ---
 folder_dfs = []
 merged_df = None
-for df in [conf_df, pdockq_df, ipsae_df]:
+for df in [plip_df, acc1_df]:
     #df = clean_dataframe(df, folder_prefix)
     df = clean(df, folder_prefix="")
     folder_dfs.append(df)
@@ -97,31 +95,28 @@ for df in [conf_df, pdockq_df, ipsae_df]:
 if folder_dfs:
     folder_merged = folder_dfs[0]
     for df in folder_dfs[1:]:
-        folder_merged = folder_merged.merge(df, on="ID", how="inner")
-    # Merge with global dataframe
-    if merged_df is None:
-        merged_df = folder_merged
-    else:
-        merged_df = merged_df.merge(folder_merged, on="ID", how="inner")
-
+        merged_df = folder_merged.merge(df, on="ID", how="inner")
+"""
 # ---------filters-----
 # load filtering criteria from json
 with open(args.filters, 'r') as f:
     filters = json.load(f)
-  
+"""
 # create output folders for good and bad models
-good_dir = os.path.join(out_dir, "accepted1")
-bad_dir = os.path.join(out_dir, "failed1")
+good_dir = os.path.join(out_dir, "hbond")
+bad_dir = os.path.join(out_dir, "no_hbond")
 os.makedirs(good_dir, exist_ok=True)
 os.makedirs(bad_dir, exist_ok=True) 
-accepted_metrics_file = os.path.join(good_dir, "accepted_metrics1.csv")
-failed_metrics_file = os.path.join(bad_dir, "failed_metrics1.csv")
+accepted_metrics_file = os.path.join(good_dir, "hbond.csv")
+failed_metrics_file = os.path.join(bad_dir, "no_hbond.csv")
+all_binders = os.path.join(out_dir, "all_af3_pyr_plip_ter.csv")
 
 
 # apply filters and move files
 for index, row in merged_df.iterrows():
     model_id = row['ID']
     is_good = True
+    """
     for metric, thres_cond in filters.items():
         threshold = thres_cond['threshold']
         condition = thres_cond['condition']
@@ -143,10 +138,14 @@ for index, row in merged_df.iterrows():
         elif condition=="greater" and row[metric_col] <= threshold:
             is_good = False
             print(f"Filtering out {model_id} due to {metric}={row[metric_col]} <= {threshold}")
-            break
+            break"""
+    # BL_hbonds
+    if row.BL_hbonds >=1:
+        is_good=True
+    else:
+        is_good=False
     # move files and data based on filtering results
-    #src_folder = os.path.join(out_dir, model_id)
-    src_folder = os.path.join("/work/lpdi/users/eline/CID/FUN_1Z97/output/af3ternary/failed1bis", model_id)
+    src_folder = os.path.join(out_dir, model_id)
     if is_good:
         dest_folder = os.path.join(good_dir, model_id)
         good_metrics = merged_df.iloc[[index]]
@@ -157,14 +156,15 @@ for index, row in merged_df.iterrows():
         bad_metrics.to_csv(failed_metrics_file, mode='a', header=not os.path.exists(accepted_metrics_file), index=False)
 
     if os.path.exists(src_folder):
-        os.rename(src_folder, dest_folder) # ignore if the file is not here, allows for re-filtering
-        print(f"moved {src_folder} to {dest_folder}")
+        shutil.copytree(src_folder, dest_folder)
+    else:
+        print(f"Source folder {src_folder} does not exist. Skipping copy.")
 
 # --- SAVE ---
 if merged_df is not None:
-    output_file = os.path.join(out_dir, "merged_af3_ter_scoring.csv")
-    merged_df.to_csv(output_file, index=False)
-    print(f"Metrics saved to {output_file}")
+    #output_file = os.path.join(out_dir, "merged_af3_ter_scoring2.csv")
+    merged_df.to_csv(all_binders, index=False)
+    print(f"Metrics saved to {all_binders}")
 else:
     print("No CSV files found.")
 

@@ -6,7 +6,7 @@ A set of metrics to score CID and MG complexes
 ```
 # setup working directory
 SDIR="/work/lpdi/users/eline/CID_scoring"
-WDIR="/work/lpdi/users/eline/CID/FUN_1Z97"
+WDIR="/work/lpdi/users/eline/CID/b2_FUN_1Z9Y"
 
 cd "$WDIR"
 ```
@@ -17,18 +17,43 @@ WDIR
 
     |_binder_refs/ # contains a reference structure pdb file for each binder, with target in chain A, binder in B and ligand in L. Might be cleaned with the clean_refs2.py script. 
   
-    |_target_template.cif # the  target enzyme's original structure 
+    |_target_template.cif # the target enzyme's original structure 
   
     |_ligand.params # can be added after the af3 ternary run and created from one of the output pdbs to ensure a matching atom numbering. 
   
 |_output/ 
 
+output structure:
+```
+cd output/
+mkdir pass_af3/
+mkdir fail_af3/
+cd pass_af3/
+mkdir pass_pyr/
+mkdir fail_pyr/
+cd pass_pyr/
+mkdir af3_bin/
+mkdir hbond/
+mkdir no_hbond/
+```
 
 Change SDIR in the scripts with the path to this cloned github repo.
 
-Tips for the target template:
-beware of DOS file format, not parsed by AF3. check eol with `file 1Z9Y_clean.cif` and remove CRLF line terminators with `sed -i 's/\r$//' 1Z9Y_clean.cif`
-if your template doesn't have a release date, add
+
+## 2- AF3 input prep (ternary only)
+
+Run the `run_af3_input_ter.sh` with the following positionnal arguments: working directory, target_id, target_template file path, ligand smiles (as a quoted string), ligand name
+e.g.:
+
+``` 
+sbatch /work/lpdi/users/eline/CID_scoring/1.1_run_af3_input_ter.sh "/work/lpdi/users/eline/CID/b2_FUN_1Z9Y" "1Z9Y" "/work/lpdi/users/eline/CID/b2_FUN_1Z9Y/input/1Z9Y_target_template.cif" "c1cc(oc1)CNc2cc(c(cc2C(=O)O)S(=O)(=O)N)Cl" "FUN"
+``` 
+It takes around 5 minutes for ~5000 binders.
+
+## 3- AF3 reprediction (ternary only)
+Edit the CIF target template as following if necessary:
+- beware of DOS file format, not parsed by AF3. check eol with `file 1Z9Y_clean.cif` and remove CRLF line terminators with `sed -i 's/\r$//' 1Z9Y_clean.cif`
+- if your template doesn't have a release date, add
 ```
 #
 loop_
@@ -47,21 +72,16 @@ in the cif file's header
 
 (date before the af3  training cutoff)
 
-## 2- AF3 input prep (ternary only)
-
-Run the `run_af3_input_ter.sh` with the following positionnal arguments: working directory, target_id, target_template file path, ligand smiles (as a quoted string), ligand name
-e.g.:
-
-``` 
-sbatch /work/lpdi/users/eline/CID_scoring/run_af3_input_ter.sh "/work/lpdi/users/eline/CID/FUN_1Z97" "1Z9Y" "/work/lpdi/users/eline/CID/FUN_1Z97/input/1Z9Y_target_template.cif" "c1cc(oc1)CNc2cc(c(cc2C(=O)O)S(=O)(=O)N)Cl" "FUN"
-``` 
-It takes around 5 minutes for ~5000 binders.
-
-## 3- AF3 reprediction (ternary only)
-Edit the CIF target template 
 
 ```
-sbatch "$SDIR/scripts/run_alphafold.sh" -i "$WDIR/output/af3ternary/json/" -o "$WDIR/output/af3ternary/" --no-msa --num_recycles 3
+SDIR="/work/lpdi/users/eline/CID_scoring"
+WDIR="/work/lpdi/users/eline/CID/b2_FUN_1Z9Y"
+cd "$WDIR"
+sbatch "$SDIR/scripts/run_alphafold.sh" -i "$WDIR/output/af3ternary/json1/" -o "$WDIR/output/af3ternary/" --no-msa --num_recycles 3
+
+sbatch "$SDIR/scripts/run_alphafold.sh" -i "$WDIR/output/af3ternary/json2/" -o "$WDIR/output/af3ternary/" --no-msa --num_recycles 3
+
+sbatch "$SDIR/scripts/run_alphafold.sh" -i "$WDIR/output/af3ternary/json3/" -o "$WDIR/output/af3ternary/" --no-msa --num_recycles 3
 ```
 Takes around 20h for 4861 complexes on a h100. 
 

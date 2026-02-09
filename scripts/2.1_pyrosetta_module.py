@@ -84,7 +84,7 @@ else:
   pdb_list=args.pdb
 #  init pyrosetta and parametrize ligand (or not):
 print(pdb_list[0])
-"""
+""" 
 #if args.mk_params:
   params=create_param(pdb_file=pdb_list[0], smiles=str(args.smiles), lig_name=args.lig_name)
   pyr_init(params=params)
@@ -94,8 +94,11 @@ else:
 if args.params is not None:
   #params=create_param(pdb_file=pdb_list[0], smiles=str(args.smiles), lig_name=args.lig_name)
   pyr_init(params=[args.params])
+  metrics_prefix="ter_"
 else: 
   pyr_init() # initialise without the param file
+  metrics_prefix="bin_"
+
   
 for pdb in pdb_list:
   id=os.path.basename(pdb).replace(".pdb", "")
@@ -105,9 +108,10 @@ for pdb in pdb_list:
   else: 
     data=score_target_n_binder(pdb)
   # write to csv
+  data = {f"{metrics_prefix}{k}": v for k, v in data.items()}
   data["id"]=id
   df=pd.DataFrame(data=data, index=[data["id"]])
-  csv_path=f"{outdir}/{prefix}_pyrosetta_metrics.csv"
+  csv_path=f"{outdir}/{prefix}_{metrics_prefix}_pyrosetta_metrics.csv"
   df.to_csv(csv_path, mode="a", index=False, header=not pd.io.common.file_exists(csv_path))
     
 elapsed_time = time.time() - script_start_time
