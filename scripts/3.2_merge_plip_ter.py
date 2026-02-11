@@ -113,6 +113,11 @@ all_binders = os.path.join(out_dir, "all_af3_pyr_plip_ter.csv")
 
 
 # apply filters and move files
+hbcol=[col for col in merged_df if "BL_hbonds" in col]
+if len(hbcol)==0:
+    raise ValueError("Found no columns for hydrogen bonds")
+elif len(hbcol)> 1:
+    print(f"found several cols for hbonds :{hbcol}, taking the first one. ")
 for index, row in merged_df.iterrows():
     model_id = row['ID']
     is_good = True
@@ -140,7 +145,7 @@ for index, row in merged_df.iterrows():
             print(f"Filtering out {model_id} due to {metric}={row[metric_col]} <= {threshold}")
             break"""
     # BL_hbonds
-    if row.BL_hbonds >=1:
+    if row[hbcol[0]] >=1:
         is_good=True
     else:
         is_good=False

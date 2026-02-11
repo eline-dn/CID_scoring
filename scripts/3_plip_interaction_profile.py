@@ -59,6 +59,25 @@ def get_n_pi_stacks(xml_file, ternary=False):
       if ch1=="B":
         countB+=1
   return(countB) 
+# pi_cation_interactions
+def get_n_pi_cation_interactions(xml_file, ternary=False):
+  tree = ET.parse(xml_file)
+  root = tree.getroot()
+  countB=0
+  for hb in root.iter('pi_cation_interactions'):
+    #print(hb.attrib, hb.tag)
+    if ternary==False: # scoring a binary complex
+      ch1=hb.find('reschain').text
+      ch2=hb.find('reschain_lig').text
+      #print(ch)
+      if ch1=="A" and ch2=="B":
+        countB+=1
+    else: # if ternary
+      ch1=hb.find('reschain').text
+      if ch1=="B":
+        countB+=1
+  return(countB)
+
 
 def get_n_hydrophobic_interactions(xml_file, ternary=False):
   tree = ET.parse(xml_file)
@@ -101,6 +120,7 @@ for xml_file in args.xml_files:
   data[f"{metrics_prefix}hbonds"]=get_n_hbonds(xml_file, ternary)
   data[f"{metrics_prefix}salt_bridges"]=get_n_salt_bridges(xml_file, ternary)
   data[f"{metrics_prefix}pi_stacks"]=get_n_pi_stacks(xml_file, ternary)
+  #data[f"{metrics_prefix}pi_cation_interactions"]=get_n_pi_cation_interactions(xml_file, ternary)
   data[f"{metrics_prefix}hydrophobic_interactions"]=get_n_hydrophobic_interactions(xml_file, ternary)
   data["id"]=id
   df=pd.DataFrame(data=data, index=[data["id"]])

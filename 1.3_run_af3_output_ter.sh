@@ -25,6 +25,7 @@ source ~/.bashrc
 #output analysis
 conda activate rosetta_scoring
 python "$SDIR/scripts/AF3_output_module.py" --ref_pdb ./input/binder_refs/*.pdb --AF3_outs ./output/af3ternary/* --lig_name "$lig_name" --outdir ./output/af3ternary --prefix ""
+#Finished structure reprediction output scoring for 3122 complexes. Script execution took: 0 hours, 10 minutes, 40 seconds
 
 conda deactivate
 # ipSAE and dockq
@@ -32,6 +33,8 @@ ids=$(printf '%s\n' ./output/af3ternary/*/ | sed 's:/$::; s:.*/::')
 
 python "$SDIR/scripts/run_ipsae_batch.py" --id_list $ids --out-csv ./output/af3ternary/ipsae_and_ipae.csv --af3-dir ./output/af3ternary/ --ipsae-script-path "$SDIR/functions/ipsae_w_ipae.py" --specific-chainpair-ipsae "A:B,B:A"  --pae-cutoff 10 --overwrite-ipsae --dist-cutoff 10 
 echo "done ipsae af3 ternary"
+# ~ 5 min for 3122 structures
+
 # dockQ bis:
 python "$SDIR/scripts/pDockQ.py" --native-pdbs input/binder_refs/*.pdb --model-pdbs ./output/af3ternary/*/*_model.pdb --out-csv ./output/af3ternary/pdockQ2ter.csv --ternary
 echo "done pDockQ af3 ternary"
@@ -40,7 +43,7 @@ echo "done pDockQ af3 ternary"
 python "$SDIR/scripts/1.3_merge_af3_ter_csvs.py" --confidence_csv ./output/af3ternary/*_AF3_*reprediction_metrics.csv --pdockq_csv ./output/af3ternary/*pdockQ2ter.csv --ipsae_csv ./output/af3ternary/ipsae_and_ipae.csv --out_dir ./output --filters "./input/af3_filters.json" --af3_folders "./output/af3ternary"
 
 
-if [! -f ".output/all_af3_ter.csv"]; then
+if [ ! -f ".output/all_af3_ter.csv"]; then
     echo "filtering step failed"
     exit 1
 fi

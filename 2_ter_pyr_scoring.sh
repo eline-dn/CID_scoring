@@ -7,8 +7,8 @@
 #SBATCH --partition h100
 #SBATCH --time 72:00:00
 #SBATCH --account lpdi
-#SBATCH --job-name af3output_ter
-#SBATCH --output=logs/af3output_ter_bis_%j.out
+#SBATCH --job-name pyr_ter
+#SBATCH --output=logs/pyr_ter_%j.out
 
 # setup working directory
 SDIR="/work/lpdi/users/eline/CID_scoring"
@@ -46,7 +46,7 @@ python "$SDIR/scripts/2.2_merge_pyr_ter.py" --pyr_csv ./output/pass_af3/*pyroset
 echo "Number of binders remaining in pass_pyr folder:"
 ls ./output/pass_af3/pass_pyr/ | wc -l
 
-if [! -f ".output/pass_af3/all_af3_pyr_ter.csv"]; then
+if [ ! -f ".output/pass_af3/all_af3_pyr_ter.csv"]; then
     echo "filtering step failed"
     exit 1
 fi
