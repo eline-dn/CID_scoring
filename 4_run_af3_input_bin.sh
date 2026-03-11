@@ -38,3 +38,4 @@ done
 # preparing the inputs:
 python "$SDIR/scripts/AF3_input_module.py"  --structure "${paths[@]}"  --target_id "$target_id" --target_template "$target_template"  --outdir "$WDIR/output/pass_af3/pass_pyr/af3_bin/json"
 
+# python "$SDIR/scripts/AF3_input_module.py"  --structure "/work/lpdi/users/eline/CID/8S1X/input/binder_refs/8S1X.pdb"  --target_id "$target_id" --target_template "$target_template"  --outdir "$WDIR/output/af3_binary/json"

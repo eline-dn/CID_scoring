@@ -1,10 +1,3 @@
-"""
-usage: 
-python "$SDIR/scripts/merge_af3_ter_csvs.py" --confidence_csv ./output/af3ternary/af3_ter_pyr_scoring.csv --pdockq_csv ./output/af3ternary/pdockQ2ter.csv --ipsae_csv ./output/af3ternary/ipsae_and_ipae.csv --out_csv ./output/af3ternary/merged_af3_ter_scoring.csv --filters "./input/filters.json"
-Collect the informations in ./output/af3ternary/accepted2/accepted_metrics2.csv and in .output/af3binary/*.csv (af3 confidences, ipae/ipSAE, pdockQ, pyrosetta)
-
-"""
-
 import pandas as pd
 import argparse
 import json 
@@ -61,15 +54,25 @@ def clean(df: pd.DataFrame, folder_prefix) -> pd.DataFrame:
     grouped = grouped.rename(columns={c: f"{folder_prefix}_{c}" for c in other_cols})
     return grouped
 
-
+"""usage
+python /work/lpdi/users/eline/CID_scoring/scripts/merge_bin_n_ter.py --confidence_csv output/pass_af3/pass_pyr/af3_bin/_AF3_bin_reprediction_metrics.csv \
+    --pdockq_csv output/pass_af3/pass_pyr/af3_bin/pdockQ2bin.csv \
+    --ipsae_csv output/pass_af3/pass_pyr/af3_bin/ipsae_and_ipae.csv \
+    --pyr_csv output/pass_af3/pass_pyr/af3_bin/_bin__pyrosetta_metrics.csv \
+    --out_dir output/pass_af3/pass_pyr \
+    --ter_merged output/pass_af3/pass_pyr/all_af3_pyr_plip_ter.csv \
+    --plip_df output/pass_af3/pass_pyr/af3_bin/plip/AB__plip_interactions.csv
+"""
+ 
 #----------------parse arguments----------------
 parser = argparse.ArgumentParser()
-parser.add_argument("--confidence_csv", required=True, type=str, help="csv file with af3 confidence metrics")
-parser.add_argument("--pdockq_csv", required=True, type=str, help="csv file with pdockQ2 scoring metrics")
-parser.add_argument("--ipsae_csv", required=True, type=str, help="csv file with ipsae and ipae scoring metrics")
-parser.add_argument("--pyr_csv", required=True, type=str, help="csv file with ipsae and ipae scoring metrics")
+parser.add_argument("--confidence_csv", required=True, type=str, help="csv file with af3 bin confidence metrics")
+parser.add_argument("--pdockq_csv", required=True, type=str, help="csv file with pdockQ2 bin scoring metrics")
+parser.add_argument("--ipsae_csv", required=True, type=str, help="csv file with ipsae and ipae bin scoring metrics")
+parser.add_argument("--pyr_csv", required=True, type=str, help="csv file with pyrosetta bin scoring metrics")
 parser.add_argument("--out_dir", required=True, type=str, help="output file for merged csv and good/bad models subfolders")
-parser.add_argument("--ter_merged", required=True, type=str, help="csv file with af3 ternary information for our selected binders")
+parser.add_argument("--ter_merged", required=True, type=str, help="csv file with all ternary information for our selected binders")
+parser.add_argument("--plip_df", required=True, type=str, help="csv file with plip binary information for our selected binders")
 args = parser.parse_args()
 
 # merge the csvs on the id column after loading and cleaning them
@@ -81,6 +84,7 @@ pdockq_df = pd.read_csv(args.pdockq_csv)
 ipsae_df = pd.read_csv(args.ipsae_csv)
 pyr_df = pd.read_csv(args.pyr_csv)
 ter_merged_df = pd.read_csv(args.ter_merged)
+plip_df = pd.read_csv(args.plip_df)
 
 
 # ---------- Merge ---
@@ -88,7 +92,7 @@ folder_dfs = []
 merged_df = None
 ter_merged_df = clean(ter_merged_df, folder_prefix="ter_")
 folder_dfs.append(ter_merged_df)
-for df in [conf_df, ter_plip, ipsae_df, pyr_df]:
+for df in [conf_df, pdockq_df, ipsae_df, pyr_df, plip_df]:
     #df = clean_dataframe(df, folder_prefix)
     df = clean(df, folder_prefix="bin_")
     folder_dfs.append(df)
@@ -97,7 +101,7 @@ merged_df = folder_dfs[0]
 for df in folder_dfs[1:]:
     merged_df = merged_df.merge(df, on="ID", how="inner")
 # rule: metrics from the ternary complexes start with "ter_" and metrics from the binary complexes start with "bin_
-"
+
 # ----------- Processing the "diff" columns-------
 """diff_pairs = {
     "binder_score":(),
@@ -130,8 +134,8 @@ for metric in metrics_to_diff:
 """
 # --- SAVE ---
 if merged_df is not None:
-output_file = os.path.join("/work/lpdi/users/eline/CID/FUN_1Z97/output", "merged_full.csv")
-merged_df.to_csv(output_file, index=False)
+    output_file = os.path.join(out_dir, "merged_full_bin_ter.csv")
+    merged_df.to_csv(output_file, index=False)
     print(f"Metrics saved to {output_file}")
 else:
     print("No CSV files found.")

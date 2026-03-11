@@ -97,6 +97,24 @@ def get_n_hydrophobic_interactions(xml_file, ternary=False):
         countB+=1
   return(countB)
 
+
+def get_hbonds_resid(xml_file): # between binder and target if no ligand and between binder and ligand if ligand is in complex file
+  tree = ET.parse(xml_file)
+  root = tree.getroot()
+  countB=0
+  res_ids=[]
+  for hb in root.iter('hydrogen_bond'):
+    #print(hb.attrib, hb.tag)
+    # if ternary
+    ch1=hb.find('reschain').text
+    if ch1=="B":
+      countB+=1
+      res_ids.append(hb.find('resnr')).text
+  return(res_ids)
+
+
+   
+
 script_start_time = time.time()
 ###----
 # parser

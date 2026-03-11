@@ -66,7 +66,7 @@ def chain2seq(structure,  chain_id:str, make_str=True):
           aa = three_to_one_map[res.resname]
           res_letters.append(aa)
       except KeyError:
-          raise ValueError(f"Unknown residue: {res.resname} at {res.id}")
+          res_letters.append('X')  # Non-standard residue
   if make_str==False:
     return res_letters
   else:

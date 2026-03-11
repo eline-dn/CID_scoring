@@ -77,7 +77,7 @@ in the cif file's header
 SDIR="/work/lpdi/users/eline/CID_scoring"
 WDIR="/work/lpdi/users/eline/CID/b2_FUN_1Z9Y"
 cd "$WDIR"
-sbatch "$SDIR/scripts/run_alphafold.sh" -i "$WDIR/output/af3ternary/json1/" -o "$WDIR/output/af3ternary/" --no-msa --num_recycles 3
+sbatch "$SDIR/scripts/run_alphafold.sh" -i "$WDIR/output/af3ternary/json/" -o "$WDIR/output/af3ternary/" --no-msa --num_recycles 3
 
 sbatch "$SDIR/scripts/run_alphafold.sh" -i "$WDIR/output/af3ternary/json2/" -o "$WDIR/output/af3ternary/" --no-msa --num_recycles 3
 
@@ -90,9 +90,10 @@ Before going to the next step, create a ligand params file for pyrosetta in the 
 
 Or use this script: needs rosetta and rdkit
 ``` bash
-python "$SDIR/scripts/mk_param.py" --lig_name "AFB" --smiles "C[C@H]1CCC\C=C\[C@@H]2C[C@@H](C[C@H]2[C@@H](\C=C\C(=O)O1)O)O" --cif_path "/work/lpdi/users/eline/CID/1RE0/output/af3ternary/1re0
+python "$SDIR/scripts/mk_param.py" --lig_name "LIG_L" --smiles "CCCCC[C@H](CC(=O)NO)C(=O)N[C@@H](C(C)C)C(=O)N1CCC[C@H]1CO" --cif_path "/work/lpdi/users/eline/CID/8S1X/output/af3ternary/8s1x/8s1x_model.cif"
 ```
-
+bb2:
+CCCCC[C@H](CC(=O)NO)C(=O)N[C@@H](C(C)C)C(=O)N1CCC[C@H]1CO 
 
 ## 4 - AF3 output scoring (ternary + filtering)
 
@@ -139,6 +140,7 @@ WDIR="/work/lpdi/users/eline/CID/b2_FUN_1Z9Y"
 cd "$WDIR"
 sbatch "$SDIR/scripts/run_alphafold.sh" -i "$WDIR/output/pass_af3/pass_pyr/af3_bin/json/" -o "$WDIR/output/pass_af3/pass_pyr/af3_bin/" --no-msa --num_recycles 3
 ```
+sbatch "$SDIR/scripts/run_alphafold.sh" -i "$WDIR/output/af3_binary/json/" -o "$WDIR/output/af3_binary/" --no-msa --num_recycles 3
 
 - run ```run_af3_output_bin.sh``` with the following positional argument: $WDIR
 ```bash
