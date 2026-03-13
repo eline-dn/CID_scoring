@@ -1,3 +1,6 @@
-#benchmark/
+benchmark/af3_inputs/
+benchmark/*_out/
+benchmark/logs/
+benchmark/pdb_files/
 *.pyc
 functions/__pycache__/
