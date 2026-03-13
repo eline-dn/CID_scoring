@@ -1,0 +1,170 @@
+id,type,error,bin_iptm,bin_ptm,bin_mean_plddt,bin_target_plddt,bin_binder_plddt,bin_target_iptm,bin_binder_iptm,bin_AA_pair_iptm,bin_AB_pair_iptm,bin_BB_pair_iptm,bin_AB_pair_pae_min,bin_BA_pair_pae_min,bin_target_RMSD,bin_binder_RMSD,bin_full_RMSD,bin_d_binding_site,bin_n_contacts_target_binder,ter_iptm,ter_ptm,ter_mean_plddt,ter_target_plddt,ter_binder_plddt,ter_ligand_plddt,ter_target_iptm,ter_binder_iptm,ter_ligand_iptm,ter_AA_pair_iptm,ter_AB_pair_iptm,ter_BB_pair_iptm,ter_AL_pair_iptm,ter_BL_pair_iptm,ter_LL_pair_iptm,ter_AB_pair_pae_min,ter_BA_pair_pae_min,ter_AL_pair_pae_min,ter_LA_pair_pae_min,ter_BL_pair_pae_min,ter_LB_pair_pae_min,ter_target_RMSD,ter_binder_RMSD,ter_full_RMSD,ter_d_binding_site,ter_ligand_rmsd,ter_n_contacts_target_binder,bin_fraction_disordered,bin_has_clash,bin_ranking_score,bin_id,bin_target_ptm,bin_binder_ptm
+2FAP,binary,Not enough matched residues with Cα to compute RMSD without alignment (found 0).,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2FAP,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 201 and number of mov atoms 94 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+8TBI,binary,,0.15,0.55,83.81576163398692,78.44288461538459,89.63169735788642,0.15,0.15,0.84,0.15,0.94,19.76,13.59,1.1073548689938852,17.063293322481318,3.090717613277204,37.026886173498525,22.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.23,8tbi_binary,0.84,0.94
+4DRI,binary,Not enough matched residues with Cα to compute RMSD without alignment (found 0).,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+4DRI,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 217 and number of mov atoms 96 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+8AV0,binary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+4OIC,binary,,0.91,0.92,92.03889680759968,92.4575805297065,91.78892307692321,0.91,0.91,0.9,0.91,0.92,1.05,1.09,1.0604224063566123,1.1104681738917845,1.1327207479766466,29.72915179062215,18.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.91,4oic_binary,0.9,0.92
+4OIC,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 487 and number of mov atoms 305 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+6GHP,binary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+6GHP,ternary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+8TBM,binary,,0.19,0.57,85.14709445815659,80.48905365126667,90.14394884092735,0.19,0.19,0.85,0.19,0.93,21.35,13.02,0.4161354944095369,17.268555567849024,15.387999556083104,40.236049859391095,17.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.27,8tbm_binary,0.85,0.93
+3UJL,binary,,0.92,0.93,92.88322861777152,93.81183381088843,92.27998604001847,0.92,0.92,0.91,0.92,0.92,0.92,0.99,0.36560131150048103,1.8955099926905241,1.5068798652146105,26.756101296178493,17.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.92,3ujl_binary,0.91,0.92
+3UJL,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 453 and number of mov atoms 277 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3SMO,binary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3SMO,ternary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+8W31,binary,,0.92,0.89,88.48064973063974,88.54106806862214,88.28873462214412,0.92,0.92,0.86,0.92,0.83,1.01,1.0,0.5263765478416825,0.6149545223090194,16.67497331404698,12.84947896285122,22.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.91,8w31_binary,0.86,0.83
+4TR9,binary,Not enough matched residues with Cα to compute RMSD without alignment (found 0).,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+4TR9,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 697 and number of mov atoms 350 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+1KKQ,binary,Not enough matched residues with Cα to compute RMSD without alignment (found 0).,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+1KKQ,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 288 and number of mov atoms 19 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3JRQ,binary,,0.9,0.9,90.3435464806867,90.13739005736124,90.65091945830365,0.9,0.9,0.9,0.9,0.9,1.08,1.05,1.2655640492265745,0.8641820141702171,1.2084875288654107,19.176055639198587,18.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.9,3jrq_binary,0.9,0.9
+3JRQ,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 444 and number of mov atoms 271 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+5ZCL,binary,,0.91,0.92,92.67656362558589,92.40320253164565,93.19194112967372,0.91,0.91,0.92,0.91,0.9,1.05,0.99,1.3721338851039548,19.26952837316221,1.1959262550236638,62.32286828121258,19.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.91,5zcl_binary,0.92,0.9
+5ZCL,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 470 and number of mov atoms 312 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+8TBG,binary,,0.24,0.59,85.4569925918762,80.19837980406928,91.00401430842611,0.24,0.24,0.85,0.24,0.94,20.38,14.39,0.9082476203758231,17.028525572741202,14.62740873692611,39.912701618831726,15.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.31,8tbg_binary,0.85,0.94
+7M2K,binary,,0.2,0.68,83.73337884830036,85.04824471959206,80.71443143812706,0.2,0.2,0.87,0.2,0.84,13.42,14.05,1.1054200047632752,0.9864095652842692,4.466978676239444,7.438241208070152,15.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.3,7m2k_binary,0.87,0.84
+9BI1,binary,,0.18,0.56,85.09860073359074,80.10002237136462,90.46534827862298,0.18,0.18,0.86,0.18,0.94,22.33,13.72,0.5748945964877676,0.2113551986927769,13.752642953266278,47.795046696748614,15.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.25,9bi1_binary,0.86,0.94
+4LSX,binary,,0.24,0.75,86.20692157624947,87.51628520499112,81.00833687190367,0.24,0.24,0.86,0.24,0.86,16.71,20.63,0.9209499075827379,10.352712717361028,28.58670813990049,41.209009651242695,23.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.34,4lsx_binary,0.86,0.86
+4LSX,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 925 and number of mov atoms 185 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2OVM,binary,Not enough matched residues with Cα to compute RMSD without alignment (found 0).,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2OVM,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 254 and number of mov atoms 11 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+1RE0,binary,,0.89,0.9,90.87406470914128,88.55858237547888,92.78289324068228,0.89,0.89,0.87,0.89,0.89,0.91,0.87,1.9363834325198526,0.8616913894450592,3.227029401994956,29.575606294270738,37.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.89,1re0_binary,0.87,0.89
+1RE0,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 357 and number of mov atoms 195 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3VBG,binary,,0.21,0.55,82.81880003558719,82.85624641833812,82.78181046676094,0.21,0.21,0.81,0.21,0.81,9.14,8.88,0.687953619232682,0.7675824942920477,15.395118227841495,17.25779744789078,20.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.28,3vbg_binary,0.81,0.81
+3VBG,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 169 and number of mov atoms 85 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+1R8Q,binary,,0.93,0.94,93.83030716193656,92.7105694444445,94.86721543408365,0.93,0.93,0.92,0.93,0.93,0.81,0.8,0.3743511767013127,19.226057006118214,0.37085344857451186,50.366934310410635,34.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.03,0.0,0.95,1r8q_binary,0.92,0.93
+1R8Q,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 370 and number of mov atoms 191 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3M50,binary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3M50,ternary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3SMK,binary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3SMK,ternary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3KDJ,binary,,0.92,0.93,93.48254525098703,94.08876203576345,93.06119024856609,0.92,0.92,0.93,0.92,0.93,1.01,0.99,0.24829632110519556,1.7710574653429916,1.4517537299959975,28.555856777218047,17.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.92,3kdj_binary,0.93,0.93
+3KDJ,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 449 and number of mov atoms 270 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+8TBJ,binary,,0.16,0.55,84.42751862399386,79.09863033873336,90.21217426059154,0.16,0.16,0.83,0.16,0.94,17.76,13.34,1.1552101165417368,17.234839379526374,3.721304729303983,63.70988047249048,18.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.24,8tbj_binary,0.83,0.94
+3M51,binary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3M51,ternary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+1FAP,binary,Not enough matched residues with Cα to compute RMSD without alignment (found 0).,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+1FAP,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 202 and number of mov atoms 95 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+5JO2,binary,,0.91,0.92,92.66371685077006,93.97056551724141,91.84550949913645,0.91,0.91,0.9,0.91,0.91,0.95,0.97,0.4574448760486035,1.343753467168564,1.179306858239693,28.93015251944152,20.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.91,5jo2_binary,0.9,0.91
+5JO2,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 480 and number of mov atoms 298 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+9BHO,binary,,0.15,0.55,84.50443440521873,79.4806779661017,89.96257005604475,0.15,0.15,0.84,0.15,0.94,20.06,13.89,1.122844336382735,0.10953163027105682,3.611905974075507,5.241825919092109,19.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.23,9bho_binary,0.84,0.94
+8TBF,binary,,0.16,0.55,83.82661038240919,78.18105379513638,89.91643084260728,0.16,0.16,0.83,0.16,0.94,18.48,13.0,1.2101252016474024,17.025172954592676,3.19160316231273,40.24370331144172,25.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.23,8tbf_binary,0.83,0.94
+8TBL,binary,,0.21,0.58,84.2193199460293,78.56931598513025,90.30357085668538,0.21,0.21,0.84,0.21,0.94,20.72,13.08,0.5182841954757913,17.080463127617193,14.27375734215809,66.9691291040113,16.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.28,8tbl_binary,0.84,0.94
+3SMN,binary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3SMN,ternary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+8JYC,binary,Not enough matched residues with Cα to compute RMSD without alignment (found 0).,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+9BGH,binary,,0.18,0.57,84.67478606177608,79.50002982848625,90.23068855084075,0.18,0.18,0.85,0.18,0.94,20.94,13.8,0.6169944613307337,0.22601432166282814,14.087545699626329,47.597638793142856,15.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.26,9bgh_binary,0.85,0.94
+3SML,binary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3SML,ternary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+4DS8,binary,,0.91,0.91,91.59013422360248,92.96810099573271,90.74666086199407,0.91,0.91,0.9,0.91,0.9,1.05,1.12,0.7044236653952758,2.060527129151101,1.842537339503908,29.719635887978285,18.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.91,4ds8_binary,0.9,0.9
+4DS8,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 471 and number of mov atoms 295 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+4DRH,binary,Not enough matched residues with Cα to compute RMSD without alignment (found 0).,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+4DRH,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 227 and number of mov atoms 95 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3UX0,binary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3UX0,ternary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+4FR3,binary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+4FR3,ternary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+4IHL,binary,,0.76,0.92,91.49382097560976,93.57639175257725,60.78823999999998,0.76,0.76,0.93,0.76,0.01,1.46,2.59,0.7069624843629152,6.492233921540708,4.9980224835612335,32.02373110126459,12.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.06,0.0,0.82,4ihl_binary,0.93,0.01
+4IHL,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 245 and number of mov atoms 15 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+8JYE,binary,Not enough matched residues with Cα to compute RMSD without alignment (found 0).,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+4FAP,binary,Not enough matched residues with Cα to compute RMSD without alignment (found 0).,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+4FAP,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 201 and number of mov atoms 94 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+4J9Z,binary,'A',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+4J9Z,ternary,'A',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3P1O,binary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3P1O,ternary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+8TBH,binary,,0.16,0.55,84.73652741293532,79.77137096774204,90.1588230584468,0.16,0.16,0.85,0.16,0.94,19.61,13.26,1.076138491909509,17.062876253458462,5.202828726076189,41.52197088656355,17.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.24,8tbh_binary,0.85,0.94
+9AYA,binary,,0.89,0.89,89.99545809228039,87.29198427382066,92.48687553282186,0.89,0.89,0.88,0.89,0.92,1.18,1.17,6.432740538931163,0.35060417843312763,4.695667499533537,22.226298344346002,42.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.02,0.0,0.9,9aya_binary,0.88,0.92
+8AFN,binary,Not enough matched residues with Cα to compute RMSD without alignment (found 0).,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3U15,binary,,0.12,0.5,79.72326493171472,79.78566009104702,79.66084977238245,0.12,0.12,0.81,0.12,0.8,12.81,13.2,0.5434937065989764,0.6685619438587356,5.76736085945885,16.206206168806712,15.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.2,3u15_binary,0.81,0.8
+3U15,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 164 and number of mov atoms 82 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+7JUR,binary,'A',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+9AXX,binary,Not enough matched residues with Cα to compute RMSD without alignment (found 0).,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3SPR,binary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3SPR,ternary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+4M7E,binary,,0.28,0.76,87.30437773255815,88.85769965747231,80.84050262565648,0.28,0.28,0.88,0.28,0.87,13.62,19.17,0.5811504904993131,9.366565763435101,24.258953279191644,51.351347677990724,20.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.37,4m7e_binary,0.88,0.87
+4M7E,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 908 and number of mov atoms 175 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+8TBN,binary,,0.23,0.59,85.40066972222223,80.70545925925924,90.50413848631237,0.23,0.23,0.86,0.23,0.94,20.44,12.23,1.2646381607678474,17.315109037068048,15.110539036468552,39.94509341250566,19.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.3,8tbn_binary,0.86,0.94
+4G27,binary,'A',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+4G27,ternary,'A',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+6Y4K,binary,,0.77,0.92,91.13583677165354,91.96419249592155,68.05454545454545,0.77,0.77,0.92,0.77,0.02,2.13,3.1,1.00360678644156,3.7270627740427344,1.6475334582273091,37.094183375768395,6.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.03,0.0,0.82,6y4k_binary,0.92,0.02
+6TJM,binary,Not enough matched residues with Cα to compute RMSD without alignment (found 0).,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2O98,binary,,0.9,0.91,90.9904080752406,91.45638903815137,88.94990588235298,0.9,0.9,0.91,0.9,0.69,0.82,0.84,1.0770498872130487,11.737002664142413,1.0157780719533318,36.559717742802,20.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.09,0.0,0.95,2o98_binary,0.91,0.69
+2O98,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 286 and number of mov atoms 52 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3ZVU,binary,,0.92,0.92,92.79574105656351,94.39509668508288,91.78882608695642,0.92,0.92,0.92,0.92,0.92,0.98,1.05,0.2554084040991796,2.0053375204879313,1.6153802169638305,29.43461935936665,19.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.92,3zvu_binary,0.92,0.92
+3ZVU,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 476 and number of mov atoms 295 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+8TBK,binary,,0.2,0.57,84.75980428571428,80.11356144223683,89.74733807266973,0.2,0.2,0.85,0.2,0.93,20.72,12.43,1.0563733953616259,16.935944796278836,15.055591124539118,39.696973978697365,19.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.28,8tbk_binary,0.85,0.93
+3SMM,binary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3SMM,ternary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3IQV,binary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3IQV,ternary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+6YGJ,binary,Not enough matched residues with Cα to compute RMSD without alignment (found 0).,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+5ZCH,binary,,0.9,0.92,92.37547813310772,91.94084930313593,93.17377599999998,0.9,0.9,0.92,0.9,0.9,1.07,1.03,1.4068573163788463,19.13638398024609,1.200870892269017,46.36300029656396,19.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.9,5zch_binary,0.92,0.9
+5ZCH,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 458 and number of mov atoms 301 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+6NV2,binary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+6NV2,ternary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+5MXO,binary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+5MXO,ternary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+7JUX,binary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+5D3F,binary,,0.81,0.93,90.15423164948454,91.70452882483384,69.58985294117649,0.81,0.81,0.93,0.81,0.02,1.69,2.62,4.491334590434429,3.815014885079614,6.145436229208895,20.85614084419537,10.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.07,0.0,0.86,5d3f_binary,0.93,0.02
+5D3F,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 240 and number of mov atoms 16 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3SP5,binary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3SP5,ternary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+4DRJ,binary,Not enough matched residues with Cα to compute RMSD without alignment (found 0).,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+4DRJ,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 217 and number of mov atoms 96 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+6N4N,binary,Not enough matched residues with Cα to compute RMSD without alignment (found 0).,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+6N4N,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 386 and number of mov atoms 191 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+8PPZ,binary,Not enough matched residues with Cα to compute RMSD without alignment (found 0).,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+6Y6B,binary,,0.64,0.92,91.28372282051282,92.42553609341819,58.68984848484849,0.64,0.64,0.93,0.64,0.02,3.97,6.1,7.930134397734802,4.486734241662668,1.1665890063948077,28.56115463778519,6.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.03,0.0,0.71,6y6b_binary,0.93,0.02
+9BHP,binary,,0.18,0.57,84.65684598293913,79.21396240601501,90.45269015212152,0.18,0.18,0.84,0.18,0.94,21.74,14.26,0.5493498747553917,0.20097025854234837,15.22279862388431,47.85995998764779,18.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.26,9bhp_binary,0.84,0.94
+3FAP,binary,Not enough matched residues with Cα to compute RMSD without alignment (found 0).,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3FAP,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 201 and number of mov atoms 94 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+5GWP,binary,,0.91,0.92,92.2726866004415,91.87671808054836,92.9890852713179,0.91,0.91,0.92,0.91,0.9,1.06,1.06,1.1842037356426809,19.212290309409617,1.0165120299002994,41.233732971100835,20.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.91,5gwp_binary,0.92,0.9
+5GWP,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 466 and number of mov atoms 305 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+8ADM,binary,'B',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+4G28,binary,'A',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+4G28,ternary,'A',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3KB3,binary,,0.91,0.92,92.17052316861255,93.38493553008603,91.42922168780075,0.91,0.91,0.9,0.91,0.91,1.07,1.1,0.3478679102507959,1.4632777137561412,1.1876424772733032,28.855347914354926,19.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.91,3kb3_binary,0.9,0.91
+3KB3,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 470 and number of mov atoms 294 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+5MN0,binary,,0.92,0.92,92.64299701298701,94.22098505434779,91.63350717079548,0.92,0.92,0.91,0.92,0.92,0.99,1.0,0.2468553615735675,1.4311978575730713,1.1655610152802958,29.342263793180333,17.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.92,5mn0_binary,0.91,0.92
+5MN0,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 482 and number of mov atoms 295 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+4MDK,binary,,0.21,0.67,83.26435077079108,83.95315519765754,81.71166666666667,0.21,0.21,0.86,0.21,0.84,15.64,15.93,1.7297828304275051,12.398213286287998,10.358527386366529,49.277386005969944,12.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.3,4mdk_binary,0.86,0.84
+4MDK,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 244 and number of mov atoms 76 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3QEL,binary,,0.89,0.92,90.97229668332739,92.87351147776195,89.08862828713575,0.89,0.89,0.92,0.89,0.89,1.07,1.2,0.7536999526568281,1.4212321143501236,1.2276203789859896,27.579986867449342,27.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.9,3qel_binary,0.92,0.89
+3QEL,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 708 and number of mov atoms 355 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3KMZ,binary,Not enough matched residues with Cα to compute RMSD without alignment (found 0).,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3KMZ,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 460 and number of mov atoms 239 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+5GWO,binary,,0.91,0.92,92.04187394557823,91.29080425531916,93.37393207547161,0.91,0.91,0.92,0.91,0.91,1.11,1.17,1.2690169297047083,20.17009204168897,1.1676977556542938,44.62164424673648,19.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.91,5gwo_binary,0.92,0.91
+5GWO,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 471 and number of mov atoms 306 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+1NSG,binary,Not enough matched residues with Cα to compute RMSD without alignment (found 0).,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+1NSG,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 201 and number of mov atoms 94 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+6QDS,binary,Not enough matched residues with Cα to compute RMSD without alignment (found 0).,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+6QDS,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 238 and number of mov atoms 4 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3QN1,binary,,0.92,0.93,92.81988922705314,94.22398884239895,91.94139179755666,0.92,0.92,0.92,0.92,0.92,0.98,1.01,0.34499327479598035,1.4627527440352117,1.1967407310178553,28.809284126814077,19.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.93,3qn1_binary,0.92,0.92
+3QN1,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 474 and number of mov atoms 295 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+9BHQ,binary,,0.15,0.55,84.80356932203391,79.99814402375644,89.98602081665324,0.15,0.15,0.85,0.15,0.94,20.12,13.66,1.1567524946300005,0.11735235637236922,3.530961123651139,5.152604084250053,18.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.23,9bhq_binary,0.85,0.94
+9BI2,binary,,0.16,0.55,84.84122642363776,80.10013264554152,89.99225780624505,0.16,0.16,0.86,0.16,0.94,21.98,13.96,0.701883525615176,0.16122076353963144,14.469245242129073,8.468574748463189,15.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.24,9bi2_binary,0.86,0.94
+3O8I,binary,Not enough matched residues with Cα to compute RMSD without alignment (found 0).,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3O8I,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 225 and number of mov atoms 7 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+4A69,binary,,0.94,0.96,94.83832413318348,95.78168909825034,90.0619761499149,0.94,0.94,0.97,0.94,0.8,0.88,0.93,0.14923143535168823,18.81358853643596,0.22787312190067882,43.70802854889907,18.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.02,0.0,0.95,4a69_binary,0.97,0.8
+4A69,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 438 and number of mov atoms 369 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+7TE8,binary,,0.32,0.57,80.9133828448276,79.65217716115254,82.19927094668124,0.32,0.32,0.81,0.32,0.84,9.32,9.12,0.4936966272790951,3.889769341853822,3.4920623175827927,46.79422767133877,19.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.37,7te8_binary,0.81,0.84
+5ZCG,binary,,0.9,0.92,92.47292351351352,92.52259541984742,92.38561847988075,0.9,0.9,0.92,0.9,0.9,1.17,1.16,1.3847687967586866,19.963506517706804,1.2080426121697148,49.643582331906046,18.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.91,5zcg_binary,0.92,0.9
+5ZCG,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 635 and number of mov atoms 475 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+6M4U,binary,Not enough matched residues with Cα to compute RMSD without alignment (found 0).,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+6M4U,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 201 and number of mov atoms 93 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+9AXM,binary,Not enough matched residues with Cα to compute RMSD without alignment (found 0).,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+4JDD,binary,Not enough matched residues with Cα to compute RMSD without alignment (found 0).,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+4JDD,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 240 and number of mov atoms 4 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3E6Y,binary,Not enough matched residues with Cα to compute RMSD without alignment (found 1).,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3E6Y,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 238 and number of mov atoms 4 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+5EXA,binary,,0.58,0.92,91.55167319082378,93.35102997275187,51.770481927710854,0.58,0.58,0.94,0.58,0.01,3.91,6.21,0.40385528496249534,4.364694444484597,1.8954044712999882,34.41650278798336,10.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.04,0.0,0.67,5exa_binary,0.94,0.01
+5EXA,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 239 and number of mov atoms 10 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+6VCB,binary,,0.86,0.81,84.06252555555555,84.19774944214211,82.28004201680672,0.86,0.86,0.8,0.86,0.54,1.93,2.34,27.95758791492482,2.5761156068345534,1.458496289319604,104.21825754347626,26.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.08,0.0,0.89,6vcb_binary,0.8,0.54
+6OQA,binary,,0.13,0.57,80.47385665792923,87.25461904761907,72.17086005830902,0.13,0.13,0.88,0.13,0.46,11.75,13.41,0.2680878392839641,33.93383380147286,9.176620456119174,46.739843644729255,10.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.43,0.0,0.43,6oqa_binary,0.88,0.46
+6OQA,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 191 and number of mov atoms 83 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+6OB5,binary,,0.16,0.68,87.46718825537295,89.88224345364459,81.42202834366692,0.16,0.16,0.87,0.16,0.85,20.39,17.65,9.871204042335817,17.522557194285177,10.907169605889951,50.50843803773944,17.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,0.0,0.27,6ob5_binary,0.87,0.85
+6OB5,ternary," the list of atoms to align are of different lengths, check the chain mapping and your chain lengths(number of ref atoms 515 and number of mov atoms 364 ).",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+6TL3,binary,Not enough matched residues with Cα to compute RMSD without alignment (found 0).,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
